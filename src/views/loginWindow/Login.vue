@@ -174,6 +174,7 @@ import { useUserStore } from '@/stores/user.ts'
 import { UserInfoType } from '@/services/types.ts'
 import { useSettingStore } from '@/stores/setting.ts'
 import { invoke } from '@tauri-apps/api/core'
+import { generateSnowflakeId } from '@/utils/Helper'
 
 const settingStore = useSettingStore()
 const userStore = useUserStore()
@@ -259,6 +260,11 @@ const normalLogin = async () => {
       userStore.isSign = true
       // localStorage.setItem('USER_INFO', JSON.stringify(rest))
       localStorage.setItem('TOKEN', token)
+      let deviceId = localStorage.getItem('DEVICE_ID')
+      if (!deviceId) {
+        deviceId = generateSnowflakeId()
+        localStorage.setItem('DEVICE_ID', deviceId)
+      }
       // 需要删除二维码，因为用户可能先跳转到二维码界面再回到登录界面，会导致二维码一直保持在内存中
       if (localStorage.getItem('wsLogin')) {
         localStorage.removeItem('wsLogin')
