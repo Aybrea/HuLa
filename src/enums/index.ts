@@ -29,7 +29,9 @@ export enum URLEnum {
   /**房间*/
   ROOM = '/room',
   /**oss*/
-  OSS = '/oss'
+  OSS = '/oss',
+  /** auth */
+  AUTH = '/auth'
 }
 
 /** tauri原生跨窗口通信时传输的类型 */

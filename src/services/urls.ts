@@ -49,7 +49,7 @@ export default {
   // 注册
   register: `${prefix + URLEnum.TOKEN}/register`,
   // 登录
-  login: `${prefix + URLEnum.TOKEN}/login`,
+  login: `${prefix + URLEnum.AUTH}/login`,
   // 退出登录
   logout: `${prefix + URLEnum.TOKEN}/logout`,
   // 检查token是否有效

@@ -98,7 +98,7 @@ const responseInterceptor = async <T>(
       return Promise.reject(`err: ${message}, status: ${resp.status}`)
     }
     //检查服务端返回是否成功，并且中断请求
-    if (!serviceData.success) {
+    if (serviceData.code !== 200) {
       window.$message.error(serviceData.errMsg)
       return Promise.reject(`http error: ${serviceData.errMsg}`)
     }
