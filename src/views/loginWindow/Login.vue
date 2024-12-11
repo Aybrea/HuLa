@@ -243,8 +243,17 @@ const normalLogin = async () => {
   loading.value = true
   const { account, password } = info.value
   apis
-    .login({ account, password })
-    .then(async (token) => {
+    .login({
+      areaCode: '86',
+      // "phone": "123456123",
+      // phone: '15291197113',
+      phone: account,
+      captcha: '222',
+      iso: 'CN'
+    })
+    .then(async (data) => {
+      const userDetail = data.userInfo
+      const token = userDetail.token
       loginDisabled.value = true
       loginText.value = '登录成功, 正在跳转'
       userStore.isSign = true
@@ -258,7 +267,6 @@ const normalLogin = async () => {
       // computedToken.clear()
       // computedToken.get()
       // 获取用户详情
-      const userDetail = await apis.getUserDetail()
       // 自己更新自己上线
       // groupStore.batchUpdateUserStatus([
       //   {
@@ -272,10 +280,7 @@ const normalLogin = async () => {
       // TODO 先不获取 emoji 列表，当我点击 emoji 按钮的时候再获取
       // await emojiStore.getEmojiList()
       // TODO 这里的id暂时赋值给uid，因为后端没有统一返回uid，待后端调整
-      const account = {
-        ...userDetail,
-        token
-      }
+      const account = userDetail
       loading.value = false
       userStore.userInfo = account
       loginHistoriesStore.addLoginHistory(account)
@@ -283,8 +288,8 @@ const normalLogin = async () => {
       await setLoginState()
       // rust保存用户信息
       await invoke('save_user_info', {
-        userId: account.uid,
-        username: account.name,
+        userId: account.userId,
+        username: account.nickname,
         token: account.token,
         portrait: '',
         isSign: true
