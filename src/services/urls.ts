@@ -25,7 +25,7 @@ export default {
   getEmoji: `${prefix + URLEnum.USER}/emoji/list`, // 查询表情包
 
   // -------------- 好友相关 ---------------
-  getContactList: `${prefix + URLEnum.USER}/friend/page`, // 联系人列表
+  getContactList: `${prefix + URLEnum.USER}/friend/list`, // 联系人列表/user/friend/list
   requestFriendList: `${prefix + URLEnum.USER}/friend/apply/page`, // 好友申请列表
   sendAddFriendRequest: `${prefix + URLEnum.USER}/friend/apply`, // 申请好友
   deleteFriend: `${prefix + URLEnum.USER}/friend`, // 删除好友
