@@ -46,7 +46,7 @@ async function Http<T>(
 
   // 设置Authorization
   if (token) {
-    httpHeaders.set('Authorization', `Bearer ${token}`)
+    httpHeaders.set('Authorization', `${token}`)
   }
 
   // 打印所有请求头信息
