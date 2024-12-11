@@ -31,12 +31,13 @@ class WS {
 
   initConnect = () => {
     const token = localStorage.getItem('TOKEN')
+    const deviceId = localStorage.getItem('DEVICE_ID')
     // 如果token 是 null, 而且 localStorage 的用户信息有值，需要清空用户信息
     if (token === null && localStorage.getItem('USER_INFO')) {
       localStorage.removeItem('USER_INFO')
     }
     // 初始化 ws
-    worker.postMessage(`{"type":"initWS","value":${token ? `"${token}"` : null}}`)
+    worker.postMessage(`{"type":"initWS","value":${JSON.stringify({ token: token || '', deviceId: deviceId || '' })}}`)
   }
 
   onWorkerMsg = async (e: MessageEvent<any>) => {
@@ -102,6 +103,7 @@ class WS {
 
   // 收到消息回调
   onMessage = async (value: string) => {
+    console.log('🚀 ~ value:', value)
     // FIXME 可能需要 try catch,
     const params: { type: WsResponseMessageType; data: unknown } = JSON.parse(value)
     switch (params.type) {
