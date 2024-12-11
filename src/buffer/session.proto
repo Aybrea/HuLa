@@ -1,0 +1,498 @@
+syntax = "proto3";
+
+package proto;
+option java_package = "com.imserver.baisheng.chatcom.proto"; // 指定生成的Java类路径  (使用时可以把协议放到外面)
+option java_outer_classname = "SessionProto"; // 生成的类名
+option go_package = "./session"; // 指定生成的Go类路径
+
+
+// 主消息结构  受到数据先解析主消息
+message MainData {
+  MessageType msgType = 1;  // 消息类型
+  bytes data = 2;  // 消息内容
+}
+
+// 定义枚举类型
+enum MessageType {
+  Unknown = 0; // 默认值
+  Type_CSHeartbeat = 1;
+  Type_SCHeartbeat = 2;
+  Type_CSChatMsg = 3;    // 发送聊天消息
+  Type_SCChatMsg = 4;   // 接收聊天消息
+  Type_CSReadMsg = 5;  // 阅读他人消息
+
+  Type_SCPushReadMsg = 7;   // 推送他人阅读自己的消息
+  Type_SCPushChatMsg = 8;   // 推送聊天消息  客户端收到返回  Type_CSAckPushMsg
+  Type_CSAuthToken = 9;     // 登录认证
+  Type_SCAuthToken = 10;    // 登录认证
+
+  Type_CSAckPushMsg = 11;  // 客户端确认收到推送消息
+  Type_SCPushLastMsgId = 13;  // 推送最后一条消息id
+  Type_CSPullMsgList = 14;  // 拉取消息
+  Type_SCPullMsgList = 15;  // 返回拉取消息   客户端收到返回 Type_CSAckPushMsg
+  Type_SCPushMessageInfo = 16;  // 推送消息信息 用户上线推送消息数据
+
+  Type_CSDelChat = 17;  // 删除会话请求
+  Type_SCDelChat = 18;  // 删除会话返回
+  Type_SCPushDelChat = 19;  // 推送删除会话(有客户端删除会话时其它成员收到删除推送)
+  Type_SCInitPushDelChats = 20;  // 推送初始化删除会话
+
+  // 群消息推送
+  Type_SCGroupEventMemberAdd = 21;  // 群成员增加
+  Type_SCGroupEventMemberDel = 22;  // 群成员删除
+  Type_SCGroupEventMemberExit = 23;  // 群成员退出
+  Type_SCGroupEventNameEdit = 24;  // 群名称修改
+  Type_SCGroupEventMutex = 25;  // 群禁言
+  Type_SCGroupEventAdminTransfer = 26;  // 转让群主
+  Type_SCGroupEventDismiss = 27;  // 群解散
+  Type_SCGroupEventNotice = 28;  // 群有新公告
+
+  Type_SCOtherLogin = 29;  // 其它设备登录
+  Type_CSGroupEventAck = 30;  // 群事件确认  21 - 28 收到后回复msgId
+
+  Type_CSLoadChatRecord = 31;  // 加载聊天记录
+  Type_SCLoadChatRecord = 32;  // 加载聊天记录返回
+
+  Type_CSMsgTop = 33;  // 消息置顶
+  Type_SCMsgTop = 34;  // 消息置顶返回
+  Type_SCPushMsgTop = 35;  // 消息置顶推送
+  Type_CSMsgTopAck = 36;  // 消息置顶确认
+
+  Type_CSPushDelChatsAck = 37;    // 删除会话推送确认 收到 Type_SCPushDelChat(19)和Type_SCInitPushDelChats(20) 之后的协议返回
+}
+
+
+//Type_CSPushDelChatsAck
+message CSPushDelChatsAck {
+  ChatInfo chatInfo = 1;  // 会话信息
+  int64 lastId = 2;  // 最后一条消息id
+}
+
+
+//Type_CSMsgTop
+message CSMsgTop {
+  string msgId = 1;  // 消息id
+  bool top = 2;  // 是否置顶
+}
+
+//Type_SCMsgTop
+message SCMsgTop {
+  string msgId = 1;  // 消息id
+  bool top = 2;  // 是否置顶
+  int64 serverId = 3; // 服务器Id
+}
+
+//Type_SCPushMsgTop
+message SCPushMsgTop {
+  string msgId = 1;  // 消息id
+  bool top = 2;  // 是否置顶
+  int64 serverId = 3; // 服务器Id
+}
+
+//Type_CSMsgTopAck
+message CSMsgTopAck {
+  int64 serverId = 1; // 服务器Id
+}
+
+
+//Type_CSLoadChatRecord
+message CSLoadChatRecord {
+  string recordId = 1;  // 记录id
+  int64 requestId = 2;  // 客户端id
+}
+
+//Type_SCLoadChatRecord
+message SCLoadChatRecord {
+  message ChatRecord {
+    ChatMsg chatMsg = 1;  // 消息
+    RecordUser user = 2;  // 用户信息
+  }
+  repeated ChatRecord chatRecords = 1;  // 聊天记录
+  int64 requestId = 2;
+}
+
+// 聊天记录里面的用户信息
+message RecordUser{
+  int64 userId = 1;  // 用户id
+  string nickname = 2;  // 用户昵称
+  string icon = 3;  // 用户头像
+}
+
+// 名字信息
+message NameInfo {
+  int64 userId = 1;  // 用户id
+  string nickname = 2;  // 用户昵称
+}
+
+//Type_CSGroupEventAck
+message CSGroupEventAck {
+  int64 chatId = 1;  // 会话ID
+  int64 msgId = 2;  // 消息ID
+}
+
+//Type_SCOtherLogin
+message SCOtherLogin {}
+
+//Type_SCGroupEventNotice
+message SCGroupEventNotice {
+  int64 chatId = 1;  // 群id
+  string notice = 2; // 公告内容
+  NameInfo user = 3; // 操作者
+  int64 msgId = 4; // 消息ID
+  int64 time = 5; // 时间戳
+}
+
+//Type_SCGroupEventDismiss
+message SCGroupEventDismiss {
+  int64 chatId = 1;  // 群id
+  NameInfo user = 2; // 操作者
+  int64 msgId = 4; // 消息ID
+  int64 time = 5; // 时间戳
+}
+
+//Type_SCGroupEventAdminTransfer
+message SCGroupEventAdminTransfer {
+  int64 chatId = 1;  // 群id
+  NameInfo user = 2; // 操作者
+  NameInfo admin = 3; // 新群主
+  int64 msgId = 4; // 消息ID
+  int64 time = 5;  // 时间戳
+}
+
+//Type_SCGroupEventMutex
+message SCGroupEventMutex {
+  int64 chatId = 1;  // 群id
+  int32 mutex = 2;  // 禁言状态 0:不禁言 1:禁言
+  NameInfo user = 3; // 操作者
+  int64 msgId = 4; // 消息ID
+  int64 time = 5; // 时间戳
+}
+
+//Type_SCGroupEventNameEdit
+message SCGroupEventNameEdit {
+  int64 chatId = 1;  // 群id
+  string name = 2;  // 群名称
+  NameInfo user = 3; // 操作者
+  int64 msgId = 4; // 消息ID
+  int64 time = 5; // 时间戳
+}
+
+//Type_SCGroupEventMemberExit
+message SCGroupEventMemberExit {
+  int64 chatId = 1;  // 群id
+  NameInfo user = 2; // 操作者
+  int64 msgId = 3; // 消息id
+  int64 time = 5; // 时间戳
+}
+
+//Type_SCGroupEventMemberDel
+message SCGroupEventMemberDel {
+  int64 chatId = 1;  // 群id
+  repeated NameInfo members = 2;  // 删除成员
+  NameInfo user = 3; // 操作者
+  int64 msgId = 4; // 消息id
+  int64 time = 5; // 时间戳
+}
+
+//Type_SCGroupEventMemberAdd
+message SCGroupEventMemberAdd {
+  int64 chatId = 1;  // 群id
+  repeated NameInfo members = 2;  // 新增成员
+  NameInfo user = 3; // 操作者
+  int64 msgId = 4; // 消息id
+  int64 time = 5; // 时间戳
+}
+
+
+// 聊天类型
+enum ChatType {
+  ChatType_Unknown = 0;  // 默认值
+  ChatType_Single = 1;  // 单聊
+  ChatType_Group = 2;  // 群聊
+}
+
+// 聊天信息
+message ChatInfo {
+  ChatType chatType = 1;  // 聊天类型
+  int64 chatId = 2;  // 聊天id
+}
+
+//Type_CSDelChat
+message CSDelChat {
+  ChatInfo chatInfo = 1;  // 聊天信息
+  int64 lastId = 2; // 最后一条消息id
+  optional bool isDelOther = 3; // 是否删除对面的消息 (删除私聊会话时候使用)
+}
+
+//Type_SCDelChat
+message SCDelChat {
+  ChatInfo chatInfo = 1;  // 聊天信息
+  int64 lastId = 2; // 最后一条消息id
+}
+
+//Type_SCPushDelChat
+message SCPushDelChat {
+  ChatInfo chatInfo = 1;  // 聊天信息
+  int64 lastId = 2; // 最后一条消息id
+  int64 userId = 3; // 操作者ID
+}
+
+
+//Type_SCInitPushDelChats
+message SCInitPushDelChats {
+  message DelInfo {
+    ChatInfo chatInfo = 1;  // 聊天信息
+    int64 lastId = 2; // 最后一条消息id
+  }
+  repeated DelInfo delInfos = 1;  // 聊天列表
+}
+
+
+// 推送消息数据
+//Type_SCPushMessageInfo
+message SCPushMessageInfo {
+  message MessageInfo {
+    ChatType chatType = 1;  // 聊天类型
+    int64 chatId = 2;  // 聊天id
+    int64 msgId = 3;  // 最新的消息ID
+  }
+  repeated MessageInfo messageList = 1;  // 消息列表
+}
+
+//Type_CSAckPushMsg
+message CSAckPushMsg{
+  int64 pushId = 1;  // 推送消息id
+}
+
+//Type_CSPullMsgList
+message CSPullMsgList{
+  ChatType chatType = 1;  // 聊天类型
+  int64 chatId = 2;  // 聊天id
+  int64 lastMsgId = 3;  // 客户端保存的最后消息ID(服务器ID)
+  int64 pushMsgId = 4;  // 服务器保存的最后消息ID
+  int32 count = 5;  // 拉取消息数量
+  int64 clientId = 6; // 客户端请求ID
+}
+
+//Type_SCPullMsgList
+message SCPullMsgList{
+  message PushInfo{
+    ChatMsg chatMsg = 1;  // 消息内容
+    int64 msgId = 2;  // 消息id
+    int64 clientId = 3; // 客户端ID
+    int64 senderId =4; // 发送者ID
+    int64 serverTime = 5;
+    int64 clientTime = 6;
+    int32 status = 7;  // 消息状态 0 已发送 1 已送达 2 已读
+
+    optional GroupChatMsgAttr groupChatMsgAttr = 8;  // 群聊天属性
+  }
+
+
+  ChatType chatType = 1;  // 聊天类型
+  int64 chatId = 2;  // 聊天id
+  repeated PushInfo pushInfos = 3;  // 消息列表
+  int64 pushId = 4;  // 推送ID
+  int64 clientId = 5; // 客户端请求ID
+  int64 total = 6;  // 总消息数量
+}
+
+
+
+//Type_SCPushLastMsgId
+message SCPushLastMsgId{
+  ChatType chatType = 1;  // 聊天类型
+  int64 chatId = 2;  // 聊天id
+  int64 lastMsgId = 3;  // 最后一条消息id
+}
+
+//Type_CSHeartbeat
+message CSHeartbeat {}
+
+//Type_SCHeartbeat
+message SCHeartbeat {
+  int64 serverTime = 1;  // 服务器时间戳
+}
+
+// 发送聊天信息
+//Type_CSChatMsg
+message CSChatMsg {
+  int64 chatId = 1;  // 聊天id
+  ChatMsg chatMsg = 2;  // 聊天信息
+  int64 clientTime = 3;  // 客户端时间戳
+  int64 clientId = 4;  // 客户端消息ID
+  ChatType chatType = 5;  // 聊天类型
+}
+
+// 聊天信息
+message ChatMsg {
+  enum MsgType {
+    Unknown = 0;  // 默认值
+    Text = 1;  // 文本信息
+    Image = 2;  // 图片
+    Voice = 3;  // 语音信息
+    Card = 4;  // 名片信息
+    Location = 5;  // 位置信息
+    File = 6; // 文件信息
+    CSRecord = 7; // 客户端发到服务器聊天记录
+    SCRecord = 8; // 服务器推送到客户端聊天记录
+    DeleteMsg = 9; // 删除消息
+  }
+
+  MsgType msgType = 1;   // 信息类型
+  optional string content = 2;  // 文本内容
+  optional ImageInfo image = 3;  // 图片信息
+  optional VoiceInfo voice = 4;  // 语音信息
+  optional CardInfo card = 5;  // 名片信息
+  optional LocationInfo location = 6;  // 位置信息
+  optional FileInfo file = 7;  // 文件信息
+  optional CSRecordInfo csRecord = 8;  // 客户端发到服务器聊天记录
+  optional SCRecordInfo scRecord = 9;  // 服务器到客户端聊天记录
+  optional DeleteMsg deleteMsg = 10;  // 删除消息
+  repeated int64 atUsers = 100;  // @用户id
+  optional int64 replyId = 101;  // 回复消息id  回复(引用)类型消息需要添加该字段
+}
+
+// 删除消息
+message DeleteMsg {
+  repeated int64 msgIds = 1;  // 消息id列表
+  int64 userId = 2;  // 操作者Id
+  optional bool isDelOther = 3; // 是否删除对方（只有单聊时候可用）  删除自己的消息只同步给自己端
+}
+
+// 客户端到服务器聊天记录
+message CSRecordInfo {
+  int64 chatId = 1;  // 聊天id
+  repeated int64 msgIds = 2;  // 聊天id列表
+}
+
+// 服务器到客户端聊天记录
+message SCRecordInfo {
+  string title = 1;  // 标题
+  repeated string content = 2;  // 内容
+  string recordId = 3;  // 记录id
+  int32 count = 4;  // 记录数量
+}
+
+// 文件信息
+message FileInfo {
+  string url = 1;  // 文件地址
+  string name = 2;  // 文件名
+  int64 size = 3;  // 文件大小
+  string md5 = 4;  // 文件md5
+}
+
+// 位置信息
+message LocationInfo {
+  double latitude = 1;  // 纬度
+  double longitude = 2;  // 经度
+  string place = 3;  // 地名
+  string address = 4;  // 详细地址
+  string photoUrl = 5;  // 图片
+}
+
+// 图片信息
+message ImageInfo {
+  string url = 1;  // 图片地址 (传入时只需要传图片名字)
+  int32 width = 2;  // 图片宽度
+  int32 height = 3;  // 图片高度
+  string thumbnail = 4; // 缩略图地址 (传入时只需要传图片名字)
+}
+
+// 语音信息
+message VoiceInfo {
+  string url = 1;  // 语音地址
+  int32 duration = 2;  // 语音时长
+}
+
+// 名片信息
+message CardInfo {
+  int64 userId = 1;  // 用户id
+  string nickname = 2;  // 用户名
+  string icon = 3;  // 用户头像
+}
+
+//Type_SCChatMsg
+message SCChatMsg {
+  enum RetCode {
+    Unknown = 0;  // 默认值
+    Success = 1;  // 成功
+    ChatIdError = 2;  // 聊天ID错误
+    TypeError = 3;  // 消息类型错误
+    Mute = 4;  // 禁言
+  }
+
+  RetCode retCode = 1;  // 0 成功 1 失败
+  int64 msgId = 2;  // 服务器消息id
+  int64 clientId = 3;  // 客户端消息ID
+  int64 chatId = 4;  // 聊天ID
+  int64 serverTime = 5;  // 服务器时间戳
+}
+
+
+// 群聊消息属性
+message GroupChatMsgAttr{
+  string nickname = 1; // 发消息昵称
+  string icon = 2; // 发消息头像
+}
+
+//Type_SCPushChatMsg
+message SCPushChatMsg {
+  ChatMsg chatMsg = 1;  // 聊天信息
+  int64 serverTime = 2;  // 服务器时间戳
+  int64 chatId = 3;  // 聊天ID
+  ChatType chatType = 4;  // 聊天类型
+  int64 msgId = 5;  // 服务器消息ID
+  int64 clientTime = 6; // 客户端发送时间
+  int64 pushId= 7;  // 推送ID
+  int64 clientId = 8;  // 客户端消息ID
+  int64 senderId = 9; // 发送者Id
+
+  optional GroupChatMsgAttr groupChatMsgAttr = 10; // 群聊消息属性
+}
+
+//Type_CSAuthToken
+message CSAuthToken{
+  enum ClientType{
+    Unknown = 0;  // 未知
+    Mobile = 1;  // 移动端
+    Web = 2;  // web
+  }
+
+  string token = 1;
+  ClientType clientType = 2;   // 客户端类型
+  string deviceId = 3;  // 设备ID  客户端生成的uuid
+}
+
+//Type_SCAuthToken
+message SCAuthToken{
+  enum RetCode{
+    Unknown = 0;  // 未知错误
+    Success = 1;  // 成功
+    TokenError = 2;  // token错误
+    ParamError = 3;  // 参数错误
+  }
+  RetCode code = 1;
+}
+
+message ReadMsg{
+  int64 chatId = 1;  // 聊天id
+  ChatType chatType = 2;  // 聊天类型
+  int64 msgId = 3;  // 最后一条消息id
+  int64 clientId = 4;  // 客户端消息id
+}
+
+// 读取消息通知
+//Type_CSReadMsg
+message CSReadMsg {
+  ReadMsg readMsg = 1;  // 聊天信息
+}
+
+// 推送他人阅读自己消息
+//Type_SCPushReadMsg
+message SCPushReadMsg {
+  ReadMsg readMsg = 1;  // 聊天信息
+  int64 userId = 2;  // 阅读者ID
+}
+
+
