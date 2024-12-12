@@ -45,6 +45,7 @@ let deviceId: null | string = null
 
 // 往 ws 发消息
 const connectionSend = (value: Uint8Array) => {
+  console.log('🚀 发送:', value)
   connection?.send(value)
 }
 
@@ -61,7 +62,7 @@ const sendHeartPack = () => {
   heartTimer = setInterval(() => {
     // 心跳消息类型 2
     connectionSend(msg)
-  }, 9900) as any
+  }, 99000) as any
 }
 // 清除❤️跳 timer
 const clearHeartPackTimer = () => {
@@ -199,7 +200,8 @@ const initConnection = () => {
 }
 
 self.onmessage = (e: MessageEvent<string>) => {
-  const { type, value } = JSON.parse(e.data)
+  console.log('🚀 ~ self.onmessage ~ e:', e)
+  const { type, value } = e.data
   switch (type) {
     case 'initWS': {
       reconnectCount = 0
@@ -210,6 +212,7 @@ self.onmessage = (e: MessageEvent<string>) => {
     }
     case 'message': {
       if (connection?.readyState !== 1) return
+      console.log('🚀 ~ value:', value)
       connectionSend(value)
       break
     }
