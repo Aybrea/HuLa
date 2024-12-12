@@ -6,6 +6,8 @@
   </div>
 
   <AddFriendsModal />
+  <NewFriendsModal />
+  <UserInfoModal />
 </template>
 
 <script setup lang="ts">

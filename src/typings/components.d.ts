@@ -16,6 +16,7 @@ declare module 'vue' {
     ChatMain: typeof import('./../components/rightBox/chatBox/ChatMain.vue')['default']
     ChatSidebar: typeof import('./../components/rightBox/chatBox/ChatSidebar.vue')['default']
     ContextMenu: typeof import('./../components/common/ContextMenu.vue')['default']
+    copy: typeof import('./../components/common/InfoPopover copy.vue')['default']
     Details: typeof import('./../components/rightBox/Details.vue')['default']
     Emoji: typeof import('./../components/rightBox/emoji/index.vue')['default']
     Image: typeof import('./../components/rightBox/renderMessage/Image.vue')['default']
@@ -28,6 +29,7 @@ declare module 'vue' {
     NBadge: typeof import('naive-ui')['NBadge']
     NButton: typeof import('naive-ui')['NButton']
     NButtonGroup: typeof import('naive-ui')['NButtonGroup']
+    NCard: typeof import('naive-ui')['NCard']
     NCheckbox: typeof import('naive-ui')['NCheckbox']
     NCollapse: typeof import('naive-ui')['NCollapse']
     NCollapseItem: typeof import('naive-ui')['NCollapseItem']
@@ -36,6 +38,7 @@ declare module 'vue' {
     NDialogProvider: typeof import('naive-ui')['NDialogProvider']
     NDropdown: typeof import('naive-ui')['NDropdown']
     NEllipsis: typeof import('naive-ui')['NEllipsis']
+    NewFriendsModal: typeof import('./../components/common/NewFriendsModal.vue')['default']
     NFlex: typeof import('naive-ui')['NFlex']
     NForm: typeof import('naive-ui')['NForm']
     NFormItem: typeof import('naive-ui')['NFormItem']
@@ -70,6 +73,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Screenshot: typeof import('./../components/common/Screenshot.vue')['default']
     Text: typeof import('./../components/rightBox/renderMessage/Text.vue')['default']
+    UserInfoModal: typeof import('./../components/common/UserInfoModal.vue')['default']
     Validation: typeof import('./../components/common/Validation.vue')['default']
   }
 }

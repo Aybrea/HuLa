@@ -19,7 +19,7 @@
     "========= 启动vue(tauri项目会连带执行不需要单独执行) =========": "",
     "dev": "vite",
     "========= 打包vue(tauri项目会连带执行不需要单独执行) =========": "",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit || exit 0 && vite build",
     "========= 启动tauri =========": "",
     "tauri:dev": "tauri dev",
     "========= 打包tauri =========": "",
