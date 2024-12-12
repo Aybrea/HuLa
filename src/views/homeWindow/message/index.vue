@@ -122,9 +122,12 @@ watchEffect(() => {
   }
 })
 
-onBeforeMount(async () => {
-  // 请求回话列表
-  await chatStore.getSessionList(true)
+useMitt.on(MittEnum.PUSH_MESSAGE_INFO, async (msgInfoList: any) => {
+  // 请求会话列表
+  await chatStore.getSessionList(
+    true,
+    msgInfoList.map((item: any) => item.chatId.toString())
+  )
 })
 
 onMounted(() => {

@@ -54,6 +54,7 @@ onBeforeMount(() => {
 onMounted(async () => {
   await getCurrentWebviewWindow().show()
 })
+
 useMitt.on(WsResponseMessageType.OFFLINE, async () => {
   console.log('收到用户下线通知')
 })

@@ -72,7 +72,6 @@ const clearHeartPackTimer = () => {
 }
 
 const sendTokenPack = (token: string, deviceId: string) => {
-  console.log('🚀 ~ token:', token, deviceId)
   const msg = toBinary(
     MainDataSchema,
     create(MainDataSchema, {
