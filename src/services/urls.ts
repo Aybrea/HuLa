@@ -28,6 +28,7 @@ export default {
   getContactList: `${prefix + URLEnum.USER}/friend/list`, // 联系人列表/user/friend/list
   requestFriendList: `${prefix + URLEnum.USER}/friend/apply/page`, // 好友申请列表
   sendAddFriendRequest: `${prefix + URLEnum.USER}/friend/apply`, // 申请好友
+  searchFriend: `${prefix + URLEnum.USER}/friend/search`, // 搜索好友
   deleteFriend: `${prefix + URLEnum.USER}/friend`, // 删除好友
   newFriendCount: `${prefix + URLEnum.USER}/friend/apply/unread`, // 申请未读数
 

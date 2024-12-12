@@ -27,6 +27,8 @@ export const useGlobalStore = defineStore(
       show: false,
       uid: undefined
     })
+    const newFriendModal = ref<boolean>(false)
+    const userInfoModal = ref<boolean>(false)
     // 创建群聊
     const createGroupModalInfo = reactive<{
       show: boolean
@@ -66,6 +68,8 @@ export const useGlobalStore = defineStore(
       unReadMark,
       currentSession,
       addFriendModalInfo,
+      newFriendModal,
+      userInfoModal,
       currentSelectedContact,
       currentReadUnreadList,
       createGroupModalInfo,

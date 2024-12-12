@@ -70,6 +70,8 @@ export default {
   getContactList: (params?: any) => GET<ListResponse<ContactItem>>(urls.getContactList, params),
   /** 获取好友申请列表 */
   requestFriendList: (params?: any) => GET<ListResponse<RequestFriendItem>>(urls.requestFriendList, params),
+  /** 搜索好友 */
+  searchFriend: (params?: any) => POST<ListResponse<ContactItem>>(urls.searchFriend, params),
   /** 发送添加好友请求 */
   sendAddFriendRequest: (params: { targetUid: number; msg: string }) => POST(urls.sendAddFriendRequest, params),
   /** 同意好友申请 */

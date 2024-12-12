@@ -123,7 +123,9 @@ import { useWindowSize } from '@vueuse/core'
 import { useSettingStore } from '@/stores/setting.ts'
 import { type } from '@tauri-apps/plugin-os'
 import { renderLabel, renderSourceList, options, createGroup } from './model.tsx'
+import { useGlobalStore } from '~/src/stores/global.ts'
 
+const globalStore = useGlobalStore()
 const settingStore = useSettingStore()
 const { page } = storeToRefs(settingStore)
 const appWindow = WebviewWindow.getCurrent()
@@ -159,6 +161,10 @@ const addPanels = ref({
       icon: 'people-plus',
       click: () => {
         console.log('加好友/群')
+        globalStore.newFriendModal = true
+        // globalStore.newFriendModal = true
+        // globalStore.addFriendModalInfo.show = true
+        // globalStore.addFriendModalInfo.uid = item.uid || item.fromUser.uid
       }
     }
   ]
