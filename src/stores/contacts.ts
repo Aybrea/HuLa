@@ -30,7 +30,6 @@ export const useContactStore = defineStore('contact', () => {
       .catch(() => {
         contactsOptions.isLoading = false
       })
-    console.log('🚀 ~ getContactList ~ res:', res)
     if (!res) return
     const data = {
       list: res

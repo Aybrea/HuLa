@@ -187,13 +187,17 @@ export const useChatStore = defineStore(
       }
     }
 
-    const getSessionList = async (isFresh = false) => {
+    const getSessionList = async (isFresh = false, chatIds: string[] = []) => {
       if (!isFresh && (sessionOptions.isLast || sessionOptions.isLoading)) return
       sessionOptions.isLoading = true
       const response = await apis
         .getSessionList({
-          pageSize: sessionList.length > pageSize ? sessionList.length : pageSize,
-          cursor: isFresh || !sessionOptions.cursor ? '' : sessionOptions.cursor
+          list: [
+            {
+              type: 1,
+              chatIds: chatIds
+            }
+          ]
         })
         .catch(() => {
           sessionOptions.isLoading = false
@@ -203,7 +207,31 @@ export const useChatStore = defineStore(
       if (!data) {
         return
       }
-      isFresh ? sessionList.splice(0, sessionList.length, ...data.list) : sessionList.push(...data.list)
+      isFresh
+        ? sessionList.splice(
+            0,
+            sessionList.length,
+            ...data.map((item) =>
+              item.single
+                ? {
+                    roomId: item.chatId,
+                    type: item.type === 1 ? 2 : 1,
+                    name: item.single.nickname,
+                    avatar: item.single.icon,
+                    activeTime: item.single.activeTime,
+                    unreadCount: item.single.unreadCount
+                  }
+                : {
+                    roomId: item.group.id,
+                    type: RoomTypeEnum.GROUP,
+                    name: item.group.name,
+                    avatar: item.group.avatar,
+                    activeTime: item.group.activeTime,
+                    unreadCount: item.group.unreadCount
+                  }
+            )
+          )
+        : sessionList.push(...data)
       sessionOptions.cursor = data.cursor
       sessionOptions.isLast = data.isLast
       sessionOptions.isLoading = false

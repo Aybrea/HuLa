@@ -33,7 +33,7 @@ export default {
   newFriendCount: `${prefix + URLEnum.USER}/friend/apply/unread`, // 申请未读数
 
   // -------------- 聊天室相关 ---------------
-  getSessionList: `${prefix + URLEnum.CHAT}/contact/page`, // 会话列表
+  getSessionList: `${prefix + URLEnum.CHAT}/info`, // 会话列表
   getMsgReadList: `${prefix + URLEnum.CHAT}/msg/read/page`, // 消息的已读未读列表
   getMsgReadCount: `${prefix + URLEnum.CHAT}/msg/read`, // 消息已读未读数
   createGroup: `${prefix + URLEnum.ROOM}/group`, // 新增群组

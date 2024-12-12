@@ -5,11 +5,12 @@ import type {
   WsReqMsgContentType,
   OnStatusChangeType
 } from '@/services/wsType.ts'
-import type { MessageType, MarkItemType, RevokedMsgType } from '@/services/types'
+import type { MarkItemType, RevokedMsgType } from '@/services/types'
 import { OnlineEnum, ChangeTypeEnum, WorkerMsgEnum, MittEnum } from '@/enums'
 import { worker } from '@/utils/InitWorker.ts'
 import { useMitt } from '@/hooks/useMitt.ts'
 import { emit } from '@tauri-apps/api/event'
+import { MessageType } from '@/buffer/session_pb'
 
 class WS {
   #tasks: WsReqMsgContentType[] = []
@@ -41,7 +42,7 @@ class WS {
   }
 
   onWorkerMsg = async (e: MessageEvent<any>) => {
-    const params: { type: string; value: unknown } = JSON.parse(e.data)
+    const params: { type: string; value: unknown } = e.data
     switch (params.type) {
       case WorkerMsgEnum.MESSAGE: {
         await this.onMessage(params.value as string)
@@ -103,10 +104,13 @@ class WS {
 
   // 收到消息回调
   onMessage = async (value: string) => {
-    console.log('🚀 ~ value:', value)
     // FIXME 可能需要 try catch,
-    const params: { type: WsResponseMessageType; data: unknown } = JSON.parse(value)
+    const params: { type: WsResponseMessageType; data: unknown } = value
     switch (params.type) {
+      case MessageType.Type_SCPushMessageInfo: {
+        useMitt.emit(MittEnum.PUSH_MESSAGE_INFO, params.messageList)
+        break
+      }
       // 获取登录二维码
       case WsResponseMessageType.LOGIN_QR_CODE: {
         console.log('获取二维码')

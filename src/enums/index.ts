@@ -54,6 +54,8 @@ export enum EventEnum {
 
 /** Mitt兄弟组件通信 */
 export enum MittEnum {
+  /** 收到推送：消息列表 */
+  PUSH_MESSAGE_INFO = 'pushMessageInfo',
   /** 更新消息数量 */
   UPDATE_MSG_TOTAL = 'updateMsgTotal',
   /** 显示消息框 */
