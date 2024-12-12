@@ -38,7 +38,10 @@ class WS {
       localStorage.removeItem('USER_INFO')
     }
     // 初始化 ws
-    worker.postMessage(`{"type":"initWS","value":${JSON.stringify({ token: token || '', deviceId: deviceId || '' })}}`)
+    worker.postMessage({
+      type: 'initWS',
+      value: { token: token || '', deviceId: deviceId || '' }
+    })
   }
 
   onWorkerMsg = async (e: MessageEvent<any>) => {
@@ -90,7 +93,10 @@ class WS {
   }
 
   #send(msg: WsReqMsgContentType) {
-    worker.postMessage(`{"type":"message","value":${typeof msg === 'string' ? msg : JSON.stringify(msg)}}`)
+    worker.postMessage({
+      type: 'message',
+      value: msg
+    })
   }
 
   send = (params: WsReqMsgContentType) => {

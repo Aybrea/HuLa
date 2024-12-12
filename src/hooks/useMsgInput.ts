@@ -1,7 +1,7 @@
 import { LimitEnum, MittEnum, MsgEnum, MessageStatusEnum } from '@/enums'
 import { useUserInfo } from '@/hooks/useCached.ts'
 import apis from '@/services/apis.ts'
-import { CacheUserItem, MessageType } from '@/services/types.ts'
+import { CacheUserItem } from '@/services/types.ts'
 import { useCachedStore } from '@/stores/cached.ts'
 import { useChatStore } from '@/stores/chat.ts'
 import { useGlobalStore } from '@/stores/global.ts'
@@ -11,8 +11,18 @@ import { type } from '@tauri-apps/plugin-os'
 import { useDebounceFn } from '@vueuse/core'
 import { Ref } from 'vue'
 import { useCommon } from './useCommon.ts'
+import { worker } from '@/utils/InitWorker.ts'
 
 import Database from '@tauri-apps/plugin-sql'
+import { create, toBinary } from '@bufbuild/protobuf'
+import {
+  ChatMsg_MsgType,
+  ChatMsgSchema,
+  ChatType,
+  CSChatMsgSchema,
+  MainDataSchema,
+  MessageType
+} from '../buffer/session_pb.ts'
 
 export const useMsgInput = (messageInputDom: Ref) => {
   const chatStore = useChatStore()
@@ -273,8 +283,31 @@ export const useMsgInput = (messageInputDom: Ref) => {
         messageBody = { content: msg.content }
     }
 
+    const wsMessage = toBinary(
+      MainDataSchema,
+      create(MainDataSchema, {
+        msgType: MessageType.Type_CSChatMsg,
+        data: toBinary(
+          CSChatMsgSchema,
+          create(CSChatMsgSchema, {
+            chatId: BigInt(globalStore.currentSession.roomId),
+            chatMsg: create(ChatMsgSchema, {
+              msgType: ChatMsg_MsgType.Text,
+              content: msg.content
+            }),
+            chatType: ChatType.ChatType_Single
+          })
+        )
+      })
+    )
+    // worker.postMessage('message', wsMessage)
+    worker.postMessage({
+      type: 'message',
+      value: wsMessage
+    })
+
     // 创建消息对象
-    const tempMsg: MessageType = {
+    const tempMsg: any = {
       fromUser: {
         uid: userUid.value || 0,
         username: useUserInfo(userUid.value)?.value?.name || '',
