@@ -171,7 +171,6 @@ const onConnectMsg = async (e: any) => {
       console.error('Invalid messageContent')
     }
     const chatMsg = { ...messageContent, type: message.msgType }
-    console.log('🚀 收到:', chatMsg)
     postMsg({ type: WorkerMsgEnum.MESSAGE, value: chatMsg })
   } else {
     console.warn('Unknown message type:', message.msgType)
@@ -200,7 +199,6 @@ const initConnection = () => {
 }
 
 self.onmessage = (e: MessageEvent<string>) => {
-  console.log('🚀 ~ self.onmessage ~ e:', e)
   const { type, value } = e.data
   switch (type) {
     case 'initWS': {
@@ -212,7 +210,6 @@ self.onmessage = (e: MessageEvent<string>) => {
     }
     case 'message': {
       if (connection?.readyState !== 1) return
-      console.log('🚀 ~ value:', value)
       connectionSend(value)
       break
     }

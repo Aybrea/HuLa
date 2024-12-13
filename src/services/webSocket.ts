@@ -12,12 +12,30 @@ import { useMitt } from '@/hooks/useMitt.ts'
 import { emit } from '@tauri-apps/api/event'
 import { MessageType } from '@/buffer/session_pb'
 
-class WS {
+class Log {
+  static console = true
+  log(title: string, text: string) {
+    if (!Log.console) return
+    if (import.meta.env.MODE === 'production') return
+    const color = '#ff4d4f'
+    console.log(
+      `%c ${title} %c ${JSON.stringify(text, (_, value) => (typeof value === 'bigint' ? value.toString() : value))}`,
+      `background:${color};border:1px solid ${color}; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;`,
+      'background:transparent'
+    )
+  }
+  closeConsole() {
+    Log.console = false
+  }
+}
+
+class WS extends Log {
   #tasks: WsReqMsgContentType[] = []
   // 重连🔐
   #connectReady = false
 
   constructor() {
+    super()
     this.initConnect()
     // 收到消息
     worker.addEventListener('message', this.onWorkerMsg)
@@ -93,6 +111,7 @@ class WS {
   }
 
   #send(msg: WsReqMsgContentType) {
+    this.log('发送', msg)
     worker.postMessage({
       type: 'message',
       value: msg
@@ -109,12 +128,25 @@ class WS {
   }
 
   // 收到消息回调
-  onMessage = async (value: string) => {
+  onMessage = async (value: any) => {
+    this.log('收到', value)
     // FIXME 可能需要 try catch,
-    const params: { type: WsResponseMessageType; data: unknown } = value
+    const params: { type: MessageType; data: unknown } = value
     switch (params.type) {
+      case MessageType.Type_SCAuthToken: {
+        console.log('收到授权token')
+        break
+      }
       case MessageType.Type_SCPushMessageInfo: {
         useMitt.emit(MittEnum.PUSH_MESSAGE_INFO, params.messageList)
+        break
+      }
+      case MessageType.Type_SCChatMsg: {
+        console.log('收到聊天消息')
+        break
+      }
+      case MessageType.Type_SCInitPushDelChats: {
+        console.log('收到删除')
         break
       }
       // 获取登录二维码
