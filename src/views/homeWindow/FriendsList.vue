@@ -22,24 +22,38 @@
                 <div @contextmenu.stop="$event.preventDefault()">
                   <n-flex
                     :size="10"
-                    @click="handleClick(item.uid, RoomTypeEnum.SINGLE)"
-                    :class="{ active: activeItem === item.uid }"
+                    @click="handleClick(item.userId, RoomTypeEnum.SINGLE)"
+                    :class="{ active: activeItem === item.userId }"
                     class="user-box w-full h-75px mb-5px"
                     v-for="item in contactStore.contactsList"
-                    :key="item.uid">
+                    :key="item.userId">
                     <n-flex align="center" :size="10" class="h-75px pl-6px pr-8px flex-1 truncate">
                       <n-avatar
+                        v-if="useUserInfo(item.userId).value.icon"
                         round
                         bordered
                         :size="44"
                         class="grayscale"
                         :class="{ 'grayscale-0': item.activeStatus === OnlineEnum.ONLINE }"
-                        :src="AvatarUtils.getAvatarUrl(useUserInfo(item.uid).value.avatar)"
+                        :src="useUserInfo(item.userId).value.icon"
                         fallback-src="/logo.png" />
+
+                      <n-avatar
+                        v-else
+                        round
+                        bordered
+                        :color="'#909090'"
+                        :size="44"
+                        class="grayscale"
+                        :class="{ 'grayscale-0': item.activeStatus === OnlineEnum.ONLINE }"
+                        :src="useUserInfo(item.userId).value.icon"
+                        fallback-src="/logo.png">
+                        {{ useUserInfo(item.userId).value.name?.slice(0, 1) }}
+                      </n-avatar>
 
                       <n-flex vertical justify="space-between" class="h-fit flex-1 truncate">
                         <span class="text-14px leading-tight flex-1 truncate">{{
-                          useUserInfo(item.uid).value.name
+                          useUserInfo(item.userId).value.name
                         }}</span>
 
                         <div class="text leading-tight text-12px flex-y-center gap-2px flex-1 truncate">
@@ -68,7 +82,7 @@
       <!--          v-for="item in groupChatList"-->
       <!--          :key="item.key">-->
       <!--          <n-flex v-slide align="center" :size="10" class="h-75px pl-6px pr-8px flex-1 truncate">-->
-      <!--            <n-avatar round bordered :color="'#fff'" :size="44" :src="item.avatar" fallback-src="/logo.png" />-->
+      <!--            <n-avatar round bordered :color="'#fff'" :size="44" :src="item.icon" fallback-src="/logo.png" />-->
 
       <!--            <span class="text-14px leading-tight flex-1 truncate">{{ item.accountName }}</span>-->
       <!--          </n-flex>-->
@@ -111,7 +125,7 @@ const handleClick = (index: number, type: number) => {
   const data = {
     context: {
       type: type,
-      uid: index
+      userId: index
     },
     detailsShow: detailsShow.value
   }
