@@ -141,12 +141,16 @@ class WS extends Log {
         useMitt.emit(MittEnum.PUSH_MESSAGE_INFO, params.messageList)
         break
       }
-      case MessageType.Type_SCChatMsg: {
-        console.log('收到聊天消息')
-        break
-      }
       case MessageType.Type_SCInitPushDelChats: {
         console.log('收到删除')
+        break
+      }
+      case MessageType.Type_SCChatMsg: {
+        console.log('发送的反馈')
+        break
+      }
+      case MessageType.Type_SCPushChatMsg: {
+        console.log('收到聊天消息')
         break
       }
       // 获取登录二维码

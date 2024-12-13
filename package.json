@@ -16,10 +16,6 @@
     "url": "https://github.com/HuLaSpark/HuLa"
   },
   "scripts": {
-    "========= 启动vue(tauri项目会连带执行不需要单独执行) =========": "",
-    "dev": "vite",
-    "========= 打包vue(tauri项目会连带执行不需要单独执行) =========": "",
-    "build": "tsc --noEmit || exit 0 && vite build",
     "========= 启动tauri =========": "",
     "tauri:dev": "tauri dev",
     "========= 打包tauri =========": "",
@@ -39,7 +35,11 @@
     "========= 发版 =========": "",
     "release": "release-it",
     "========= commit后再次添加修改到上一次的commit =========": "",
-    "addition-commit": "git add . && git commit --amend --no-edit"
+    "addition-commit": "git add . && git commit --amend --no-edit",
+    "========= 启动vue(tauri项目会连带执行不需要单独执行) =========": "",
+    "dev": "vite",
+    "========= 打包vue(tauri项目会连带执行不需要单独执行) =========": "",
+    "build": "tsc --noEmit || exit 0 && vite build"
   },
   "dependencies": {
     "@actions/github": "^6.0.0",

@@ -168,6 +168,7 @@ import { useSettingStore } from '@/stores/setting.ts'
 import { invoke } from '@tauri-apps/api/core'
 import { AvatarUtils } from '@/utils/avatarUtils'
 import { generateSnowflakeId } from '@/utils/Helper'
+import { SexEnum } from '~/src/enums'
 
 const settingStore = useSettingStore()
 const userStore = useUserStore()
@@ -283,7 +284,17 @@ const normalLogin = async () => {
       // TODO 这里的id暂时赋值给uid，因为后端没有统一返回uid，待后端调整
       const account = userDetail
       loading.value = false
-      userStore.userInfo = account
+      userStore.userInfo = {
+        uid: account.userId,
+        account: account.phone,
+        password: '',
+        avatar: account.icon,
+        name: account.nickname,
+        modifyNameChance: 0,
+        sex: SexEnum.MAN,
+        badge: '',
+        power: 0
+      }
       loginHistoriesStore.addLoginHistory(account)
 
       await setLoginState()
