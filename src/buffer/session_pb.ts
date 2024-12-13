@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file session.proto.
  */
 export const file_session: GenFile = /*@__PURE__*/
-  fileDesc("Cg1zZXNzaW9uLnByb3RvEgVwcm90byI9CghNYWluRGF0YRIjCgdtc2dUeXBlGAEgASgOMhIucHJvdG8uTWVzc2FnZVR5cGUSDAoEZGF0YRgCIAEoDCJGChFDU1B1c2hEZWxDaGF0c0FjaxIhCghjaGF0SW5mbxgBIAEoCzIPLnByb3RvLkNoYXRJbmZvEg4KBmxhc3RJZBgCIAEoAyImCghDU01zZ1RvcBINCgVtc2dJZBgBIAEoCRILCgN0b3AYAiABKAgiOAoIU0NNc2dUb3ASDQoFbXNnSWQYASABKAkSCwoDdG9wGAIgASgIEhAKCHNlcnZlcklkGAMgASgDIjwKDFNDUHVzaE1zZ1RvcBINCgVtc2dJZBgBIAEoCRILCgN0b3AYAiABKAgSEAoIc2VydmVySWQYAyABKAMiHwoLQ1NNc2dUb3BBY2sSEAoIc2VydmVySWQYASABKAMiNwoQQ1NMb2FkQ2hhdFJlY29yZBIQCghyZWNvcmRJZBgBIAEoCRIRCglyZXF1ZXN0SWQYAiABKAMirgEKEFNDTG9hZENoYXRSZWNvcmQSNwoLY2hhdFJlY29yZHMYASADKAsyIi5wcm90by5TQ0xvYWRDaGF0UmVjb3JkLkNoYXRSZWNvcmQSEQoJcmVxdWVzdElkGAIgASgDGk4KCkNoYXRSZWNvcmQSHwoHY2hhdE1zZxgBIAEoCzIOLnByb3RvLkNoYXRNc2cSHwoEdXNlchgCIAEoCzIRLnByb3RvLlJlY29yZFVzZXIiPAoKUmVjb3JkVXNlchIOCgZ1c2VySWQYASABKAMSEAoIbmlja25hbWUYAiABKAkSDAoEaWNvbhgDIAEoCSIsCghOYW1lSW5mbxIOCgZ1c2VySWQYASABKAMSEAoIbmlja25hbWUYAiABKAkiMAoPQ1NHcm91cEV2ZW50QWNrEg4KBmNoYXRJZBgBIAEoAxINCgVtc2dJZBgCIAEoAyIOCgxTQ090aGVyTG9naW4icAoSU0NHcm91cEV2ZW50Tm90aWNlEg4KBmNoYXRJZBgBIAEoAxIOCgZub3RpY2UYAiABKAkSHQoEdXNlchgDIAEoCzIPLnByb3RvLk5hbWVJbmZvEg0KBW1zZ0lkGAQgASgDEgwKBHRpbWUYBSABKAMiYQoTU0NHcm91cEV2ZW50RGlzbWlzcxIOCgZjaGF0SWQYASABKAMSHQoEdXNlchgCIAEoCzIPLnByb3RvLk5hbWVJbmZvEg0KBW1zZ0lkGAQgASgDEgwKBHRpbWUYBSABKAMihwEKGVNDR3JvdXBFdmVudEFkbWluVHJhbnNmZXISDgoGY2hhdElkGAEgASgDEh0KBHVzZXIYAiABKAsyDy5wcm90by5OYW1lSW5mbxIeCgVhZG1pbhgDIAEoCzIPLnByb3RvLk5hbWVJbmZvEg0KBW1zZ0lkGAQgASgDEgwKBHRpbWUYBSABKAMibgoRU0NHcm91cEV2ZW50TXV0ZXgSDgoGY2hhdElkGAEgASgDEg0KBW11dGV4GAIgASgFEh0KBHVzZXIYAyABKAsyDy5wcm90by5OYW1lSW5mbxINCgVtc2dJZBgEIAEoAxIMCgR0aW1lGAUgASgDInAKFFNDR3JvdXBFdmVudE5hbWVFZGl0Eg4KBmNoYXRJZBgBIAEoAxIMCgRuYW1lGAIgASgJEh0KBHVzZXIYAyABKAsyDy5wcm90by5OYW1lSW5mbxINCgVtc2dJZBgEIAEoAxIMCgR0aW1lGAUgASgDImQKFlNDR3JvdXBFdmVudE1lbWJlckV4aXQSDgoGY2hhdElkGAEgASgDEh0KBHVzZXIYAiABKAsyDy5wcm90by5OYW1lSW5mbxINCgVtc2dJZBgDIAEoAxIMCgR0aW1lGAUgASgDIoUBChVTQ0dyb3VwRXZlbnRNZW1iZXJEZWwSDgoGY2hhdElkGAEgASgDEiAKB21lbWJlcnMYAiADKAsyDy5wcm90by5OYW1lSW5mbxIdCgR1c2VyGAMgASgLMg8ucHJvdG8uTmFtZUluZm8SDQoFbXNnSWQYBCABKAMSDAoEdGltZRgFIAEoAyKFAQoVU0NHcm91cEV2ZW50TWVtYmVyQWRkEg4KBmNoYXRJZBgBIAEoAxIgCgdtZW1iZXJzGAIgAygLMg8ucHJvdG8uTmFtZUluZm8SHQoEdXNlchgDIAEoCzIPLnByb3RvLk5hbWVJbmZvEg0KBW1zZ0lkGAQgASgDEgwKBHRpbWUYBSABKAMiPQoIQ2hhdEluZm8SIQoIY2hhdFR5cGUYASABKA4yDy5wcm90by5DaGF0VHlwZRIOCgZjaGF0SWQYAiABKAMiZgoJQ1NEZWxDaGF0EiEKCGNoYXRJbmZvGAEgASgLMg8ucHJvdG8uQ2hhdEluZm8SDgoGbGFzdElkGAIgASgDEhcKCmlzRGVsT3RoZXIYAyABKAhIAIgBAUINCgtfaXNEZWxPdGhlciI+CglTQ0RlbENoYXQSIQoIY2hhdEluZm8YASABKAsyDy5wcm90by5DaGF0SW5mbxIOCgZsYXN0SWQYAiABKAMiUgoNU0NQdXNoRGVsQ2hhdBIhCghjaGF0SW5mbxgBIAEoCzIPLnByb3RvLkNoYXRJbmZvEg4KBmxhc3RJZBgCIAEoAxIOCgZ1c2VySWQYAyABKAMihwEKElNDSW5pdFB1c2hEZWxDaGF0cxIzCghkZWxJbmZvcxgBIAMoCzIhLnByb3RvLlNDSW5pdFB1c2hEZWxDaGF0cy5EZWxJbmZvGjwKB0RlbEluZm8SIQoIY2hhdEluZm8YASABKAsyDy5wcm90by5DaGF0SW5mbxIOCgZsYXN0SWQYAiABKAMinwEKEVNDUHVzaE1lc3NhZ2VJbmZvEjkKC21lc3NhZ2VMaXN0GAEgAygLMiQucHJvdG8uU0NQdXNoTWVzc2FnZUluZm8uTWVzc2FnZUluZm8aTwoLTWVzc2FnZUluZm8SIQoIY2hhdFR5cGUYASABKA4yDy5wcm90by5DaGF0VHlwZRIOCgZjaGF0SWQYAiABKAMSDQoFbXNnSWQYAyABKAMiHgoMQ1NBY2tQdXNoTXNnEg4KBnB1c2hJZBgBIAEoAyKJAQoNQ1NQdWxsTXNnTGlzdBIhCghjaGF0VHlwZRgBIAEoDjIPLnByb3RvLkNoYXRUeXBlEg4KBmNoYXRJZBgCIAEoAxIRCglsYXN0TXNnSWQYAyABKAMSEQoJcHVzaE1zZ0lkGAQgASgDEg0KBWNvdW50GAUgASgFEhAKCGNsaWVudElkGAYgASgDIosDCg1TQ1B1bGxNc2dMaXN0EiEKCGNoYXRUeXBlGAEgASgOMg8ucHJvdG8uQ2hhdFR5cGUSDgoGY2hhdElkGAIgASgDEjAKCXB1c2hJbmZvcxgDIAMoCzIdLnByb3RvLlNDUHVsbE1zZ0xpc3QuUHVzaEluZm8SDgoGcHVzaElkGAQgASgDEhAKCGNsaWVudElkGAUgASgDEg0KBXRvdGFsGAYgASgDGuMBCghQdXNoSW5mbxIfCgdjaGF0TXNnGAEgASgLMg4ucHJvdG8uQ2hhdE1zZxINCgVtc2dJZBgCIAEoAxIQCghjbGllbnRJZBgDIAEoAxIQCghzZW5kZXJJZBgEIAEoAxISCgpzZXJ2ZXJUaW1lGAUgASgDEhIKCmNsaWVudFRpbWUYBiABKAMSDgoGc3RhdHVzGAcgASgFEjYKEGdyb3VwQ2hhdE1zZ0F0dHIYCCABKAsyFy5wcm90by5Hcm91cENoYXRNc2dBdHRySACIAQFCEwoRX2dyb3VwQ2hhdE1zZ0F0dHIiVwoPU0NQdXNoTGFzdE1zZ0lkEiEKCGNoYXRUeXBlGAEgASgOMg8ucHJvdG8uQ2hhdFR5cGUSDgoGY2hhdElkGAIgASgDEhEKCWxhc3RNc2dJZBgDIAEoAyINCgtDU0hlYXJ0YmVhdCIhCgtTQ0hlYXJ0YmVhdBISCgpzZXJ2ZXJUaW1lGAEgASgDIoUBCglDU0NoYXRNc2cSDgoGY2hhdElkGAEgASgDEh8KB2NoYXRNc2cYAiABKAsyDi5wcm90by5DaGF0TXNnEhIKCmNsaWVudFRpbWUYAyABKAMSEAoIY2xpZW50SWQYBCABKAMSIQoIY2hhdFR5cGUYBSABKA4yDy5wcm90by5DaGF0VHlwZSKqBQoHQ2hhdE1zZxInCgdtc2dUeXBlGAEgASgOMhYucHJvdG8uQ2hhdE1zZy5Nc2dUeXBlEhQKB2NvbnRlbnQYAiABKAlIAIgBARIkCgVpbWFnZRgDIAEoCzIQLnByb3RvLkltYWdlSW5mb0gBiAEBEiQKBXZvaWNlGAQgASgLMhAucHJvdG8uVm9pY2VJbmZvSAKIAQESIgoEY2FyZBgFIAEoCzIPLnByb3RvLkNhcmRJbmZvSAOIAQESKgoIbG9jYXRpb24YBiABKAsyEy5wcm90by5Mb2NhdGlvbkluZm9IBIgBARIiCgRmaWxlGAcgASgLMg8ucHJvdG8uRmlsZUluZm9IBYgBARIqCghjc1JlY29yZBgIIAEoCzITLnByb3RvLkNTUmVjb3JkSW5mb0gGiAEBEioKCHNjUmVjb3JkGAkgASgLMhMucHJvdG8uU0NSZWNvcmRJbmZvSAeIAQESKAoJZGVsZXRlTXNnGAogASgLMhAucHJvdG8uRGVsZXRlTXNnSAiIAQESDwoHYXRVc2VycxhkIAMoAxIUCgdyZXBseUlkGGUgASgDSAmIAQEigwEKB01zZ1R5cGUSCwoHVW5rbm93bhAAEggKBFRleHQQARIJCgVJbWFnZRACEgkKBVZvaWNlEAMSCAoEQ2FyZBAEEgwKCExvY2F0aW9uEAUSCAoERmlsZRAGEgwKCENTUmVjb3JkEAcSDAoIU0NSZWNvcmQQCBINCglEZWxldGVNc2cQCUIKCghfY29udGVudEIICgZfaW1hZ2VCCAoGX3ZvaWNlQgcKBV9jYXJkQgsKCV9sb2NhdGlvbkIHCgVfZmlsZUILCglfY3NSZWNvcmRCCwoJX3NjUmVjb3JkQgwKCl9kZWxldGVNc2dCCgoIX3JlcGx5SWQiUwoJRGVsZXRlTXNnEg4KBm1zZ0lkcxgBIAMoAxIOCgZ1c2VySWQYAiABKAMSFwoKaXNEZWxPdGhlchgDIAEoCEgAiAEBQg0KC19pc0RlbE90aGVyIi4KDENTUmVjb3JkSW5mbxIOCgZjaGF0SWQYASABKAMSDgoGbXNnSWRzGAIgAygDIk8KDFNDUmVjb3JkSW5mbxINCgV0aXRsZRgBIAEoCRIPCgdjb250ZW50GAIgAygJEhAKCHJlY29yZElkGAMgASgJEg0KBWNvdW50GAQgASgFIkAKCEZpbGVJbmZvEgsKA3VybBgBIAEoCRIMCgRuYW1lGAIgASgJEgwKBHNpemUYAyABKAMSCwoDbWQ1GAQgASgJImUKDExvY2F0aW9uSW5mbxIQCghsYXRpdHVkZRgBIAEoARIRCglsb25naXR1ZGUYAiABKAESDQoFcGxhY2UYAyABKAkSDwoHYWRkcmVzcxgEIAEoCRIQCghwaG90b1VybBgFIAEoCSJKCglJbWFnZUluZm8SCwoDdXJsGAEgASgJEg0KBXdpZHRoGAIgASgFEg4KBmhlaWdodBgDIAEoBRIRCgl0aHVtYm5haWwYBCABKAkiKgoJVm9pY2VJbmZvEgsKA3VybBgBIAEoCRIQCghkdXJhdGlvbhgCIAEoBSI6CghDYXJkSW5mbxIOCgZ1c2VySWQYASABKAMSEAoIbmlja25hbWUYAiABKAkSDAoEaWNvbhgDIAEoCSLKAQoJU0NDaGF0TXNnEikKB3JldENvZGUYASABKA4yGC5wcm90by5TQ0NoYXRNc2cuUmV0Q29kZRINCgVtc2dJZBgCIAEoAxIQCghjbGllbnRJZBgDIAEoAxIOCgZjaGF0SWQYBCABKAMSEgoKc2VydmVyVGltZRgFIAEoAyJNCgdSZXRDb2RlEgsKB1Vua25vd24QABILCgdTdWNjZXNzEAESDwoLQ2hhdElkRXJyb3IQAhINCglUeXBlRXJyb3IQAxIICgRNdXRlEAQiMgoQR3JvdXBDaGF0TXNnQXR0chIQCghuaWNrbmFtZRgBIAEoCRIMCgRpY29uGAIgASgJIpsCCg1TQ1B1c2hDaGF0TXNnEh8KB2NoYXRNc2cYASABKAsyDi5wcm90by5DaGF0TXNnEhIKCnNlcnZlclRpbWUYAiABKAMSDgoGY2hhdElkGAMgASgDEiEKCGNoYXRUeXBlGAQgASgOMg8ucHJvdG8uQ2hhdFR5cGUSDQoFbXNnSWQYBSABKAMSEgoKY2xpZW50VGltZRgGIAEoAxIOCgZwdXNoSWQYByABKAMSEAoIY2xpZW50SWQYCCABKAMSEAoIc2VuZGVySWQYCSABKAMSNgoQZ3JvdXBDaGF0TXNnQXR0chgKIAEoCzIXLnByb3RvLkdyb3VwQ2hhdE1zZ0F0dHJIAIgBAUITChFfZ3JvdXBDaGF0TXNnQXR0ciKRAQoLQ1NBdXRoVG9rZW4SDQoFdG9rZW4YASABKAkSMQoKY2xpZW50VHlwZRgCIAEoDjIdLnByb3RvLkNTQXV0aFRva2VuLkNsaWVudFR5cGUSEAoIZGV2aWNlSWQYAyABKAkiLgoKQ2xpZW50VHlwZRILCgdVbmtub3duEAASCgoGTW9iaWxlEAESBwoDV2ViEAIifAoLU0NBdXRoVG9rZW4SKAoEY29kZRgBIAEoDjIaLnByb3RvLlNDQXV0aFRva2VuLlJldENvZGUiQwoHUmV0Q29kZRILCgdVbmtub3duEAASCwoHU3VjY2VzcxABEg4KClRva2VuRXJyb3IQAhIOCgpQYXJhbUVycm9yEAMiXQoHUmVhZE1zZxIOCgZjaGF0SWQYASABKAMSIQoIY2hhdFR5cGUYAiABKA4yDy5wcm90by5DaGF0VHlwZRINCgVtc2dJZBgDIAEoAxIQCghjbGllbnRJZBgEIAEoAyIsCglDU1JlYWRNc2cSHwoHcmVhZE1zZxgBIAEoCzIOLnByb3RvLlJlYWRNc2ciQAoNU0NQdXNoUmVhZE1zZxIfCgdyZWFkTXNnGAEgASgLMg4ucHJvdG8uUmVhZE1zZxIOCgZ1c2VySWQYAiABKAMqiQcKC01lc3NhZ2VUeXBlEgsKB1Vua25vd24QABIUChBUeXBlX0NTSGVhcnRiZWF0EAESFAoQVHlwZV9TQ0hlYXJ0YmVhdBACEhIKDlR5cGVfQ1NDaGF0TXNnEAMSEgoOVHlwZV9TQ0NoYXRNc2cQBBISCg5UeXBlX0NTUmVhZE1zZxAFEhYKElR5cGVfU0NQdXNoUmVhZE1zZxAHEhYKElR5cGVfU0NQdXNoQ2hhdE1zZxAIEhQKEFR5cGVfQ1NBdXRoVG9rZW4QCRIUChBUeXBlX1NDQXV0aFRva2VuEAoSFQoRVHlwZV9DU0Fja1B1c2hNc2cQCxIYChRUeXBlX1NDUHVzaExhc3RNc2dJZBANEhYKElR5cGVfQ1NQdWxsTXNnTGlzdBAOEhYKElR5cGVfU0NQdWxsTXNnTGlzdBAPEhoKFlR5cGVfU0NQdXNoTWVzc2FnZUluZm8QEBISCg5UeXBlX0NTRGVsQ2hhdBAREhIKDlR5cGVfU0NEZWxDaGF0EBISFgoSVHlwZV9TQ1B1c2hEZWxDaGF0EBMSGwoXVHlwZV9TQ0luaXRQdXNoRGVsQ2hhdHMQFBIeChpUeXBlX1NDR3JvdXBFdmVudE1lbWJlckFkZBAVEh4KGlR5cGVfU0NHcm91cEV2ZW50TWVtYmVyRGVsEBYSHwobVHlwZV9TQ0dyb3VwRXZlbnRNZW1iZXJFeGl0EBcSHQoZVHlwZV9TQ0dyb3VwRXZlbnROYW1lRWRpdBAYEhoKFlR5cGVfU0NHcm91cEV2ZW50TXV0ZXgQGRIiCh5UeXBlX1NDR3JvdXBFdmVudEFkbWluVHJhbnNmZXIQGhIcChhUeXBlX1NDR3JvdXBFdmVudERpc21pc3MQGxIbChdUeXBlX1NDR3JvdXBFdmVudE5vdGljZRAcEhUKEVR5cGVfU0NPdGhlckxvZ2luEB0SGAoUVHlwZV9DU0dyb3VwRXZlbnRBY2sQHhIZChVUeXBlX0NTTG9hZENoYXRSZWNvcmQQHxIZChVUeXBlX1NDTG9hZENoYXRSZWNvcmQQIBIRCg1UeXBlX0NTTXNnVG9wECESEQoNVHlwZV9TQ01zZ1RvcBAiEhUKEVR5cGVfU0NQdXNoTXNnVG9wECMSFAoQVHlwZV9DU01zZ1RvcEFjaxAkEhoKFlR5cGVfQ1NQdXNoRGVsQ2hhdHNBY2sQJSpJCghDaGF0VHlwZRIUChBDaGF0VHlwZV9Vbmtub3duEAASEwoPQ2hhdFR5cGVfU2luZ2xlEAESEgoOQ2hhdFR5cGVfR3JvdXAQAkI+CiNjb20uaW1zZXJ2ZXIuYmFpc2hlbmcuY2hhdGNvbS5wcm90b0IMU2Vzc2lvblByb3RvWgkuL3Nlc3Npb25iBnByb3RvMw");
+  fileDesc("Cg1zZXNzaW9uLnByb3RvEgVwcm90byI9CghNYWluRGF0YRIjCgdtc2dUeXBlGAEgASgOMhIucHJvdG8uTWVzc2FnZVR5cGUSDAoEZGF0YRgCIAEoDCJlCgxDU0NoYXRNc2dEZWwSIQoIY2hhdEluZm8YASABKAsyDy5wcm90by5DaGF0SW5mbxIOCgZtc2dJZHMYAiADKAMSFQoIZGVsT3RoZXIYAyABKAhIAIgBAUILCglfZGVsT3RoZXIiQQoMU0NDaGF0TXNnRGVsEiEKCGNoYXRJbmZvGAEgASgLMg8ucHJvdG8uQ2hhdEluZm8SDgoGbXNnSWRzGAIgAygDIkMKDkNoYXRNc2dEZWxJbmZvEiEKCGNoYXRJbmZvGAEgASgLMg8ucHJvdG8uQ2hhdEluZm8SDgoGbXNnSWRzGAIgAygDIjsKEFNDSW5pdFB1c2hEZWxNc2cSJwoIZGVsSW5mb3MYASADKAsyFS5wcm90by5DaGF0TXNnRGVsSW5mbyIyCghDU01zZ0RlbBImCgdkZWxJbmZvGAEgASgLMhUucHJvdG8uQ2hhdE1zZ0RlbEluZm8iOQoPQ1NNc2dEZWxQdXNoQWNrEiYKB2Fja0luZm8YASABKAsyFS5wcm90by5DaGF0TXNnRGVsSW5mbyI2ChFDU1B1bGxHcm91cFRvcE1zZxIOCgZjaGF0SWQYASABKAMSEQoJcmVxdWVzdElkGAIgASgDIjkKEVNDUHVsbEdyb3VwVG9wTXNnEhEKCW1zZ0lkTGlzdBgBIAMoAxIRCglyZXF1ZXN0SWQYAiABKAMiRgoRQ1NQdXNoRGVsQ2hhdHNBY2sSIQoIY2hhdEluZm8YASABKAsyDy5wcm90by5DaGF0SW5mbxIOCgZsYXN0SWQYAiABKAMiLAoLQ2hhdE1zZ0luZm8SDgoGY2hhdElkGAEgASgDEg0KBW1zZ0lkGAIgASgDIkAKCENTTXNnVG9wEicKC2NoYXRNc2dJbmZvGAEgASgLMhIucHJvdG8uQ2hhdE1zZ0luZm8SCwoDdG9wGAIgASgIIkMKCFNDTXNnVG9wEicKC2NoYXRNc2dJbmZvGAEgASgLMhIucHJvdG8uQ2hhdE1zZ0luZm8SDgoGc3RhdHVzGAIgASgIIkcKDFNDUHVzaE1zZ1RvcBInCgtjaGF0TXNnSW5mbxgBIAEoCzISLnByb3RvLkNoYXRNc2dJbmZvEg4KBnN0YXR1cxgCIAEoCCI3ChBDU0xvYWRDaGF0UmVjb3JkEhAKCHJlY29yZElkGAEgASgJEhEKCXJlcXVlc3RJZBgCIAEoAyKuAQoQU0NMb2FkQ2hhdFJlY29yZBI3CgtjaGF0UmVjb3JkcxgBIAMoCzIiLnByb3RvLlNDTG9hZENoYXRSZWNvcmQuQ2hhdFJlY29yZBIRCglyZXF1ZXN0SWQYAiABKAMaTgoKQ2hhdFJlY29yZBIfCgdjaGF0TXNnGAEgASgLMg4ucHJvdG8uQ2hhdE1zZxIfCgR1c2VyGAIgASgLMhEucHJvdG8uUmVjb3JkVXNlciI8CgpSZWNvcmRVc2VyEg4KBnVzZXJJZBgBIAEoAxIQCghuaWNrbmFtZRgCIAEoCRIMCgRpY29uGAMgASgJIiwKCE5hbWVJbmZvEg4KBnVzZXJJZBgBIAEoAxIQCghuaWNrbmFtZRgCIAEoCSIwCg9DU0dyb3VwRXZlbnRBY2sSDgoGY2hhdElkGAEgASgDEg0KBW1zZ0lkGAIgASgDIg4KDFNDT3RoZXJMb2dpbiJwChJTQ0dyb3VwRXZlbnROb3RpY2USDgoGY2hhdElkGAEgASgDEg4KBm5vdGljZRgCIAEoCRIdCgR1c2VyGAMgASgLMg8ucHJvdG8uTmFtZUluZm8SDQoFbXNnSWQYBCABKAMSDAoEdGltZRgFIAEoAyJhChNTQ0dyb3VwRXZlbnREaXNtaXNzEg4KBmNoYXRJZBgBIAEoAxIdCgR1c2VyGAIgASgLMg8ucHJvdG8uTmFtZUluZm8SDQoFbXNnSWQYBCABKAMSDAoEdGltZRgFIAEoAyKHAQoZU0NHcm91cEV2ZW50QWRtaW5UcmFuc2ZlchIOCgZjaGF0SWQYASABKAMSHQoEdXNlchgCIAEoCzIPLnByb3RvLk5hbWVJbmZvEh4KBWFkbWluGAMgASgLMg8ucHJvdG8uTmFtZUluZm8SDQoFbXNnSWQYBCABKAMSDAoEdGltZRgFIAEoAyJuChFTQ0dyb3VwRXZlbnRNdXRleBIOCgZjaGF0SWQYASABKAMSDQoFbXV0ZXgYAiABKAUSHQoEdXNlchgDIAEoCzIPLnByb3RvLk5hbWVJbmZvEg0KBW1zZ0lkGAQgASgDEgwKBHRpbWUYBSABKAMicAoUU0NHcm91cEV2ZW50TmFtZUVkaXQSDgoGY2hhdElkGAEgASgDEgwKBG5hbWUYAiABKAkSHQoEdXNlchgDIAEoCzIPLnByb3RvLk5hbWVJbmZvEg0KBW1zZ0lkGAQgASgDEgwKBHRpbWUYBSABKAMiZAoWU0NHcm91cEV2ZW50TWVtYmVyRXhpdBIOCgZjaGF0SWQYASABKAMSHQoEdXNlchgCIAEoCzIPLnByb3RvLk5hbWVJbmZvEg0KBW1zZ0lkGAMgASgDEgwKBHRpbWUYBSABKAMihQEKFVNDR3JvdXBFdmVudE1lbWJlckRlbBIOCgZjaGF0SWQYASABKAMSIAoHbWVtYmVycxgCIAMoCzIPLnByb3RvLk5hbWVJbmZvEh0KBHVzZXIYAyABKAsyDy5wcm90by5OYW1lSW5mbxINCgVtc2dJZBgEIAEoAxIMCgR0aW1lGAUgASgDIoUBChVTQ0dyb3VwRXZlbnRNZW1iZXJBZGQSDgoGY2hhdElkGAEgASgDEiAKB21lbWJlcnMYAiADKAsyDy5wcm90by5OYW1lSW5mbxIdCgR1c2VyGAMgASgLMg8ucHJvdG8uTmFtZUluZm8SDQoFbXNnSWQYBCABKAMSDAoEdGltZRgFIAEoAyI9CghDaGF0SW5mbxIhCghjaGF0VHlwZRgBIAEoDjIPLnByb3RvLkNoYXRUeXBlEg4KBmNoYXRJZBgCIAEoAyJmCglDU0RlbENoYXQSIQoIY2hhdEluZm8YASABKAsyDy5wcm90by5DaGF0SW5mbxIOCgZsYXN0SWQYAiABKAMSFwoKaXNEZWxPdGhlchgDIAEoCEgAiAEBQg0KC19pc0RlbE90aGVyIj4KCVNDRGVsQ2hhdBIhCghjaGF0SW5mbxgBIAEoCzIPLnByb3RvLkNoYXRJbmZvEg4KBmxhc3RJZBgCIAEoAyJSCg1TQ1B1c2hEZWxDaGF0EiEKCGNoYXRJbmZvGAEgASgLMg8ucHJvdG8uQ2hhdEluZm8SDgoGbGFzdElkGAIgASgDEg4KBnVzZXJJZBgDIAEoAyKHAQoSU0NJbml0UHVzaERlbENoYXRzEjMKCGRlbEluZm9zGAEgAygLMiEucHJvdG8uU0NJbml0UHVzaERlbENoYXRzLkRlbEluZm8aPAoHRGVsSW5mbxIhCghjaGF0SW5mbxgBIAEoCzIPLnByb3RvLkNoYXRJbmZvEg4KBmxhc3RJZBgCIAEoAyKfAQoRU0NQdXNoTWVzc2FnZUluZm8SOQoLbWVzc2FnZUxpc3QYASADKAsyJC5wcm90by5TQ1B1c2hNZXNzYWdlSW5mby5NZXNzYWdlSW5mbxpPCgtNZXNzYWdlSW5mbxIhCghjaGF0VHlwZRgBIAEoDjIPLnByb3RvLkNoYXRUeXBlEg4KBmNoYXRJZBgCIAEoAxINCgVtc2dJZBgDIAEoAyIeCgxDU0Fja1B1c2hNc2cSDgoGcHVzaElkGAEgASgDIokBCg1DU1B1bGxNc2dMaXN0EiEKCGNoYXRUeXBlGAEgASgOMg8ucHJvdG8uQ2hhdFR5cGUSDgoGY2hhdElkGAIgASgDEhEKCWxhc3RNc2dJZBgDIAEoAxIRCglwdXNoTXNnSWQYBCABKAMSDQoFY291bnQYBSABKAUSEAoIY2xpZW50SWQYBiABKAMiiwMKDVNDUHVsbE1zZ0xpc3QSIQoIY2hhdFR5cGUYASABKA4yDy5wcm90by5DaGF0VHlwZRIOCgZjaGF0SWQYAiABKAMSMAoJcHVzaEluZm9zGAMgAygLMh0ucHJvdG8uU0NQdWxsTXNnTGlzdC5QdXNoSW5mbxIOCgZwdXNoSWQYBCABKAMSEAoIY2xpZW50SWQYBSABKAMSDQoFdG90YWwYBiABKAMa4wEKCFB1c2hJbmZvEh8KB2NoYXRNc2cYASABKAsyDi5wcm90by5DaGF0TXNnEg0KBW1zZ0lkGAIgASgDEhAKCGNsaWVudElkGAMgASgDEhAKCHNlbmRlcklkGAQgASgDEhIKCnNlcnZlclRpbWUYBSABKAMSEgoKY2xpZW50VGltZRgGIAEoAxIOCgZzdGF0dXMYByABKAUSNgoQZ3JvdXBDaGF0TXNnQXR0chgIIAEoCzIXLnByb3RvLkdyb3VwQ2hhdE1zZ0F0dHJIAIgBAUITChFfZ3JvdXBDaGF0TXNnQXR0ciJXCg9TQ1B1c2hMYXN0TXNnSWQSIQoIY2hhdFR5cGUYASABKA4yDy5wcm90by5DaGF0VHlwZRIOCgZjaGF0SWQYAiABKAMSEQoJbGFzdE1zZ0lkGAMgASgDIg0KC0NTSGVhcnRiZWF0IiEKC1NDSGVhcnRiZWF0EhIKCnNlcnZlclRpbWUYASABKAMihQEKCUNTQ2hhdE1zZxIOCgZjaGF0SWQYASABKAMSHwoHY2hhdE1zZxgCIAEoCzIOLnByb3RvLkNoYXRNc2cSEgoKY2xpZW50VGltZRgDIAEoAxIQCghjbGllbnRJZBgEIAEoAxIhCghjaGF0VHlwZRgFIAEoDjIPLnByb3RvLkNoYXRUeXBlIswFCgdDaGF0TXNnEicKB21zZ1R5cGUYASABKA4yFi5wcm90by5DaGF0TXNnLk1zZ1R5cGUSFAoHY29udGVudBgCIAEoCUgAiAEBEiQKBWltYWdlGAMgASgLMhAucHJvdG8uSW1hZ2VJbmZvSAGIAQESJAoFdm9pY2UYBCABKAsyEC5wcm90by5Wb2ljZUluZm9IAogBARIiCgRjYXJkGAUgASgLMg8ucHJvdG8uQ2FyZEluZm9IA4gBARIqCghsb2NhdGlvbhgGIAEoCzITLnByb3RvLkxvY2F0aW9uSW5mb0gEiAEBEiIKBGZpbGUYByABKAsyDy5wcm90by5GaWxlSW5mb0gFiAEBEioKCGNzUmVjb3JkGAggASgLMhMucHJvdG8uQ1NSZWNvcmRJbmZvSAaIAQESKgoIc2NSZWNvcmQYCSABKAsyEy5wcm90by5TQ1JlY29yZEluZm9IB4gBARIoCglkZWxldGVNc2cYCiABKAsyEC5wcm90by5EZWxldGVNc2dICIgBARIPCgdhdFVzZXJzGGQgAygDEhQKB3JlcGx5SWQYZSABKANICYgBARIgCgdhdE5hbWVzGGYgAygLMg8ucHJvdG8uTmFtZUluZm8igwEKB01zZ1R5cGUSCwoHVW5rbm93bhAAEggKBFRleHQQARIJCgVJbWFnZRACEgkKBVZvaWNlEAMSCAoEQ2FyZBAEEgwKCExvY2F0aW9uEAUSCAoERmlsZRAGEgwKCENTUmVjb3JkEAcSDAoIU0NSZWNvcmQQCBINCglEZWxldGVNc2cQCUIKCghfY29udGVudEIICgZfaW1hZ2VCCAoGX3ZvaWNlQgcKBV9jYXJkQgsKCV9sb2NhdGlvbkIHCgVfZmlsZUILCglfY3NSZWNvcmRCCwoJX3NjUmVjb3JkQgwKCl9kZWxldGVNc2dCCgoIX3JlcGx5SWQiUwoJRGVsZXRlTXNnEg4KBm1zZ0lkcxgBIAMoAxIOCgZ1c2VySWQYAiABKAMSFwoKaXNEZWxPdGhlchgDIAEoCEgAiAEBQg0KC19pc0RlbE90aGVyIi4KDENTUmVjb3JkSW5mbxIOCgZjaGF0SWQYASABKAMSDgoGbXNnSWRzGAIgAygDIk8KDFNDUmVjb3JkSW5mbxINCgV0aXRsZRgBIAEoCRIPCgdjb250ZW50GAIgAygJEhAKCHJlY29yZElkGAMgASgJEg0KBWNvdW50GAQgASgFIkAKCEZpbGVJbmZvEgsKA3VybBgBIAEoCRIMCgRuYW1lGAIgASgJEgwKBHNpemUYAyABKAMSCwoDbWQ1GAQgASgJImUKDExvY2F0aW9uSW5mbxIQCghsYXRpdHVkZRgBIAEoARIRCglsb25naXR1ZGUYAiABKAESDQoFcGxhY2UYAyABKAkSDwoHYWRkcmVzcxgEIAEoCRIQCghwaG90b1VybBgFIAEoCSJKCglJbWFnZUluZm8SCwoDdXJsGAEgASgJEg0KBXdpZHRoGAIgASgFEg4KBmhlaWdodBgDIAEoBRIRCgl0aHVtYm5haWwYBCABKAkiKgoJVm9pY2VJbmZvEgsKA3VybBgBIAEoCRIQCghkdXJhdGlvbhgCIAEoBSI6CghDYXJkSW5mbxIOCgZ1c2VySWQYASABKAMSEAoIbmlja25hbWUYAiABKAkSDAoEaWNvbhgDIAEoCSLKAQoJU0NDaGF0TXNnEikKB3JldENvZGUYASABKA4yGC5wcm90by5TQ0NoYXRNc2cuUmV0Q29kZRINCgVtc2dJZBgCIAEoAxIQCghjbGllbnRJZBgDIAEoAxIOCgZjaGF0SWQYBCABKAMSEgoKc2VydmVyVGltZRgFIAEoAyJNCgdSZXRDb2RlEgsKB1Vua25vd24QABILCgdTdWNjZXNzEAESDwoLQ2hhdElkRXJyb3IQAhINCglUeXBlRXJyb3IQAxIICgRNdXRlEAQiMgoQR3JvdXBDaGF0TXNnQXR0chIQCghuaWNrbmFtZRgBIAEoCRIMCgRpY29uGAIgASgJIpsCCg1TQ1B1c2hDaGF0TXNnEh8KB2NoYXRNc2cYASABKAsyDi5wcm90by5DaGF0TXNnEhIKCnNlcnZlclRpbWUYAiABKAMSDgoGY2hhdElkGAMgASgDEiEKCGNoYXRUeXBlGAQgASgOMg8ucHJvdG8uQ2hhdFR5cGUSDQoFbXNnSWQYBSABKAMSEgoKY2xpZW50VGltZRgGIAEoAxIOCgZwdXNoSWQYByABKAMSEAoIY2xpZW50SWQYCCABKAMSEAoIc2VuZGVySWQYCSABKAMSNgoQZ3JvdXBDaGF0TXNnQXR0chgKIAEoCzIXLnByb3RvLkdyb3VwQ2hhdE1zZ0F0dHJIAIgBAUITChFfZ3JvdXBDaGF0TXNnQXR0ciKRAQoLQ1NBdXRoVG9rZW4SDQoFdG9rZW4YASABKAkSMQoKY2xpZW50VHlwZRgCIAEoDjIdLnByb3RvLkNTQXV0aFRva2VuLkNsaWVudFR5cGUSEAoIZGV2aWNlSWQYAyABKAkiLgoKQ2xpZW50VHlwZRILCgdVbmtub3duEAASCgoGTW9iaWxlEAESBwoDV2ViEAIifAoLU0NBdXRoVG9rZW4SKAoEY29kZRgBIAEoDjIaLnByb3RvLlNDQXV0aFRva2VuLlJldENvZGUiQwoHUmV0Q29kZRILCgdVbmtub3duEAASCwoHU3VjY2VzcxABEg4KClRva2VuRXJyb3IQAhIOCgpQYXJhbUVycm9yEAMiXQoHUmVhZE1zZxIOCgZjaGF0SWQYASABKAMSIQoIY2hhdFR5cGUYAiABKA4yDy5wcm90by5DaGF0VHlwZRINCgVtc2dJZBgDIAEoAxIQCghjbGllbnRJZBgEIAEoAyIsCglDU1JlYWRNc2cSHwoHcmVhZE1zZxgBIAEoCzIOLnByb3RvLlJlYWRNc2ciQAoNU0NQdXNoUmVhZE1zZxIfCgdyZWFkTXNnGAEgASgLMg4ucHJvdG8uUmVhZE1zZxIOCgZ1c2VySWQYAiABKAMqpQgKC01lc3NhZ2VUeXBlEgsKB1Vua25vd24QABIUChBUeXBlX0NTSGVhcnRiZWF0EAESFAoQVHlwZV9TQ0hlYXJ0YmVhdBACEhIKDlR5cGVfQ1NDaGF0TXNnEAMSEgoOVHlwZV9TQ0NoYXRNc2cQBBISCg5UeXBlX0NTUmVhZE1zZxAFEhYKElR5cGVfU0NQdXNoUmVhZE1zZxAHEhYKElR5cGVfU0NQdXNoQ2hhdE1zZxAIEhQKEFR5cGVfQ1NBdXRoVG9rZW4QCRIUChBUeXBlX1NDQXV0aFRva2VuEAoSFQoRVHlwZV9DU0Fja1B1c2hNc2cQCxIYChRUeXBlX1NDUHVzaExhc3RNc2dJZBANEhYKElR5cGVfQ1NQdWxsTXNnTGlzdBAOEhYKElR5cGVfU0NQdWxsTXNnTGlzdBAPEhoKFlR5cGVfU0NQdXNoTWVzc2FnZUluZm8QEBISCg5UeXBlX0NTRGVsQ2hhdBAREhIKDlR5cGVfU0NEZWxDaGF0EBISFgoSVHlwZV9TQ1B1c2hEZWxDaGF0EBMSGwoXVHlwZV9TQ0luaXRQdXNoRGVsQ2hhdHMQFBIaChZUeXBlX0NTUHVzaERlbENoYXRzQWNrECUSHgoaVHlwZV9TQ0dyb3VwRXZlbnRNZW1iZXJBZGQQFRIeChpUeXBlX1NDR3JvdXBFdmVudE1lbWJlckRlbBAWEh8KG1R5cGVfU0NHcm91cEV2ZW50TWVtYmVyRXhpdBAXEh0KGVR5cGVfU0NHcm91cEV2ZW50TmFtZUVkaXQQGBIaChZUeXBlX1NDR3JvdXBFdmVudE11dGV4EBkSIgoeVHlwZV9TQ0dyb3VwRXZlbnRBZG1pblRyYW5zZmVyEBoSHAoYVHlwZV9TQ0dyb3VwRXZlbnREaXNtaXNzEBsSGwoXVHlwZV9TQ0dyb3VwRXZlbnROb3RpY2UQHBIVChFUeXBlX1NDT3RoZXJMb2dpbhAdEhgKFFR5cGVfQ1NHcm91cEV2ZW50QWNrEB4SGQoVVHlwZV9DU0xvYWRDaGF0UmVjb3JkEB8SGQoVVHlwZV9TQ0xvYWRDaGF0UmVjb3JkECASEQoNVHlwZV9DU01zZ1RvcBAhEhEKDVR5cGVfU0NNc2dUb3AQIhIVChFUeXBlX1NDUHVzaE1zZ1RvcBAjEhoKFlR5cGVfQ1NQdWxsR3JvdXBUb3BNc2cQJhIaChZUeXBlX1NDUHVsbEdyb3VwVG9wTXNnECcSFQoRVHlwZV9DU0NoYXRNc2dEZWwQKBIVChFUeXBlX1NDQ2hhdE1zZ0RlbBApEhUKEVR5cGVfU0NNc2dEZWxQdXNoECoSGAoUVHlwZV9DU01zZ0RlbFB1c2hBY2sQKxIZChVUeXBlX1NDSW5pdFB1c2hEZWxNc2cQLCpJCghDaGF0VHlwZRIUChBDaGF0VHlwZV9Vbmtub3duEAASEwoPQ2hhdFR5cGVfU2luZ2xlEAESEgoOQ2hhdFR5cGVfR3JvdXAQAkI+CiNjb20uaW1zZXJ2ZXIuYmFpc2hlbmcuY2hhdGNvbS5wcm90b0IMU2Vzc2lvblByb3RvWgkuL3Nlc3Npb25iBnByb3RvMw");
 
 /**
  * 主消息结构  受到数据先解析主消息
@@ -41,6 +41,214 @@ export const MainDataSchema: GenMessage<MainData> = /*@__PURE__*/
   messageDesc(file_session, 0);
 
 /**
+ * Type_CSChatMsgDel
+ *
+ * @generated from message proto.CSChatMsgDel
+ */
+export type CSChatMsgDel = Message<"proto.CSChatMsgDel"> & {
+  /**
+   * 会话信息
+   *
+   * @generated from field: proto.ChatInfo chatInfo = 1;
+   */
+  chatInfo?: ChatInfo;
+
+  /**
+   * 消息id列表
+   *
+   * @generated from field: repeated int64 msgIds = 2;
+   */
+  msgIds: bigint[];
+
+  /**
+   * 是否删除对方
+   *
+   * @generated from field: optional bool delOther = 3;
+   */
+  delOther?: boolean;
+};
+
+/**
+ * Describes the message proto.CSChatMsgDel.
+ * Use `create(CSChatMsgDelSchema)` to create a new message.
+ */
+export const CSChatMsgDelSchema: GenMessage<CSChatMsgDel> = /*@__PURE__*/
+  messageDesc(file_session, 1);
+
+/**
+ * Type_SCChatMsgDel
+ *
+ * @generated from message proto.SCChatMsgDel
+ */
+export type SCChatMsgDel = Message<"proto.SCChatMsgDel"> & {
+  /**
+   * 会话信息
+   *
+   * @generated from field: proto.ChatInfo chatInfo = 1;
+   */
+  chatInfo?: ChatInfo;
+
+  /**
+   * 消息id列表
+   *
+   * @generated from field: repeated int64 msgIds = 2;
+   */
+  msgIds: bigint[];
+};
+
+/**
+ * Describes the message proto.SCChatMsgDel.
+ * Use `create(SCChatMsgDelSchema)` to create a new message.
+ */
+export const SCChatMsgDelSchema: GenMessage<SCChatMsgDel> = /*@__PURE__*/
+  messageDesc(file_session, 2);
+
+/**
+ * @generated from message proto.ChatMsgDelInfo
+ */
+export type ChatMsgDelInfo = Message<"proto.ChatMsgDelInfo"> & {
+  /**
+   * 会话信息
+   *
+   * @generated from field: proto.ChatInfo chatInfo = 1;
+   */
+  chatInfo?: ChatInfo;
+
+  /**
+   * 消息id列表
+   *
+   * @generated from field: repeated int64 msgIds = 2;
+   */
+  msgIds: bigint[];
+};
+
+/**
+ * Describes the message proto.ChatMsgDelInfo.
+ * Use `create(ChatMsgDelInfoSchema)` to create a new message.
+ */
+export const ChatMsgDelInfoSchema: GenMessage<ChatMsgDelInfo> = /*@__PURE__*/
+  messageDesc(file_session, 3);
+
+/**
+ * Type_SCInitPushDelMsg
+ *
+ * @generated from message proto.SCInitPushDelMsg
+ */
+export type SCInitPushDelMsg = Message<"proto.SCInitPushDelMsg"> & {
+  /**
+   * 删除信息
+   *
+   * @generated from field: repeated proto.ChatMsgDelInfo delInfos = 1;
+   */
+  delInfos: ChatMsgDelInfo[];
+};
+
+/**
+ * Describes the message proto.SCInitPushDelMsg.
+ * Use `create(SCInitPushDelMsgSchema)` to create a new message.
+ */
+export const SCInitPushDelMsgSchema: GenMessage<SCInitPushDelMsg> = /*@__PURE__*/
+  messageDesc(file_session, 4);
+
+/**
+ * Type_SCMsgDelPush
+ *
+ * @generated from message proto.CSMsgDel
+ */
+export type CSMsgDel = Message<"proto.CSMsgDel"> & {
+  /**
+   * 删除信息
+   *
+   * @generated from field: proto.ChatMsgDelInfo delInfo = 1;
+   */
+  delInfo?: ChatMsgDelInfo;
+};
+
+/**
+ * Describes the message proto.CSMsgDel.
+ * Use `create(CSMsgDelSchema)` to create a new message.
+ */
+export const CSMsgDelSchema: GenMessage<CSMsgDel> = /*@__PURE__*/
+  messageDesc(file_session, 5);
+
+/**
+ * Type_CSMsgDelPushAck
+ *
+ * @generated from message proto.CSMsgDelPushAck
+ */
+export type CSMsgDelPushAck = Message<"proto.CSMsgDelPushAck"> & {
+  /**
+   * 服务器id
+   *
+   * @generated from field: proto.ChatMsgDelInfo ackInfo = 1;
+   */
+  ackInfo?: ChatMsgDelInfo;
+};
+
+/**
+ * Describes the message proto.CSMsgDelPushAck.
+ * Use `create(CSMsgDelPushAckSchema)` to create a new message.
+ */
+export const CSMsgDelPushAckSchema: GenMessage<CSMsgDelPushAck> = /*@__PURE__*/
+  messageDesc(file_session, 6);
+
+/**
+ * Type_CSPullGroupTopMsg
+ *
+ * @generated from message proto.CSPullGroupTopMsg
+ */
+export type CSPullGroupTopMsg = Message<"proto.CSPullGroupTopMsg"> & {
+  /**
+   * 会话Id
+   *
+   * @generated from field: int64 chatId = 1;
+   */
+  chatId: bigint;
+
+  /**
+   * 请求id
+   *
+   * @generated from field: int64 requestId = 2;
+   */
+  requestId: bigint;
+};
+
+/**
+ * Describes the message proto.CSPullGroupTopMsg.
+ * Use `create(CSPullGroupTopMsgSchema)` to create a new message.
+ */
+export const CSPullGroupTopMsgSchema: GenMessage<CSPullGroupTopMsg> = /*@__PURE__*/
+  messageDesc(file_session, 7);
+
+/**
+ * Type_SCPullGroupTopMsg
+ *
+ * @generated from message proto.SCPullGroupTopMsg
+ */
+export type SCPullGroupTopMsg = Message<"proto.SCPullGroupTopMsg"> & {
+  /**
+   * 消息id列表
+   *
+   * @generated from field: repeated int64 msgIdList = 1;
+   */
+  msgIdList: bigint[];
+
+  /**
+   * 请求id
+   *
+   * @generated from field: int64 requestId = 2;
+   */
+  requestId: bigint;
+};
+
+/**
+ * Describes the message proto.SCPullGroupTopMsg.
+ * Use `create(SCPullGroupTopMsgSchema)` to create a new message.
+ */
+export const SCPullGroupTopMsgSchema: GenMessage<SCPullGroupTopMsg> = /*@__PURE__*/
+  messageDesc(file_session, 8);
+
+/**
  * Type_CSPushDelChatsAck
  *
  * @generated from message proto.CSPushDelChatsAck
@@ -66,7 +274,35 @@ export type CSPushDelChatsAck = Message<"proto.CSPushDelChatsAck"> & {
  * Use `create(CSPushDelChatsAckSchema)` to create a new message.
  */
 export const CSPushDelChatsAckSchema: GenMessage<CSPushDelChatsAck> = /*@__PURE__*/
-  messageDesc(file_session, 1);
+  messageDesc(file_session, 9);
+
+/**
+ * 消息信息
+ *
+ * @generated from message proto.ChatMsgInfo
+ */
+export type ChatMsgInfo = Message<"proto.ChatMsgInfo"> & {
+  /**
+   * 会话Id
+   *
+   * @generated from field: int64 chatId = 1;
+   */
+  chatId: bigint;
+
+  /**
+   * 消息id
+   *
+   * @generated from field: int64 msgId = 2;
+   */
+  msgId: bigint;
+};
+
+/**
+ * Describes the message proto.ChatMsgInfo.
+ * Use `create(ChatMsgInfoSchema)` to create a new message.
+ */
+export const ChatMsgInfoSchema: GenMessage<ChatMsgInfo> = /*@__PURE__*/
+  messageDesc(file_session, 10);
 
 /**
  * Type_CSMsgTop
@@ -75,14 +311,14 @@ export const CSPushDelChatsAckSchema: GenMessage<CSPushDelChatsAck> = /*@__PURE_
  */
 export type CSMsgTop = Message<"proto.CSMsgTop"> & {
   /**
-   * 消息id
+   * 消息信息
    *
-   * @generated from field: string msgId = 1;
+   * @generated from field: proto.ChatMsgInfo chatMsgInfo = 1;
    */
-  msgId: string;
+  chatMsgInfo?: ChatMsgInfo;
 
   /**
-   * 是否置顶
+   * 是否置顶  true 置顶 false 取消置顶
    *
    * @generated from field: bool top = 2;
    */
@@ -94,7 +330,7 @@ export type CSMsgTop = Message<"proto.CSMsgTop"> & {
  * Use `create(CSMsgTopSchema)` to create a new message.
  */
 export const CSMsgTopSchema: GenMessage<CSMsgTop> = /*@__PURE__*/
-  messageDesc(file_session, 2);
+  messageDesc(file_session, 11);
 
 /**
  * Type_SCMsgTop
@@ -103,25 +339,18 @@ export const CSMsgTopSchema: GenMessage<CSMsgTop> = /*@__PURE__*/
  */
 export type SCMsgTop = Message<"proto.SCMsgTop"> & {
   /**
-   * 消息id
+   * 消息信息
    *
-   * @generated from field: string msgId = 1;
+   * @generated from field: proto.ChatMsgInfo chatMsgInfo = 1;
    */
-  msgId: string;
+  chatMsgInfo?: ChatMsgInfo;
 
   /**
-   * 是否置顶
+   * true 置顶 false 取消非置顶
    *
-   * @generated from field: bool top = 2;
+   * @generated from field: bool status = 2;
    */
-  top: boolean;
-
-  /**
-   * 服务器Id
-   *
-   * @generated from field: int64 serverId = 3;
-   */
-  serverId: bigint;
+  status: boolean;
 };
 
 /**
@@ -129,7 +358,7 @@ export type SCMsgTop = Message<"proto.SCMsgTop"> & {
  * Use `create(SCMsgTopSchema)` to create a new message.
  */
 export const SCMsgTopSchema: GenMessage<SCMsgTop> = /*@__PURE__*/
-  messageDesc(file_session, 3);
+  messageDesc(file_session, 12);
 
 /**
  * Type_SCPushMsgTop
@@ -140,23 +369,16 @@ export type SCPushMsgTop = Message<"proto.SCPushMsgTop"> & {
   /**
    * 消息id
    *
-   * @generated from field: string msgId = 1;
+   * @generated from field: proto.ChatMsgInfo chatMsgInfo = 1;
    */
-  msgId: string;
+  chatMsgInfo?: ChatMsgInfo;
 
   /**
    * 是否置顶
    *
-   * @generated from field: bool top = 2;
+   * @generated from field: bool status = 2;
    */
-  top: boolean;
-
-  /**
-   * 服务器Id
-   *
-   * @generated from field: int64 serverId = 3;
-   */
-  serverId: bigint;
+  status: boolean;
 };
 
 /**
@@ -164,28 +386,7 @@ export type SCPushMsgTop = Message<"proto.SCPushMsgTop"> & {
  * Use `create(SCPushMsgTopSchema)` to create a new message.
  */
 export const SCPushMsgTopSchema: GenMessage<SCPushMsgTop> = /*@__PURE__*/
-  messageDesc(file_session, 4);
-
-/**
- * Type_CSMsgTopAck
- *
- * @generated from message proto.CSMsgTopAck
- */
-export type CSMsgTopAck = Message<"proto.CSMsgTopAck"> & {
-  /**
-   * 服务器Id
-   *
-   * @generated from field: int64 serverId = 1;
-   */
-  serverId: bigint;
-};
-
-/**
- * Describes the message proto.CSMsgTopAck.
- * Use `create(CSMsgTopAckSchema)` to create a new message.
- */
-export const CSMsgTopAckSchema: GenMessage<CSMsgTopAck> = /*@__PURE__*/
-  messageDesc(file_session, 5);
+  messageDesc(file_session, 13);
 
 /**
  * Type_CSLoadChatRecord
@@ -213,7 +414,7 @@ export type CSLoadChatRecord = Message<"proto.CSLoadChatRecord"> & {
  * Use `create(CSLoadChatRecordSchema)` to create a new message.
  */
 export const CSLoadChatRecordSchema: GenMessage<CSLoadChatRecord> = /*@__PURE__*/
-  messageDesc(file_session, 6);
+  messageDesc(file_session, 14);
 
 /**
  * Type_SCLoadChatRecord
@@ -239,7 +440,7 @@ export type SCLoadChatRecord = Message<"proto.SCLoadChatRecord"> & {
  * Use `create(SCLoadChatRecordSchema)` to create a new message.
  */
 export const SCLoadChatRecordSchema: GenMessage<SCLoadChatRecord> = /*@__PURE__*/
-  messageDesc(file_session, 7);
+  messageDesc(file_session, 15);
 
 /**
  * @generated from message proto.SCLoadChatRecord.ChatRecord
@@ -265,7 +466,7 @@ export type SCLoadChatRecord_ChatRecord = Message<"proto.SCLoadChatRecord.ChatRe
  * Use `create(SCLoadChatRecord_ChatRecordSchema)` to create a new message.
  */
 export const SCLoadChatRecord_ChatRecordSchema: GenMessage<SCLoadChatRecord_ChatRecord> = /*@__PURE__*/
-  messageDesc(file_session, 7, 0);
+  messageDesc(file_session, 15, 0);
 
 /**
  * 聊天记录里面的用户信息
@@ -300,7 +501,7 @@ export type RecordUser = Message<"proto.RecordUser"> & {
  * Use `create(RecordUserSchema)` to create a new message.
  */
 export const RecordUserSchema: GenMessage<RecordUser> = /*@__PURE__*/
-  messageDesc(file_session, 8);
+  messageDesc(file_session, 16);
 
 /**
  * 名字信息
@@ -328,7 +529,7 @@ export type NameInfo = Message<"proto.NameInfo"> & {
  * Use `create(NameInfoSchema)` to create a new message.
  */
 export const NameInfoSchema: GenMessage<NameInfo> = /*@__PURE__*/
-  messageDesc(file_session, 9);
+  messageDesc(file_session, 17);
 
 /**
  * Type_CSGroupEventAck
@@ -356,7 +557,7 @@ export type CSGroupEventAck = Message<"proto.CSGroupEventAck"> & {
  * Use `create(CSGroupEventAckSchema)` to create a new message.
  */
 export const CSGroupEventAckSchema: GenMessage<CSGroupEventAck> = /*@__PURE__*/
-  messageDesc(file_session, 10);
+  messageDesc(file_session, 18);
 
 /**
  * Type_SCOtherLogin
@@ -371,7 +572,7 @@ export type SCOtherLogin = Message<"proto.SCOtherLogin"> & {
  * Use `create(SCOtherLoginSchema)` to create a new message.
  */
 export const SCOtherLoginSchema: GenMessage<SCOtherLogin> = /*@__PURE__*/
-  messageDesc(file_session, 11);
+  messageDesc(file_session, 19);
 
 /**
  * Type_SCGroupEventNotice
@@ -420,7 +621,7 @@ export type SCGroupEventNotice = Message<"proto.SCGroupEventNotice"> & {
  * Use `create(SCGroupEventNoticeSchema)` to create a new message.
  */
 export const SCGroupEventNoticeSchema: GenMessage<SCGroupEventNotice> = /*@__PURE__*/
-  messageDesc(file_session, 12);
+  messageDesc(file_session, 20);
 
 /**
  * Type_SCGroupEventDismiss
@@ -462,7 +663,7 @@ export type SCGroupEventDismiss = Message<"proto.SCGroupEventDismiss"> & {
  * Use `create(SCGroupEventDismissSchema)` to create a new message.
  */
 export const SCGroupEventDismissSchema: GenMessage<SCGroupEventDismiss> = /*@__PURE__*/
-  messageDesc(file_session, 13);
+  messageDesc(file_session, 21);
 
 /**
  * Type_SCGroupEventAdminTransfer
@@ -511,7 +712,7 @@ export type SCGroupEventAdminTransfer = Message<"proto.SCGroupEventAdminTransfer
  * Use `create(SCGroupEventAdminTransferSchema)` to create a new message.
  */
 export const SCGroupEventAdminTransferSchema: GenMessage<SCGroupEventAdminTransfer> = /*@__PURE__*/
-  messageDesc(file_session, 14);
+  messageDesc(file_session, 22);
 
 /**
  * Type_SCGroupEventMutex
@@ -560,7 +761,7 @@ export type SCGroupEventMutex = Message<"proto.SCGroupEventMutex"> & {
  * Use `create(SCGroupEventMutexSchema)` to create a new message.
  */
 export const SCGroupEventMutexSchema: GenMessage<SCGroupEventMutex> = /*@__PURE__*/
-  messageDesc(file_session, 15);
+  messageDesc(file_session, 23);
 
 /**
  * Type_SCGroupEventNameEdit
@@ -609,7 +810,7 @@ export type SCGroupEventNameEdit = Message<"proto.SCGroupEventNameEdit"> & {
  * Use `create(SCGroupEventNameEditSchema)` to create a new message.
  */
 export const SCGroupEventNameEditSchema: GenMessage<SCGroupEventNameEdit> = /*@__PURE__*/
-  messageDesc(file_session, 16);
+  messageDesc(file_session, 24);
 
 /**
  * Type_SCGroupEventMemberExit
@@ -651,7 +852,7 @@ export type SCGroupEventMemberExit = Message<"proto.SCGroupEventMemberExit"> & {
  * Use `create(SCGroupEventMemberExitSchema)` to create a new message.
  */
 export const SCGroupEventMemberExitSchema: GenMessage<SCGroupEventMemberExit> = /*@__PURE__*/
-  messageDesc(file_session, 17);
+  messageDesc(file_session, 25);
 
 /**
  * Type_SCGroupEventMemberDel
@@ -700,7 +901,7 @@ export type SCGroupEventMemberDel = Message<"proto.SCGroupEventMemberDel"> & {
  * Use `create(SCGroupEventMemberDelSchema)` to create a new message.
  */
 export const SCGroupEventMemberDelSchema: GenMessage<SCGroupEventMemberDel> = /*@__PURE__*/
-  messageDesc(file_session, 18);
+  messageDesc(file_session, 26);
 
 /**
  * Type_SCGroupEventMemberAdd
@@ -749,7 +950,7 @@ export type SCGroupEventMemberAdd = Message<"proto.SCGroupEventMemberAdd"> & {
  * Use `create(SCGroupEventMemberAddSchema)` to create a new message.
  */
 export const SCGroupEventMemberAddSchema: GenMessage<SCGroupEventMemberAdd> = /*@__PURE__*/
-  messageDesc(file_session, 19);
+  messageDesc(file_session, 27);
 
 /**
  * 聊天信息
@@ -777,7 +978,7 @@ export type ChatInfo = Message<"proto.ChatInfo"> & {
  * Use `create(ChatInfoSchema)` to create a new message.
  */
 export const ChatInfoSchema: GenMessage<ChatInfo> = /*@__PURE__*/
-  messageDesc(file_session, 20);
+  messageDesc(file_session, 28);
 
 /**
  * Type_CSDelChat
@@ -812,7 +1013,7 @@ export type CSDelChat = Message<"proto.CSDelChat"> & {
  * Use `create(CSDelChatSchema)` to create a new message.
  */
 export const CSDelChatSchema: GenMessage<CSDelChat> = /*@__PURE__*/
-  messageDesc(file_session, 21);
+  messageDesc(file_session, 29);
 
 /**
  * Type_SCDelChat
@@ -840,7 +1041,7 @@ export type SCDelChat = Message<"proto.SCDelChat"> & {
  * Use `create(SCDelChatSchema)` to create a new message.
  */
 export const SCDelChatSchema: GenMessage<SCDelChat> = /*@__PURE__*/
-  messageDesc(file_session, 22);
+  messageDesc(file_session, 30);
 
 /**
  * Type_SCPushDelChat
@@ -875,7 +1076,7 @@ export type SCPushDelChat = Message<"proto.SCPushDelChat"> & {
  * Use `create(SCPushDelChatSchema)` to create a new message.
  */
 export const SCPushDelChatSchema: GenMessage<SCPushDelChat> = /*@__PURE__*/
-  messageDesc(file_session, 23);
+  messageDesc(file_session, 31);
 
 /**
  * Type_SCInitPushDelChats
@@ -896,7 +1097,7 @@ export type SCInitPushDelChats = Message<"proto.SCInitPushDelChats"> & {
  * Use `create(SCInitPushDelChatsSchema)` to create a new message.
  */
 export const SCInitPushDelChatsSchema: GenMessage<SCInitPushDelChats> = /*@__PURE__*/
-  messageDesc(file_session, 24);
+  messageDesc(file_session, 32);
 
 /**
  * @generated from message proto.SCInitPushDelChats.DelInfo
@@ -922,7 +1123,7 @@ export type SCInitPushDelChats_DelInfo = Message<"proto.SCInitPushDelChats.DelIn
  * Use `create(SCInitPushDelChats_DelInfoSchema)` to create a new message.
  */
 export const SCInitPushDelChats_DelInfoSchema: GenMessage<SCInitPushDelChats_DelInfo> = /*@__PURE__*/
-  messageDesc(file_session, 24, 0);
+  messageDesc(file_session, 32, 0);
 
 /**
  * 推送消息数据
@@ -944,7 +1145,7 @@ export type SCPushMessageInfo = Message<"proto.SCPushMessageInfo"> & {
  * Use `create(SCPushMessageInfoSchema)` to create a new message.
  */
 export const SCPushMessageInfoSchema: GenMessage<SCPushMessageInfo> = /*@__PURE__*/
-  messageDesc(file_session, 25);
+  messageDesc(file_session, 33);
 
 /**
  * @generated from message proto.SCPushMessageInfo.MessageInfo
@@ -977,7 +1178,7 @@ export type SCPushMessageInfo_MessageInfo = Message<"proto.SCPushMessageInfo.Mes
  * Use `create(SCPushMessageInfo_MessageInfoSchema)` to create a new message.
  */
 export const SCPushMessageInfo_MessageInfoSchema: GenMessage<SCPushMessageInfo_MessageInfo> = /*@__PURE__*/
-  messageDesc(file_session, 25, 0);
+  messageDesc(file_session, 33, 0);
 
 /**
  * Type_CSAckPushMsg
@@ -998,7 +1199,7 @@ export type CSAckPushMsg = Message<"proto.CSAckPushMsg"> & {
  * Use `create(CSAckPushMsgSchema)` to create a new message.
  */
 export const CSAckPushMsgSchema: GenMessage<CSAckPushMsg> = /*@__PURE__*/
-  messageDesc(file_session, 26);
+  messageDesc(file_session, 34);
 
 /**
  * Type_CSPullMsgList
@@ -1054,7 +1255,7 @@ export type CSPullMsgList = Message<"proto.CSPullMsgList"> & {
  * Use `create(CSPullMsgListSchema)` to create a new message.
  */
 export const CSPullMsgListSchema: GenMessage<CSPullMsgList> = /*@__PURE__*/
-  messageDesc(file_session, 27);
+  messageDesc(file_session, 35);
 
 /**
  * Type_SCPullMsgList
@@ -1110,7 +1311,7 @@ export type SCPullMsgList = Message<"proto.SCPullMsgList"> & {
  * Use `create(SCPullMsgListSchema)` to create a new message.
  */
 export const SCPullMsgListSchema: GenMessage<SCPullMsgList> = /*@__PURE__*/
-  messageDesc(file_session, 28);
+  messageDesc(file_session, 36);
 
 /**
  * @generated from message proto.SCPullMsgList.PushInfo
@@ -1174,7 +1375,7 @@ export type SCPullMsgList_PushInfo = Message<"proto.SCPullMsgList.PushInfo"> & {
  * Use `create(SCPullMsgList_PushInfoSchema)` to create a new message.
  */
 export const SCPullMsgList_PushInfoSchema: GenMessage<SCPullMsgList_PushInfo> = /*@__PURE__*/
-  messageDesc(file_session, 28, 0);
+  messageDesc(file_session, 36, 0);
 
 /**
  * Type_SCPushLastMsgId
@@ -1209,7 +1410,7 @@ export type SCPushLastMsgId = Message<"proto.SCPushLastMsgId"> & {
  * Use `create(SCPushLastMsgIdSchema)` to create a new message.
  */
 export const SCPushLastMsgIdSchema: GenMessage<SCPushLastMsgId> = /*@__PURE__*/
-  messageDesc(file_session, 29);
+  messageDesc(file_session, 37);
 
 /**
  * Type_CSHeartbeat
@@ -1224,7 +1425,7 @@ export type CSHeartbeat = Message<"proto.CSHeartbeat"> & {
  * Use `create(CSHeartbeatSchema)` to create a new message.
  */
 export const CSHeartbeatSchema: GenMessage<CSHeartbeat> = /*@__PURE__*/
-  messageDesc(file_session, 30);
+  messageDesc(file_session, 38);
 
 /**
  * Type_SCHeartbeat
@@ -1245,7 +1446,7 @@ export type SCHeartbeat = Message<"proto.SCHeartbeat"> & {
  * Use `create(SCHeartbeatSchema)` to create a new message.
  */
 export const SCHeartbeatSchema: GenMessage<SCHeartbeat> = /*@__PURE__*/
-  messageDesc(file_session, 31);
+  messageDesc(file_session, 39);
 
 /**
  * 发送聊天信息
@@ -1295,7 +1496,7 @@ export type CSChatMsg = Message<"proto.CSChatMsg"> & {
  * Use `create(CSChatMsgSchema)` to create a new message.
  */
 export const CSChatMsgSchema: GenMessage<CSChatMsg> = /*@__PURE__*/
-  messageDesc(file_session, 32);
+  messageDesc(file_session, 40);
 
 /**
  * 聊天信息
@@ -1374,7 +1575,7 @@ export type ChatMsg = Message<"proto.ChatMsg"> & {
   deleteMsg?: DeleteMsg;
 
   /**
-   * @用户id
+   * @用户id 客户端发送到服务器
    *
    * @generated from field: repeated int64 atUsers = 100;
    */
@@ -1386,6 +1587,13 @@ export type ChatMsg = Message<"proto.ChatMsg"> & {
    * @generated from field: optional int64 replyId = 101;
    */
   replyId?: bigint;
+
+  /**
+   * @用户名  服务器返回到客户端 和100 对应
+   *
+   * @generated from field: repeated proto.NameInfo atNames = 102;
+   */
+  atNames: NameInfo[];
 };
 
 /**
@@ -1393,7 +1601,7 @@ export type ChatMsg = Message<"proto.ChatMsg"> & {
  * Use `create(ChatMsgSchema)` to create a new message.
  */
 export const ChatMsgSchema: GenMessage<ChatMsg> = /*@__PURE__*/
-  messageDesc(file_session, 33);
+  messageDesc(file_session, 41);
 
 /**
  * @generated from enum proto.ChatMsg.MsgType
@@ -1474,7 +1682,7 @@ export enum ChatMsg_MsgType {
  * Describes the enum proto.ChatMsg.MsgType.
  */
 export const ChatMsg_MsgTypeSchema: GenEnum<ChatMsg_MsgType> = /*@__PURE__*/
-  enumDesc(file_session, 33, 0);
+  enumDesc(file_session, 41, 0);
 
 /**
  * 删除消息
@@ -1509,7 +1717,7 @@ export type DeleteMsg = Message<"proto.DeleteMsg"> & {
  * Use `create(DeleteMsgSchema)` to create a new message.
  */
 export const DeleteMsgSchema: GenMessage<DeleteMsg> = /*@__PURE__*/
-  messageDesc(file_session, 34);
+  messageDesc(file_session, 42);
 
 /**
  * 客户端到服务器聊天记录
@@ -1537,7 +1745,7 @@ export type CSRecordInfo = Message<"proto.CSRecordInfo"> & {
  * Use `create(CSRecordInfoSchema)` to create a new message.
  */
 export const CSRecordInfoSchema: GenMessage<CSRecordInfo> = /*@__PURE__*/
-  messageDesc(file_session, 35);
+  messageDesc(file_session, 43);
 
 /**
  * 服务器到客户端聊天记录
@@ -1579,7 +1787,7 @@ export type SCRecordInfo = Message<"proto.SCRecordInfo"> & {
  * Use `create(SCRecordInfoSchema)` to create a new message.
  */
 export const SCRecordInfoSchema: GenMessage<SCRecordInfo> = /*@__PURE__*/
-  messageDesc(file_session, 36);
+  messageDesc(file_session, 44);
 
 /**
  * 文件信息
@@ -1621,7 +1829,7 @@ export type FileInfo = Message<"proto.FileInfo"> & {
  * Use `create(FileInfoSchema)` to create a new message.
  */
 export const FileInfoSchema: GenMessage<FileInfo> = /*@__PURE__*/
-  messageDesc(file_session, 37);
+  messageDesc(file_session, 45);
 
 /**
  * 位置信息
@@ -1670,7 +1878,7 @@ export type LocationInfo = Message<"proto.LocationInfo"> & {
  * Use `create(LocationInfoSchema)` to create a new message.
  */
 export const LocationInfoSchema: GenMessage<LocationInfo> = /*@__PURE__*/
-  messageDesc(file_session, 38);
+  messageDesc(file_session, 46);
 
 /**
  * 图片信息
@@ -1712,7 +1920,7 @@ export type ImageInfo = Message<"proto.ImageInfo"> & {
  * Use `create(ImageInfoSchema)` to create a new message.
  */
 export const ImageInfoSchema: GenMessage<ImageInfo> = /*@__PURE__*/
-  messageDesc(file_session, 39);
+  messageDesc(file_session, 47);
 
 /**
  * 语音信息
@@ -1740,7 +1948,7 @@ export type VoiceInfo = Message<"proto.VoiceInfo"> & {
  * Use `create(VoiceInfoSchema)` to create a new message.
  */
 export const VoiceInfoSchema: GenMessage<VoiceInfo> = /*@__PURE__*/
-  messageDesc(file_session, 40);
+  messageDesc(file_session, 48);
 
 /**
  * 名片信息
@@ -1775,7 +1983,7 @@ export type CardInfo = Message<"proto.CardInfo"> & {
  * Use `create(CardInfoSchema)` to create a new message.
  */
 export const CardInfoSchema: GenMessage<CardInfo> = /*@__PURE__*/
-  messageDesc(file_session, 41);
+  messageDesc(file_session, 49);
 
 /**
  * Type_SCChatMsg
@@ -1824,7 +2032,7 @@ export type SCChatMsg = Message<"proto.SCChatMsg"> & {
  * Use `create(SCChatMsgSchema)` to create a new message.
  */
 export const SCChatMsgSchema: GenMessage<SCChatMsg> = /*@__PURE__*/
-  messageDesc(file_session, 42);
+  messageDesc(file_session, 50);
 
 /**
  * @generated from enum proto.SCChatMsg.RetCode
@@ -1870,7 +2078,7 @@ export enum SCChatMsg_RetCode {
  * Describes the enum proto.SCChatMsg.RetCode.
  */
 export const SCChatMsg_RetCodeSchema: GenEnum<SCChatMsg_RetCode> = /*@__PURE__*/
-  enumDesc(file_session, 42, 0);
+  enumDesc(file_session, 50, 0);
 
 /**
  * 群聊消息属性
@@ -1898,7 +2106,7 @@ export type GroupChatMsgAttr = Message<"proto.GroupChatMsgAttr"> & {
  * Use `create(GroupChatMsgAttrSchema)` to create a new message.
  */
 export const GroupChatMsgAttrSchema: GenMessage<GroupChatMsgAttr> = /*@__PURE__*/
-  messageDesc(file_session, 43);
+  messageDesc(file_session, 51);
 
 /**
  * Type_SCPushChatMsg
@@ -1982,7 +2190,7 @@ export type SCPushChatMsg = Message<"proto.SCPushChatMsg"> & {
  * Use `create(SCPushChatMsgSchema)` to create a new message.
  */
 export const SCPushChatMsgSchema: GenMessage<SCPushChatMsg> = /*@__PURE__*/
-  messageDesc(file_session, 44);
+  messageDesc(file_session, 52);
 
 /**
  * Type_CSAuthToken
@@ -2015,7 +2223,7 @@ export type CSAuthToken = Message<"proto.CSAuthToken"> & {
  * Use `create(CSAuthTokenSchema)` to create a new message.
  */
 export const CSAuthTokenSchema: GenMessage<CSAuthToken> = /*@__PURE__*/
-  messageDesc(file_session, 45);
+  messageDesc(file_session, 53);
 
 /**
  * @generated from enum proto.CSAuthToken.ClientType
@@ -2047,7 +2255,7 @@ export enum CSAuthToken_ClientType {
  * Describes the enum proto.CSAuthToken.ClientType.
  */
 export const CSAuthToken_ClientTypeSchema: GenEnum<CSAuthToken_ClientType> = /*@__PURE__*/
-  enumDesc(file_session, 45, 0);
+  enumDesc(file_session, 53, 0);
 
 /**
  * Type_SCAuthToken
@@ -2066,7 +2274,7 @@ export type SCAuthToken = Message<"proto.SCAuthToken"> & {
  * Use `create(SCAuthTokenSchema)` to create a new message.
  */
 export const SCAuthTokenSchema: GenMessage<SCAuthToken> = /*@__PURE__*/
-  messageDesc(file_session, 46);
+  messageDesc(file_session, 54);
 
 /**
  * @generated from enum proto.SCAuthToken.RetCode
@@ -2105,7 +2313,7 @@ export enum SCAuthToken_RetCode {
  * Describes the enum proto.SCAuthToken.RetCode.
  */
 export const SCAuthToken_RetCodeSchema: GenEnum<SCAuthToken_RetCode> = /*@__PURE__*/
-  enumDesc(file_session, 46, 0);
+  enumDesc(file_session, 54, 0);
 
 /**
  * @generated from message proto.ReadMsg
@@ -2145,7 +2353,7 @@ export type ReadMsg = Message<"proto.ReadMsg"> & {
  * Use `create(ReadMsgSchema)` to create a new message.
  */
 export const ReadMsgSchema: GenMessage<ReadMsg> = /*@__PURE__*/
-  messageDesc(file_session, 47);
+  messageDesc(file_session, 55);
 
 /**
  * 读取消息通知
@@ -2167,7 +2375,7 @@ export type CSReadMsg = Message<"proto.CSReadMsg"> & {
  * Use `create(CSReadMsgSchema)` to create a new message.
  */
 export const CSReadMsgSchema: GenMessage<CSReadMsg> = /*@__PURE__*/
-  messageDesc(file_session, 48);
+  messageDesc(file_session, 56);
 
 /**
  * 推送他人阅读自己消息
@@ -2196,7 +2404,7 @@ export type SCPushReadMsg = Message<"proto.SCPushReadMsg"> & {
  * Use `create(SCPushReadMsgSchema)` to create a new message.
  */
 export const SCPushReadMsgSchema: GenMessage<SCPushReadMsg> = /*@__PURE__*/
-  messageDesc(file_session, 49);
+  messageDesc(file_session, 57);
 
 /**
  * 定义枚举类型
@@ -2334,6 +2542,13 @@ export enum MessageType {
   Type_SCInitPushDelChats = 20,
 
   /**
+   * 删除会话推送确认 收到 Type_SCPushDelChat(19)和Type_SCInitPushDelChats(20) 之后的协议返回
+   *
+   * @generated from enum value: Type_CSPushDelChatsAck = 37;
+   */
+  Type_CSPushDelChatsAck = 37,
+
+  /**
    * 群消息推送
    *
    * 群成员增加
@@ -2420,14 +2635,14 @@ export enum MessageType {
   Type_SCLoadChatRecord = 32,
 
   /**
-   * 消息置顶
+   * 群消息置顶
    *
    * @generated from enum value: Type_CSMsgTop = 33;
    */
   Type_CSMsgTop = 33,
 
   /**
-   * 消息置顶返回
+   * 群消息置顶返回
    *
    * @generated from enum value: Type_SCMsgTop = 34;
    */
@@ -2441,18 +2656,53 @@ export enum MessageType {
   Type_SCPushMsgTop = 35,
 
   /**
-   * 消息置顶确认
+   * 拉取群置顶消息
    *
-   * @generated from enum value: Type_CSMsgTopAck = 36;
+   * @generated from enum value: Type_CSPullGroupTopMsg = 38;
    */
-  Type_CSMsgTopAck = 36,
+  Type_CSPullGroupTopMsg = 38,
 
   /**
-   * 删除会话推送确认 收到 Type_SCPushDelChat(19)和Type_SCInitPushDelChats(20) 之后的协议返回
+   * 拉取群置顶消息返回
    *
-   * @generated from enum value: Type_CSPushDelChatsAck = 37;
+   * @generated from enum value: Type_SCPullGroupTopMsg = 39;
    */
-  Type_CSPushDelChatsAck = 37,
+  Type_SCPullGroupTopMsg = 39,
+
+  /**
+   * 删除消息发送
+   *
+   * @generated from enum value: Type_CSChatMsgDel = 40;
+   */
+  Type_CSChatMsgDel = 40,
+
+  /**
+   * 删除消息返回
+   *
+   * @generated from enum value: Type_SCChatMsgDel = 41;
+   */
+  Type_SCChatMsgDel = 41,
+
+  /**
+   * 删除消息推送 (不给发送端推送)
+   *
+   * @generated from enum value: Type_SCMsgDelPush = 42;
+   */
+  Type_SCMsgDelPush = 42,
+
+  /**
+   * 删除消息推送确认
+   *
+   * @generated from enum value: Type_CSMsgDelPushAck = 43;
+   */
+  Type_CSMsgDelPushAck = 43,
+
+  /**
+   * 初始化删除会话推送
+   *
+   * @generated from enum value: Type_SCInitPushDelMsg = 44;
+   */
+  Type_SCInitPushDelMsg = 44,
 }
 
 /**

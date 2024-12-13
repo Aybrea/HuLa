@@ -36,6 +36,7 @@ enum MessageType {
   Type_SCDelChat = 18;  // 删除会话返回
   Type_SCPushDelChat = 19;  // 推送删除会话(有客户端删除会话时其它成员收到删除推送)
   Type_SCInitPushDelChats = 20;  // 推送初始化删除会话
+  Type_CSPushDelChatsAck = 37;    // 删除会话推送确认 收到 Type_SCPushDelChat(19)和Type_SCInitPushDelChats(20) 之后的协议返回
 
   // 群消息推送
   Type_SCGroupEventMemberAdd = 21;  // 群成员增加
@@ -53,13 +54,68 @@ enum MessageType {
   Type_CSLoadChatRecord = 31;  // 加载聊天记录
   Type_SCLoadChatRecord = 32;  // 加载聊天记录返回
 
-  Type_CSMsgTop = 33;  // 消息置顶
-  Type_SCMsgTop = 34;  // 消息置顶返回
+  Type_CSMsgTop = 33;  // 群消息置顶
+  Type_SCMsgTop = 34;  // 群消息置顶返回
   Type_SCPushMsgTop = 35;  // 消息置顶推送
-  Type_CSMsgTopAck = 36;  // 消息置顶确认
+  Type_CSPullGroupTopMsg = 38;  // 拉取群置顶消息
+  Type_SCPullGroupTopMsg = 39;  // 拉取群置顶消息返回
 
-  Type_CSPushDelChatsAck = 37;    // 删除会话推送确认 收到 Type_SCPushDelChat(19)和Type_SCInitPushDelChats(20) 之后的协议返回
+  Type_CSChatMsgDel = 40; // 删除消息发送
+  Type_SCChatMsgDel = 41; // 删除消息返回
+  Type_SCMsgDelPush = 42;  // 删除消息推送 (不给发送端推送)
+  Type_CSMsgDelPushAck = 43;  // 删除消息推送确认
+  Type_SCInitPushDelMsg = 44;  // 初始化删除会话推送
+
 }
+
+
+//Type_CSChatMsgDel
+message CSChatMsgDel{
+  ChatInfo chatInfo = 1;  // 会话信息
+  repeated int64 msgIds = 2;  // 消息id列表
+  optional bool delOther = 3;  // 是否删除对方
+}
+
+//Type_SCChatMsgDel
+message SCChatMsgDel{
+  ChatInfo chatInfo = 1;  // 会话信息
+  repeated int64 msgIds = 2;  // 消息id列表
+}
+
+
+message ChatMsgDelInfo{
+  ChatInfo chatInfo = 1;  // 会话信息
+  repeated int64 msgIds = 2;  // 消息id列表
+}
+
+//Type_SCInitPushDelMsg
+message SCInitPushDelMsg {
+  repeated ChatMsgDelInfo delInfos = 1;  // 删除信息
+}
+
+//Type_SCMsgDelPush
+message CSMsgDel {
+    ChatMsgDelInfo delInfo = 1;  // 删除信息
+}
+
+// Type_CSMsgDelPushAck
+message CSMsgDelPushAck {
+  ChatMsgDelInfo ackInfo = 1;  // 服务器id
+}
+
+
+//Type_CSPullGroupTopMsg
+message CSPullGroupTopMsg {
+  int64 chatId = 1;  // 会话Id
+  int64 requestId = 2; // 请求id
+}
+
+//Type_SCPullGroupTopMsg
+message SCPullGroupTopMsg {
+  repeated int64 msgIdList = 1;  // 消息id列表
+  int64 requestId = 2; // 请求id
+}
+
 
 
 //Type_CSPushDelChatsAck
@@ -68,32 +124,29 @@ message CSPushDelChatsAck {
   int64 lastId = 2;  // 最后一条消息id
 }
 
+// 消息信息
+message ChatMsgInfo {
+  int64 chatId = 1; // 会话Id
+  int64 msgId = 2;  // 消息id
+}
 
 //Type_CSMsgTop
 message CSMsgTop {
-  string msgId = 1;  // 消息id
-  bool top = 2;  // 是否置顶
+  ChatMsgInfo chatMsgInfo = 1;  // 消息信息
+  bool top = 2;  // 是否置顶  true 置顶 false 取消置顶
 }
 
 //Type_SCMsgTop
 message SCMsgTop {
-  string msgId = 1;  // 消息id
-  bool top = 2;  // 是否置顶
-  int64 serverId = 3; // 服务器Id
+  ChatMsgInfo chatMsgInfo = 1;  // 消息信息
+  bool status = 2; // true 置顶 false 取消非置顶
 }
 
 //Type_SCPushMsgTop
 message SCPushMsgTop {
-  string msgId = 1;  // 消息id
-  bool top = 2;  // 是否置顶
-  int64 serverId = 3; // 服务器Id
+  ChatMsgInfo chatMsgInfo = 1;  // 消息id
+  bool status = 2;  // 是否置顶
 }
-
-//Type_CSMsgTopAck
-message CSMsgTopAck {
-  int64 serverId = 1; // 服务器Id
-}
-
 
 //Type_CSLoadChatRecord
 message CSLoadChatRecord {
@@ -349,8 +402,9 @@ message ChatMsg {
   optional CSRecordInfo csRecord = 8;  // 客户端发到服务器聊天记录
   optional SCRecordInfo scRecord = 9;  // 服务器到客户端聊天记录
   optional DeleteMsg deleteMsg = 10;  // 删除消息
-  repeated int64 atUsers = 100;  // @用户id
+  repeated int64 atUsers = 100;  // @用户id 客户端发送到服务器
   optional int64 replyId = 101;  // 回复消息id  回复(引用)类型消息需要添加该字段
+  repeated NameInfo atNames = 102;  // @用户名  服务器返回到客户端 和100 对应
 }
 
 // 删除消息
