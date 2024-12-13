@@ -190,7 +190,7 @@ export const useChatStore = defineStore(
     const getSessionList = async (isFresh = false, chatIds: string[] = []) => {
       if (!isFresh && (sessionOptions.isLast || sessionOptions.isLoading)) return
       sessionOptions.isLoading = true
-      const response = await apis
+      const data = await apis
         .getSessionList({
           list: [
             {
@@ -202,11 +202,7 @@ export const useChatStore = defineStore(
         .catch(() => {
           sessionOptions.isLoading = false
         })
-      if (!response) return
-      const data = response
-      if (!data) {
-        return
-      }
+      if (!data) return
       isFresh
         ? sessionList.splice(
             0,
@@ -232,8 +228,8 @@ export const useChatStore = defineStore(
             )
           )
         : sessionList.push(...data)
-      sessionOptions.cursor = data.cursor
-      sessionOptions.isLast = data.isLast
+      sessionOptions.cursor = ''
+      sessionOptions.isLast = false
       sessionOptions.isLoading = false
 
       sortAndUniqueSessionList()
@@ -241,10 +237,10 @@ export const useChatStore = defineStore(
       sessionList[0].unreadCount = 0
       if (!isFirstInit) {
         isFirstInit = true
-        globalStore.currentSession.roomId = data.list[0].roomId
-        globalStore.currentSession.type = data.list[0].type
+        globalStore.currentSession.roomId = data[0].roomId
+        globalStore.currentSession.type = data[0].type
         // 用会话列表第一个去请求消息列表
-        await getMsgList()
+        // await getMsgList()
         // 请求第一个群成员列表
         currentRoomType.value === RoomTypeEnum.GROUP && (await groupStore.getGroupUserList(true))
         // 初始化所有用户基本信息

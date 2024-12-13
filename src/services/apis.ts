@@ -81,7 +81,7 @@ export default {
   /** 好友申请未读数 */
   newFriendCount: () => GET<{ unReadCount: number }>(urls.newFriendCount),
   /** 会话列表 */
-  getSessionList: (params?: any) => POST<ListResponse<SessionItem>>(urls.getSessionList, params),
+  getSessionList: (params?: any) => POST<Array<SessionItem>>(urls.getSessionList, params),
   /** 消息的已读未读列表 */
   getMsgReadList: (params?: any) => GET<ListResponse<{ uid: number }>>(urls.getMsgReadList, params),
   /** 消息已读未读数 */
