@@ -5,7 +5,7 @@ export const useDatabase = (userUid?: number) => {
   if (!userUid) {
     return {
       db: ref<Database>(),
-      initDatabase: async () => {},
+      getDatabase: async () => {},
       closeDatabase: async () => {},
       saveMessage: async () => {},
       getMessages: async () => []
@@ -13,10 +13,106 @@ export const useDatabase = (userUid?: number) => {
   }
   const db = ref<Database>()
 
-  /**
-   * Initialize database connection
-   */
-  const initDatabase = async () => {
+  const initMessageTable = async () => {
+    await db.value?.execute(`
+      CREATE TABLE IF NOT EXISTS message (
+        "clientId" INTEGER PRIMARY KEY,
+        "chatId" INTEGER,
+        "clientTime" INTEGER,
+        "serverTime" INTEGER,
+        "msgId" INTEGER,
+        "senderId" INTEGER,
+        "nickname" TEXT,
+        "icon" TEXT,
+        "chatType" INTEGER,
+        "msgType" INTEGER,
+        "text" TEXT,
+        "status" INTEGER,
+        "mediaWidth" INTEGER,
+        "mediaHeight" INTEGER,
+        "mediaUrl" TEXT,
+        "thumbnailUrl" TEXT,
+        "mediaLocalPath" TEXT,
+        "duration" INTEGER,
+        "contactUserId" INTEGER,
+        "contactNickName" TEXT,
+        "contactIcon" TEXT,
+        "fileName" TEXT,
+        "mediaSize" INTEGER,
+        "md5" TEXT,
+        "latitude" DOUBLE,
+        "longitude" DOUBLE,
+        "place" TEXT,
+        "address" TEXT,
+        "replyId" INTEGER
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_chatId ON message (chatId);
+      CREATE INDEX IF NOT EXISTS idx_senderId ON message (senderId);
+      CREATE INDEX IF NOT EXISTS idx_clientTime ON message (clientTime);
+      CREATE INDEX IF NOT EXISTS idx_serverTime ON message (serverTime);
+      CREATE INDEX IF NOT EXISTS idx_msgId ON message (msgId);
+    `)
+  }
+
+  const initConversationTable = async () => {
+    await db.value?.execute(`
+      CREATE TABLE IF NOT EXISTS conversation (
+        "chatId" INTEGER PRIMARY KEY,
+        "type" INTEGER,
+        "members" TEXT,
+        "uid" INTEGER,
+        "unReadCount" INTEGER
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_conversation_type ON conversation (type);
+    `)
+  }
+
+  const initUserTable = async () => {
+    await db.value?.execute(`
+      CREATE TABLE IF NOT EXISTS user (
+        "userId" INTEGER PRIMARY KEY,
+        "nickname" TEXT,
+        "icon" TEXT,
+        "isFriend" BOOLEAN,
+        "isBlack" BOOLEAN,
+        "isSilent" BOOLEAN
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_user_isFriend ON user (isFriend);
+    `)
+  }
+
+  const initGroupTable = async () => {
+    await db.value?.execute(`
+      CREATE TABLE IF NOT EXISTS "group" (
+        "chatId" INTEGER PRIMARY KEY,
+        "name" TEXT,
+        "icon" TEXT,
+        "mute" BOOLEAN,
+        "isSilent" BOOLEAN,
+        "ownerId" INTEGER,
+        "count" INTEGER,
+        "status" INTEGER
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_group_status ON "group" (status);
+    `)
+  }
+
+  const initDeletedConversationTable = async () => {
+    await db.value?.execute(`
+      CREATE TABLE IF NOT EXISTS deletedConversation (
+        "id" INTEGER PRIMARY KEY,
+        "lastMsgId" INTEGER,
+        "type" INTEGER,
+        "delOther" BOOL
+      );
+    `)
+  }
+
+  const getDatabase = async () => {
     try {
       db.value = await Database.load(`sqlite:${userUid}.db`)
 
@@ -29,49 +125,59 @@ export const useDatabase = (userUid?: number) => {
         await migrateDatabase()
       }
 
-      // Create tables for this user's database
-      await db.value.execute(`
-        CREATE TABLE IF NOT EXISTS message (
-          "clientId" INTEGER PRIMARY KEY,
-          "chatId" INTEGER,
-          "clientTime" INTEGER,
-          "serverTime" INTEGER,
-          "msgId" INTEGER,
-          "senderId" INTEGER,
-          "nickname" TEXT,
-          "icon" TEXT,
-          "chatType" INTEGER,
-          "msgType" INTEGER,
-          "text" TEXT,
-          "status" INTEGER,
-          "mediaWidth" INTEGER,
-          "mediaHeight" INTEGER,
-          "mediaUrl" TEXT,
-          "thumbnailUrl" TEXT,
-          "mediaLocalPath" TEXT,
-          "duration" INTEGER,
-          "contactUserId" INTEGER,
-          "contactNickName" TEXT,
-          "contactIcon" TEXT,
-          "fileName" TEXT,
-          "mediaSize" INTEGER,
-          "md5" TEXT,
-          "latitude" DOUBLE,
-          "longitude" DOUBLE,
-          "place" TEXT,
-          "address" TEXT,
-          "replyId" INTEGER
-        );
-
-        CREATE INDEX IF NOT EXISTS idx_chatId ON message (chatId);
-        CREATE INDEX IF NOT EXISTS idx_senderId ON message (senderId);
-        CREATE INDEX IF NOT EXISTS idx_clientTime ON message (clientTime);
-        CREATE INDEX IF NOT EXISTS idx_serverTime ON message (serverTime);
-        CREATE INDEX IF NOT EXISTS idx_msgId ON message (msgId);
-      `)
+      // Initialize message table
+      await initMessageTable()
     } catch (error) {
       console.error('Failed to initialize database:', error)
       window.$message.error('Failed to initialize database')
+    }
+  }
+
+  const getConversationDB = async () => {
+    try {
+      if (!db.value) {
+        await getDatabase()
+      }
+      await initConversationTable()
+    } catch (error) {
+      console.error('Failed to initialize conversation table:', error)
+      throw error
+    }
+  }
+
+  const getUserDB = async () => {
+    try {
+      if (!db.value) {
+        await getDatabase()
+      }
+      await initUserTable()
+    } catch (error) {
+      console.error('Failed to initialize user table:', error)
+      throw error
+    }
+  }
+
+  const getGroupDB = async () => {
+    try {
+      if (!db.value) {
+        await getDatabase()
+      }
+      await initGroupTable()
+    } catch (error) {
+      console.error('Failed to initialize group table:', error)
+      throw error
+    }
+  }
+
+  const getDeletedConversationDB = async () => {
+    try {
+      if (!db.value) {
+        await getDatabase()
+      }
+      await initDeletedConversationTable()
+    } catch (error) {
+      console.error('Failed to initialize deleted conversation table:', error)
+      throw error
     }
   }
 
@@ -231,7 +337,11 @@ export const useDatabase = (userUid?: number) => {
 
   return {
     db,
-    initDatabase,
+    getDatabase,
+    getConversationDB,
+    getUserDB,
+    getGroupDB,
+    getDeletedConversationDB,
     closeDatabase,
     saveMessage,
     getMessages

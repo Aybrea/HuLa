@@ -90,7 +90,7 @@ export const useMsgInput = (messageInputDom: Ref) => {
     { label: '全部选择', icon: 'check-one' }
   ])
 
-  const { initDatabase, closeDatabase, saveMessage } = useDatabase(userUid.value)
+  const { getDatabase, closeDatabase, saveMessage } = useDatabase(userUid.value)
 
   watchEffect(() => {
     chatKey.value = chat.value.sendKey
@@ -109,7 +109,7 @@ export const useMsgInput = (messageInputDom: Ref) => {
 
   onMounted(async () => {
     // Initialize database
-    await initDatabase()
+    await getDatabase()
 
     useMitt.on(MittEnum.RE_EDIT, async (event: string) => {
       messageInputDom.value.focus()
