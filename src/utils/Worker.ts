@@ -166,6 +166,7 @@ const onConnectMsg = async (e: any) => {
   const message = fromBinary(MainDataSchema, new Uint8Array(arrayBuffer))
   const schema = getSchemaForMessageType(message.msgType)
   if (schema) {
+    // 解码
     const messageContent = fromBinary(schema, message.data)
     if (message.msgType === MessageType.Type_SCPushChatMsg && !messageContent.msgId) {
       console.error('Invalid messageContent')

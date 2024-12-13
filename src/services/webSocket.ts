@@ -153,6 +153,10 @@ class WS extends Log {
         console.log('收到聊天消息')
         break
       }
+      case MessageType.Type_SCPushLastMsgId: {
+        console.log('收到最后一条消息id')
+        break
+      }
       // 获取登录二维码
       case WsResponseMessageType.LOGIN_QR_CODE: {
         console.log('获取二维码')
