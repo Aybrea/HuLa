@@ -169,6 +169,7 @@ import { invoke } from '@tauri-apps/api/core'
 import { AvatarUtils } from '@/utils/avatarUtils'
 import { generateSnowflakeId } from '@/utils/Helper'
 import { SexEnum } from '~/src/enums'
+import { useDatabase } from '@/hooks/useDatabase'
 
 const settingStore = useSettingStore()
 const userStore = useUserStore()
@@ -298,6 +299,14 @@ const normalLogin = async () => {
       loginHistoriesStore.addLoginHistory(account)
 
       await setLoginState()
+
+      // Initialize the database for the logged-in user
+      try {
+        await useDatabase(account.userId)
+      } catch (error) {
+        console.error('Error initializing database:', error)
+      }
+
       // rust保存用户信息
       await invoke('save_user_info', {
         userId: account.userId,
