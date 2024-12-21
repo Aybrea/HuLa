@@ -16,8 +16,8 @@
     "url": "https://github.com/HuLaSpark/HuLa"
   },
   "scripts": {
-    "========= 启动tauri =========": "",
     "tauri:dev": "tauri dev",
+    "========= 启动tauri =========": "",
     "========= 打包tauri =========": "",
     "tauri:build": "tauri build",
     "========= 打包后可调试并且可以弹出控制台 =========": "",
