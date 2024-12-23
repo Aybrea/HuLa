@@ -9,11 +9,13 @@ import { useGlobalStore } from '@/stores/global'
 import { useGroupStore } from '@/stores/group'
 import { useContactStore } from '@/stores/contacts'
 import { cloneDeep } from 'lodash-es'
-import { useDatabase } from '@/hooks/useDatabase'
+import { getDatabaseInstance } from '../hooks/useDatabase'
 
 export const pageSize = 20
 // 标识是否第一次请求
 let isFirstInit = false
+
+const db = await getDatabaseInstance()
 
 export const useChatStore = defineStore(
   'chat',
@@ -145,17 +147,12 @@ export const useChatStore = defineStore(
 
     const getMsgList = async (size = pageSize) => {
       currentMessageOptions.value && (currentMessageOptions.value.isLoading = true)
-      const data = await apis
-        .getMsgList({
-          pageSize: size,
-          cursor: currentMessageOptions.value?.cursor,
-          roomId: currentRoomId.value
-        })
-        .finally(() => {
-          currentMessageOptions.value && (currentMessageOptions.value.isLoading = false)
-        })
+      const data = await db.select(
+        `SELECT * FROM message WHERE chatId = ${currentRoomId.value} ORDER BY msgId DESC LIMIT ${size}`
+      )
+      currentMessageOptions.value && (currentMessageOptions.value.isLoading = false)
       if (!data) return
-      const computedList = computedTimeBlock(data.list)
+      const computedList = computedTimeBlock(data)
 
       /** 收集需要请求用户详情的 uid */
       const uidCollectYet: Set<number> = new Set() // 去重用
@@ -182,16 +179,13 @@ export const useChatStore = defineStore(
       })
 
       if (currentMessageOptions.value) {
-        currentMessageOptions.value.cursor = data.cursor
-        currentMessageOptions.value.isLast = data.isLast
+        currentMessageOptions.value.cursor = ''
+        currentMessageOptions.value.isLast = true
         currentMessageOptions.value.isLoading = false
       }
     }
 
     const getSessionList = async () => {
-      const { getDatabase } = await useDatabase()
-      const db = await getDatabase()
-
       sessionOptions.isLoading = true
 
       let data
@@ -206,7 +200,6 @@ export const useChatStore = defineStore(
               localData.map(async (item) => {
                 if (item.type === RoomTypeEnum.SINGLE) {
                   const user = await db.select(`SELECT * FROM user WHERE userId = ${item.userId}`)
-                  console.log('🚀 ~ file: chat.ts:209 ~ user:', user)
                   return {
                     roomId: item.chatId,
                     type: item.type,
@@ -218,7 +211,6 @@ export const useChatStore = defineStore(
                 }
               })
             )
-            console.log('🚀 ~ file: chat.ts:206 ~ data:', data)
           }
         } catch (error) {
           console.error('Failed to fetch from local database:', error)
@@ -241,7 +233,7 @@ export const useChatStore = defineStore(
         globalStore.currentSession.roomId = data[0].roomId
         globalStore.currentSession.type = data[0].type
         // 用会话列表第一个去请求消息列表
-        // await getMsgList()
+        await getMsgList()
         // 请求第一个群成员列表
         currentRoomType.value === RoomTypeEnum.GROUP && (await groupStore.getGroupUserList(true))
         // 初始化所有用户基本信息

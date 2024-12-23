@@ -15,6 +15,16 @@ interface ConversationTableExistsResult {
   name: string
 }
 
+let db: any = null
+
+export const getDatabaseInstance = async () => {
+  if (!db) {
+    const { getDatabase } = await useDatabase()
+    db = await getDatabase()
+  }
+  return db
+}
+
 export const useDatabase = async (userUid?: number) => {
   if (userUid) {
     storedUserId.value = userUid
