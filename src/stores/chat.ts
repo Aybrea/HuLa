@@ -200,9 +200,25 @@ export const useChatStore = defineStore(
       if (db) {
         try {
           const localData = await db.select('SELECT * FROM conversation ORDER BY unReadCount DESC')
-          console.log('🚀 ~ file: chat.ts:204 ~ localData:', localData)
+
           if (localData.length > 0) {
-            data = localData
+            data = await Promise.all(
+              localData.map(async (item) => {
+                if (item.type === RoomTypeEnum.SINGLE) {
+                  const user = await db.select(`SELECT * FROM user WHERE userId = ${item.userId}`)
+                  console.log('🚀 ~ file: chat.ts:209 ~ user:', user)
+                  return {
+                    roomId: item.chatId,
+                    type: item.type,
+                    name: user[0].nickname,
+                    avatar: user[0].icon,
+                    activeTime: '',
+                    unreadCount: 0
+                  }
+                }
+              })
+            )
+            console.log('🚀 ~ file: chat.ts:206 ~ data:', data)
           }
         } catch (error) {
           console.error('Failed to fetch from local database:', error)
@@ -211,18 +227,7 @@ export const useChatStore = defineStore(
 
       if (!data) return
 
-      sessionList.splice(
-        0,
-        sessionList.length,
-        ...data.map((item) => ({
-          roomId: item.chatId,
-          type: item.type,
-          name: item.single.nickname,
-          avatar: item.single.icon,
-          activeTime: item.single.activeTime,
-          unreadCount: item.single.unreadCount
-        }))
-      )
+      sessionList.splice(0, sessionList.length, ...data)
 
       sessionOptions.cursor = ''
       sessionOptions.isLast = false

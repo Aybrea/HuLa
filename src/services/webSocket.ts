@@ -157,7 +157,6 @@ class WS extends Log {
           ]
         })
         chatList.forEach((item) => {
-          console.log('🚀 ~ file: webSocket.ts:160 ~ item:', item.single)
           // save each item into conversation table in db
           this.dbInstance?.saveConversation(item)
           if (item.type === RoomTypeEnum.SINGLE) {
