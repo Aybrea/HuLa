@@ -7,6 +7,14 @@ const USER_ID_KEY = 'USER_ID'
 const initializedDb: { [key: number]: Database } = {}
 const storedUserId = ref<number | null>(null)
 
+interface TableExistsResult {
+  name: string
+}
+
+interface ConversationTableExistsResult {
+  name: string
+}
+
 export const useDatabase = async (userUid?: number) => {
   if (userUid) {
     storedUserId.value = userUid
@@ -24,11 +32,14 @@ export const useDatabase = async (userUid?: number) => {
   if (currentUserId) {
     if (!initializedDb[currentUserId]) {
       initializedDb[currentUserId] = await Database.load(`sqlite:${currentUserId}.db`)
-
       const migrateDatabase = async (db: Database) => {
         try {
+          await db.execute('BEGIN TRANSACTION') // Start transaction
+
           // Check if the message table exists
-          const tableExists = await db.select('SELECT name FROM sqlite_master WHERE type="table" AND name="message"')
+          const tableExists = await db.select<TableExistsResult[]>(
+            'SELECT name FROM sqlite_master WHERE type="table" AND name="message"'
+          )
 
           if (tableExists.length > 0) {
             // Rename old table if it exists
@@ -105,12 +116,71 @@ export const useDatabase = async (userUid?: number) => {
             CREATE INDEX IF NOT EXISTS idx_serverTime ON message (serverTime);
             CREATE INDEX IF NOT EXISTS idx_msgId ON message (msgId);
           `)
+
+          // Migrate conversation table
+          const conversationTableExists = await db.select<ConversationTableExistsResult[]>(
+            'SELECT name FROM sqlite_master WHERE type="table" AND name="conversation"'
+          )
+
+          if (conversationTableExists.length > 0) {
+            // Rename old conversation table
+            await db.execute('ALTER TABLE conversation RENAME TO conversation_old')
+
+            // Create new conversation table with updated schema
+            await db.execute(`
+              CREATE TABLE conversation (
+                "chatId" INTEGER PRIMARY KEY,
+                "type" INTEGER,
+                "members" TEXT,
+                "userId" INTEGER,
+                "unReadCount" INTEGER
+              )
+            `)
+
+            // Migrate data from old conversation table to new table
+            await db.execute(`
+              INSERT INTO conversation (
+                chatId,
+                type,
+                members,
+                userId,
+                unReadCount
+              )
+              SELECT
+                chatId,
+                type,
+                members,
+                oldUserId as userId,
+                unReadCount
+              FROM conversation_old
+            `)
+
+            // Drop old conversation table
+            await db.execute('DROP TABLE conversation_old')
+
+            // Create necessary indexes for conversation table
+            await db.execute('CREATE INDEX IF NOT EXISTS idx_conversation_type ON conversation (type)')
+          }
+
+          await db.execute('COMMIT') // Commit the transaction
+          console.log('Migration successful!')
         } catch (error) {
           console.error('Migration failed:', error)
+          await db.execute('ROLLBACK') // Rollback if anything goes wrong
           throw error
         }
       }
 
+      // First try to check if we need to migrate
+      try {
+        await initializedDb[currentUserId].select('SELECT chatId FROM message LIMIT 1')
+      } catch (error) {
+        // If error occurs, it means the old schema exists
+        console.log('Migrating old schema to new schema...')
+        await migrateDatabase(initializedDb[currentUserId])
+      }
+
+      // Initialize message table
       const initMessageTable = async (db: Database) => {
         await db.execute(`
           CREATE TABLE IF NOT EXISTS message (
@@ -152,18 +222,6 @@ export const useDatabase = async (userUid?: number) => {
           CREATE INDEX IF NOT EXISTS idx_msgId ON message (msgId);
         `)
       }
-
-      // First try to check if we need to migrate
-      try {
-        console.log(initializedDb[currentUserId])
-        await initializedDb[currentUserId].select('SELECT chatId FROM message LIMIT 1')
-      } catch (error) {
-        // If error occurs, it means the old schema exists
-        console.log('Migrating old schema to new schema...')
-        await migrateDatabase(initializedDb[currentUserId])
-      }
-
-      // Initialize message table
       await initMessageTable(initializedDb[currentUserId])
 
       // Initialize conversation table
@@ -173,7 +231,7 @@ export const useDatabase = async (userUid?: number) => {
             "chatId" INTEGER PRIMARY KEY,
             "type" INTEGER,
             "members" TEXT,
-            "uid" INTEGER,
+            "userId" INTEGER,
             "unReadCount" INTEGER
           );
 
@@ -243,7 +301,7 @@ export const useDatabase = async (userUid?: number) => {
             "chatId" INTEGER PRIMARY KEY,
             "type" INTEGER,
             "members" TEXT,
-            "uid" INTEGER,
+            "userId" INTEGER,
             "unReadCount" INTEGER
           );
 
@@ -382,7 +440,38 @@ export const useDatabase = async (userUid?: number) => {
   const getMessages = async (roomId: number, limit = 50, offset = 0) => {
     if (db.value) {
       try {
-        const result = await db.value.select(
+        interface MessageResult {
+          clientId: number
+          chatId: number
+          clientTime: number
+          serverTime: number
+          msgId: number
+          senderId: number
+          nickname: string
+          icon: string
+          chatType: number
+          msgType: number
+          text: string
+          status: number
+          mediaWidth: number
+          mediaHeight: number
+          mediaUrl: string
+          thumbnailUrl: string
+          mediaLocalPath: string
+          duration: number
+          contactUserId: number
+          contactNickName: string
+          contactIcon: string
+          fileName: string
+          mediaSize: number
+          md5: string
+          latitude: number
+          longitude: number
+          place: string
+          address: string
+          replyId: number
+        }
+        const result = await db.value.select<MessageResult[]>(
           'SELECT * FROM message WHERE chatId = $1 ORDER BY clientTime DESC LIMIT $2 OFFSET $3',
           [roomId, limit, offset]
         )
@@ -399,27 +488,49 @@ export const useDatabase = async (userUid?: number) => {
     chatId: number
     type: number
     members: string
-    uid: number
+    single: { uid: number }
     unReadCount: number
   }) => {
     if (conversation.type === RoomTypeEnum.SINGLE) {
       if (db.value) {
         try {
           await db.value.execute(
-            `INSERT INTO conversation (chatId, type, members, uid, unReadCount) VALUES (?, ?, ?, ?, ?)
-         ON CONFLICT(chatId) DO UPDATE SET type=excluded.type, members=excluded.members, uid=excluded.uid, unReadCount=excluded.unReadCount`,
+            `INSERT INTO conversation (chatId, type, members, userId, unReadCount) VALUES (?, ?, ?, ?, ?)
+         ON CONFLICT(chatId) DO UPDATE SET type=excluded.type, members=excluded.members, userId=excluded.userId, unReadCount=excluded.unReadCount`,
             [
               conversation.chatId,
               conversation.type,
-              conversation.single.members,
+              conversation.members,
               conversation.single.uid,
-              conversation.single.unReadCount
+              conversation.unReadCount
             ]
           )
         } catch (error) {
           console.error('Failed to save conversation:', error)
           throw error
         }
+      }
+    }
+  }
+
+  const saveUser = async (user: {
+    uid: number
+    nickname: string
+    icon: string
+    isFriend: boolean
+    isBlack: boolean
+    isSilent: boolean
+  }) => {
+    if (db.value) {
+      try {
+        await db.value.execute(
+          `INSERT INTO user (userId, nickname, icon, isFriend, isBlack, isSilent) VALUES (?, ?, ?, ?, ?, ?)
+         ON CONFLICT(userId) DO UPDATE SET nickname=excluded.nickname, icon=excluded.icon, isFriend=excluded.isFriend, isBlack=excluded.isBlack, isSilent=excluded.isSilent`,
+          [user.uid, user.nickname, user.icon, user.isFriend, user.isBlack, user.isSilent]
+        )
+      } catch (error) {
+        console.error('Failed to save user:', error)
+        throw error
       }
     }
   }
@@ -434,6 +545,7 @@ export const useDatabase = async (userUid?: number) => {
     closeDatabase,
     saveMessage,
     saveConversation,
+    saveUser,
     getMessages
   }
 }

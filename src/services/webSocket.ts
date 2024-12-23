@@ -13,6 +13,7 @@ import { emit } from '@tauri-apps/api/event'
 import { MessageType } from '@/buffer/session_pb'
 import { useDatabase } from '@/hooks/useDatabase.ts'
 import apis from '@/services/apis'
+import { RoomTypeEnum } from '@/enums'
 
 class Log {
   static console = true
@@ -156,8 +157,12 @@ class WS extends Log {
           ]
         })
         chatList.forEach((item) => {
+          console.log('🚀 ~ file: webSocket.ts:160 ~ item:', item.single)
           // save each item into conversation table in db
           this.dbInstance?.saveConversation(item)
+          if (item.type === RoomTypeEnum.SINGLE) {
+            this.dbInstance.saveUser(item.single)
+          }
         })
         // dbInstance.execute('DELETE FROM message')
         // await Promise.all(
@@ -181,7 +186,7 @@ class WS extends Log {
         //     await saveMessage(message)
         //   }
         // }
-        // useMitt.emit(MittEnum.PUSH_MESSAGE_INFO, params.messageList)
+        useMitt.emit(MittEnum.PUSH_MESSAGE_INFO, params.messageList)
         break
       }
       case MessageType.Type_SCInitPushDelChats: {

@@ -9,6 +9,7 @@ import { useGlobalStore } from '@/stores/global'
 import { useGroupStore } from '@/stores/group'
 import { useContactStore } from '@/stores/contacts'
 import { cloneDeep } from 'lodash-es'
+import { useDatabase } from '@/hooks/useDatabase'
 
 export const pageSize = 20
 // 标识是否第一次请求
@@ -187,47 +188,42 @@ export const useChatStore = defineStore(
       }
     }
 
-    const getSessionList = async (isFresh = false, chatIds: string[] = []) => {
-      if (!isFresh && (sessionOptions.isLast || sessionOptions.isLoading)) return
+    const getSessionList = async () => {
+      const { getDatabase } = await useDatabase()
+      const db = await getDatabase()
+
       sessionOptions.isLoading = true
-      const data = await apis
-        .getSessionList({
-          list: [
-            {
-              type: 1,
-              chatIds: chatIds
-            }
-          ]
-        })
-        .catch(() => {
-          sessionOptions.isLoading = false
-        })
+
+      let data
+
+      // Fetch all records from local database
+      if (db) {
+        try {
+          const localData = await db.select('SELECT * FROM conversation ORDER BY unReadCount DESC')
+          console.log('🚀 ~ file: chat.ts:204 ~ localData:', localData)
+          if (localData.length > 0) {
+            data = localData
+          }
+        } catch (error) {
+          console.error('Failed to fetch from local database:', error)
+        }
+      }
+
       if (!data) return
-      isFresh
-        ? sessionList.splice(
-            0,
-            sessionList.length,
-            ...data.map((item) =>
-              item.single
-                ? {
-                    roomId: item.chatId,
-                    type: item.type === 1 ? 2 : 1,
-                    name: item.single.nickname,
-                    avatar: item.single.icon,
-                    activeTime: item.single.activeTime,
-                    unreadCount: item.single.unreadCount
-                  }
-                : {
-                    roomId: item.group.id,
-                    type: RoomTypeEnum.GROUP,
-                    name: item.group.name,
-                    avatar: item.group.avatar,
-                    activeTime: item.group.activeTime,
-                    unreadCount: item.group.unreadCount
-                  }
-            )
-          )
-        : sessionList.push(...data)
+
+      sessionList.splice(
+        0,
+        sessionList.length,
+        ...data.map((item) => ({
+          roomId: item.chatId,
+          type: item.type,
+          name: item.single.nickname,
+          avatar: item.single.icon,
+          activeTime: item.single.activeTime,
+          unreadCount: item.single.unreadCount
+        }))
+      )
+
       sessionOptions.cursor = ''
       sessionOptions.isLast = false
       sessionOptions.isLoading = false
