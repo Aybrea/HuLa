@@ -11,6 +11,8 @@ import { worker } from '@/utils/InitWorker.ts'
 import { useMitt } from '@/hooks/useMitt.ts'
 import { emit } from '@tauri-apps/api/event'
 import { MessageType } from '@/buffer/session_pb'
+import { useDatabase } from '@/hooks/useDatabase.ts'
+import apis from '@/services/apis'
 
 class Log {
   static console = true
@@ -33,10 +35,12 @@ class WS extends Log {
   #tasks: WsReqMsgContentType[] = []
   // 重连🔐
   #connectReady = false
+  private dbInstance: any = null
 
   constructor() {
     super()
     this.initConnect()
+    this.initDatabase()
     // 收到消息
     worker.addEventListener('message', this.onWorkerMsg)
 
@@ -46,6 +50,10 @@ class WS extends Log {
         this.initConnect()
       }
     })
+  }
+
+  private async initDatabase() {
+    this.dbInstance = await useDatabase()
   }
 
   initConnect = () => {
@@ -138,7 +146,42 @@ class WS extends Log {
         break
       }
       case MessageType.Type_SCPushMessageInfo: {
-        useMitt.emit(MittEnum.PUSH_MESSAGE_INFO, params.messageList)
+        if (!params.messageList.length) return
+        const chatList = await apis.getSessionList({
+          list: [
+            {
+              type: 1,
+              chatIds: params.messageList.map((item) => item.chatId.toString())
+            }
+          ]
+        })
+        chatList.forEach((item) => {
+          // save each item into conversation table in db
+          this.dbInstance?.saveConversation(item)
+        })
+        // dbInstance.execute('DELETE FROM message')
+        // await Promise.all(
+        //   chatList.map(async (chat) => {
+        //     await this.addChatOrUpdate({
+        //       chatId: chat.chatId,
+        //       single: chat.single,
+        //       group: chat.group,
+        //       name: chat.single?.nickname || '群聊',
+        //       type: chat.type,
+        //       lastServerId: params.messageList
+        //         .find((item) => item.chatId.toString() === chat.chatId.toString())
+        //         ?.msgId.toString()
+        //     })
+        //   })
+        // )
+
+        // const { saveMessage } = this.dbInstance || {}
+        // if (saveMessage && params.messageList) {
+        //   for (const message of params.messageList) {
+        //     await saveMessage(message)
+        //   }
+        // }
+        // useMitt.emit(MittEnum.PUSH_MESSAGE_INFO, params.messageList)
         break
       }
       case MessageType.Type_SCInitPushDelChats: {

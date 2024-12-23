@@ -90,7 +90,7 @@ export const useMsgInput = (messageInputDom: Ref) => {
     { label: '全部选择', icon: 'check-one' }
   ])
 
-  const { getDatabase, closeDatabase, saveMessage } = useDatabase(userUid.value)
+  const { getDatabase, closeDatabase, saveMessage } = useDatabase()
 
   watchEffect(() => {
     chatKey.value = chat.value.sendKey

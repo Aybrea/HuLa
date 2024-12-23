@@ -207,10 +207,10 @@ export enum RoleEnum {
 
 /** 房间类型 1群聊 2单聊 */
 export enum RoomTypeEnum {
-  /** 1群聊 */
-  GROUP = 1,
-  /** 2单聊 */
-  SINGLE = 2
+  /** 1单聊 */
+  SINGLE = 1,
+  /** 2群聊 */
+  GROUP = 2
 }
 
 /** 房间操作 */
