@@ -18,7 +18,7 @@ enum MessageType {
   Type_CSHeartbeat = 1;
   Type_SCHeartbeat = 2;
   Type_CSChatMsg = 3;    // 发送聊天消息
-  Type_SCChatMsg = 4;   // 接收聊天消息
+  Type_SCChatMsg = 4;   // 发送聊天消息的反馈
   Type_CSReadMsg = 5;  // 阅读他人消息
 
   Type_SCPushReadMsg = 7;   // 推送他人阅读自己的消息

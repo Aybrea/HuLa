@@ -10,10 +10,13 @@ import { OnlineEnum, ChangeTypeEnum, WorkerMsgEnum, MittEnum } from '@/enums'
 import { worker } from '@/utils/InitWorker.ts'
 import { useMitt } from '@/hooks/useMitt.ts'
 import { emit } from '@tauri-apps/api/event'
-import { MessageType } from '@/buffer/session_pb'
+import { MessageType, SCChatMsg_RetCode } from '@/buffer/session_pb'
 import { useDatabase } from '@/hooks/useDatabase.ts'
 import apis from '@/services/apis'
 import { RoomTypeEnum } from '@/enums'
+import { useUserStore } from '@/stores/user'
+
+const { database, saveConversation, saveUser } = await useDatabase()
 
 class Log {
   static console = true
@@ -36,12 +39,10 @@ class WS extends Log {
   #tasks: WsReqMsgContentType[] = []
   // 重连🔐
   #connectReady = false
-  private dbInstance: any = null
 
   constructor() {
     super()
     this.initConnect()
-    this.initDatabase()
     // 收到消息
     worker.addEventListener('message', this.onWorkerMsg)
 
@@ -51,10 +52,6 @@ class WS extends Log {
         this.initConnect()
       }
     })
-  }
-
-  private async initDatabase() {
-    this.dbInstance = await useDatabase()
   }
 
   initConnect = () => {
@@ -106,13 +103,12 @@ class WS extends Log {
     // this.#detectionLoginStatus()
 
     setTimeout(() => {
-      // const userStore = useUserStore()
-      // if (userStore.isSign)
-      {
+      const userStore = useUserStore()
+      if (userStore.isSign) {
         // 处理堆积的任务
-        this.#tasks.forEach((task) => {
+        for (const task of this.#tasks) {
           this.send(task)
-        })
+        }
         // 清空缓存的消息
         this.#tasks = []
       }
@@ -158,9 +154,9 @@ class WS extends Log {
         })
         chatList.forEach((item) => {
           // save each item into conversation table in db
-          this.dbInstance?.saveConversation(item)
+          saveConversation(item)
           if (item.type === RoomTypeEnum.SINGLE) {
-            this.dbInstance.saveUser(item.single)
+            saveUser(item.single)
           }
         })
         // dbInstance.execute('DELETE FROM message')
@@ -179,7 +175,7 @@ class WS extends Log {
         //   })
         // )
 
-        // const { saveMessage } = this.dbInstance || {}
+        // const { saveMessage } = database || {}
         // if (saveMessage && params.messageList) {
         //   for (const message of params.messageList) {
         //     await saveMessage(message)
@@ -194,6 +190,19 @@ class WS extends Log {
       }
       case MessageType.Type_SCChatMsg: {
         console.log('发送的反馈')
+        if (params.retCode === SCChatMsg_RetCode.Success) {
+          const { chatId, clientId, msgId, serverTime } = params
+          try {
+            await database.execute(
+              `UPDATE message
+              SET serverTime = $1, msgId = $2
+              WHERE clientId = $3 AND chatId = $4`,
+              [serverTime.toString(), msgId.toString(), clientId.toString(), chatId.toString()]
+            )
+          } catch (error) {
+            console.error('Failed to update message with server info:', error)
+          }
+        }
         break
       }
       case MessageType.Type_SCPushChatMsg: {
@@ -202,6 +211,10 @@ class WS extends Log {
       }
       case MessageType.Type_SCPushLastMsgId: {
         console.log('收到最后一条消息id')
+        break
+      }
+      case MessageType.Type_SCInitPushDelMsg: {
+        console.log('收到初始化删除会话推送')
         break
       }
       // 获取登录二维码

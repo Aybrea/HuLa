@@ -1,4 +1,4 @@
-import { LimitEnum, MittEnum, MsgEnum, MessageStatusEnum } from '@/enums'
+import { LimitEnum, MittEnum, MsgEnum, MessageStatusEnum, RoomTypeEnum } from '@/enums'
 import { useUserInfo } from '@/hooks/useCached.ts'
 import { CacheUserItem } from '@/services/types.ts'
 import { useCachedStore } from '@/stores/cached.ts'
@@ -12,7 +12,7 @@ import { Ref } from 'vue'
 import { useCommon } from './useCommon.ts'
 import { worker } from '@/utils/InitWorker.ts'
 import { useDatabase } from './useDatabase'
-import { generateSnowflakeId } from '@/utils/Helper.ts'
+import { generateSnowflakeId, getCurrentTimeMsBigInt } from '@/utils/Helper.ts'
 import { create, toBinary } from '@bufbuild/protobuf'
 import {
   ChatMsg_MsgType,
@@ -269,29 +269,6 @@ export const useMsgInput = (messageInputDom: Ref) => {
         messageBody = { content: msg.content }
     }
 
-    const wsMessage = toBinary(
-      MainDataSchema,
-      create(MainDataSchema, {
-        msgType: MessageType.Type_CSChatMsg,
-        data: toBinary(
-          CSChatMsgSchema,
-          create(CSChatMsgSchema, {
-            chatId: BigInt(globalStore.currentSession.roomId),
-            chatMsg: create(ChatMsgSchema, {
-              msgType: ChatMsg_MsgType.Text,
-              content: msg.content
-            }),
-            chatType: ChatType.ChatType_Single
-          })
-        )
-      })
-    )
-    // worker.postMessage('message', wsMessage)
-    worker.postMessage({
-      type: 'message',
-      value: wsMessage
-    })
-
     // 创建消息对象
     const message = {
       id: tempMsgId,
@@ -321,6 +298,34 @@ export const useMsgInput = (messageInputDom: Ref) => {
     // 先添加到消息列表
     chatStore.pushMsg(tempMsg)
 
+    const clientId = generateSnowflakeId()
+    const clientTime = getCurrentTimeMsBigInt()
+
+    // 发送ws消息
+    const wsMessage = toBinary(
+      MainDataSchema,
+      create(MainDataSchema, {
+        msgType: MessageType.Type_CSChatMsg,
+        data: toBinary(
+          CSChatMsgSchema,
+          create(CSChatMsgSchema, {
+            chatId: BigInt(globalStore.currentSession.roomId),
+            chatMsg: create(ChatMsgSchema, {
+              msgType: ChatMsg_MsgType.Text,
+              content: msg.content
+            }),
+            clientId,
+            clientTime,
+            chatType: ChatType.ChatType_Single
+          })
+        )
+      })
+    )
+    worker.postMessage({
+      type: 'message',
+      value: wsMessage
+    })
+
     // 设置800ms后显示发送状态的定时器
     const statusTimer = setTimeout(() => {
       chatStore.updateMsg({
@@ -341,20 +346,21 @@ export const useMsgInput = (messageInputDom: Ref) => {
       })
       if (message.type === MsgEnum.TEXT) {
         await saveMessage({
-          clientId: generateSnowflakeId(),
+          clientId,
           chatId: globalStore.currentSession.roomId,
+          clientTime,
           senderId: userUid.value,
           text: message.body.content,
           msgType: message.type,
           nickname: useUserInfo(userUid.value)?.value?.name,
           icon: useUserInfo(userUid.value)?.value?.avatar,
-          chatType: 0, // Single chat
+          chatType: RoomTypeEnum.SINGLE,
           status: MessageStatusEnum.SUCCESS,
           replyId: message.body.replyMsgId || 0
         })
       }
       // 发完消息就要刷新会话列表，
-      //  FIXME 如果当前会话已经置顶了，可以不用刷新
+      // FIXME 如果当前会话已经置顶了，可以不用刷新
       chatStore.updateSessionLastActiveTime(globalStore.currentSession.roomId)
     } catch (error) {
       clearTimeout(statusTimer)

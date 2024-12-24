@@ -17,7 +17,7 @@ let sequence = 0n
 let lastTimestamp = -1n
 
 // 生成雪花算法的 ID
-export function generateSnowflakeId() {
+export function generateSnowflakeId(): bigint {
   let timestamp = getCurrentTimeMsBigInt()
 
   // 如果当前时间等于上次时间戳，则增加序列号
@@ -42,5 +42,5 @@ export function generateSnowflakeId() {
     (MACHINE_ID << SEQUENCE_BITS) | // 机器 ID 偏移
     sequence // 序列号
 
-  return id.toString() // 返回字符串形式的 ID
+  return id // 返回 bigint 形式的 ID
 }

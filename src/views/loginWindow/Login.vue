@@ -315,6 +315,14 @@ const normalLogin = async () => {
         portrait: '',
         isSign: true
       }).finally(() => {
+        // Check if DEVICE_ID exists in local storage
+        if (!localStorage.getItem('DEVICE_ID')) {
+          // Generate a new DEVICE_ID using the snowflake method
+          const deviceId = generateSnowflakeId()
+          // Save the generated DEVICE_ID into local storage
+          localStorage.setItem('DEVICE_ID', deviceId)
+        }
+        // save DEVICE_ID into localstorage here
         // 打开主界面
         openHomeWindow()
       })

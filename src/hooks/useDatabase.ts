@@ -18,7 +18,9 @@ interface ConversationTableExistsResult {
 let db: any = null
 
 const saveMessage = async (message: {
+  clientId: bigint
   chatId: number
+  clientTime: bigint
   senderId: number
   text: string
   msgType: number
@@ -28,13 +30,8 @@ const saveMessage = async (message: {
   status?: number
   replyId?: number
 }) => {
-  console.log(123)
-
   if (db) {
     try {
-      const currentTime = new Date().getTime()
-      console.log('🚀 ~ file: useDatabase.ts:403 ~ chatId:', message.chatId)
-
       await db.execute(
         `INSERT INTO message (
           clientId,
@@ -50,9 +47,9 @@ const saveMessage = async (message: {
           replyId
         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
         [
-          currentTime, // Use timestamp as clientId
+          message.clientId.toString(),
           message.chatId,
-          currentTime,
+          message.clientTime.toString(),
           message.senderId,
           message.nickname || '',
           message.icon || '',

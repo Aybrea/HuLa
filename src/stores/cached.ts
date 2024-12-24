@@ -44,15 +44,15 @@ export const useCachedStore = defineStore('cached', () => {
     const itemIdSet: Set<number> = new Set()
     // const data = await apis.getUserInfoBatch(result)
     const data: CacheUserItem[] = []
-    result.forEach(async (item) => {
-      const userInfo = await apis.searchFriend({ search: item.uid })
-      data.push({
-        avatar: userInfo.icon,
-        name: userInfo.nickname,
-        uid: userInfo.userId,
-        lastModifyTime: Date.now()
-      })
-    })
+    // result.forEach(async (item) => {
+    //   const userInfo = await apis.searchFriend({ search: item.uid })
+    //   data.push({
+    //     avatar: userInfo.icon,
+    //     name: userInfo.nickname,
+    //     uid: userInfo.userId,
+    //     lastModifyTime: Date.now()
+    //   })
+    // })
 
     data?.forEach((item: CacheUserItem) => {
       // 更新最后更新时间。
