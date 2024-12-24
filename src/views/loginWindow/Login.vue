@@ -251,6 +251,13 @@ const normalLogin = async () => {
     })
     .then(async (data) => {
       const userDetail = data.userInfo
+      // Save user to database
+      const { saveUser } = await useDatabase()
+      await saveUser({
+        uid: userDetail.userId,
+        nickname: userDetail.nickname,
+        icon: userDetail.icon
+      })
       const token = userDetail.token
       loginDisabled.value = true
       loginText.value = '登录成功, 正在跳转'

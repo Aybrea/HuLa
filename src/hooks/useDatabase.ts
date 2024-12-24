@@ -147,9 +147,9 @@ const saveUser = async (user: {
   uid: number
   nickname: string
   icon: string
-  isFriend: boolean
-  isBlack: boolean
-  isSilent: boolean
+  isFriend?: boolean
+  isBlack?: boolean
+  isSilent?: boolean
 }) => {
   if (db) {
     try {
