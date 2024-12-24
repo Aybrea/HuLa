@@ -1,6 +1,5 @@
 import { LimitEnum, MittEnum, MsgEnum, MessageStatusEnum } from '@/enums'
 import { useUserInfo } from '@/hooks/useCached.ts'
-import apis from '@/services/apis.ts'
 import { CacheUserItem } from '@/services/types.ts'
 import { useCachedStore } from '@/stores/cached.ts'
 import { useChatStore } from '@/stores/chat.ts'
@@ -12,8 +11,8 @@ import { useDebounceFn } from '@vueuse/core'
 import { Ref } from 'vue'
 import { useCommon } from './useCommon.ts'
 import { worker } from '@/utils/InitWorker.ts'
-
-import Database from '@tauri-apps/plugin-sql'
+import { useDatabase } from './useDatabase'
+import { generateSnowflakeId } from '@/utils/Helper.ts'
 import { create, toBinary } from '@bufbuild/protobuf'
 import {
   ChatMsg_MsgType,
@@ -23,9 +22,8 @@ import {
   MainDataSchema,
   MessageType
 } from '../buffer/session_pb.ts'
-import { join, appDataDir } from '@tauri-apps/api/path'
-import { mkdir } from '@tauri-apps/plugin-fs'
-import { useDatabase } from './useDatabase'
+
+const { saveMessage } = await useDatabase()
 
 export const useMsgInput = (messageInputDom: Ref) => {
   const chatStore = useChatStore()
@@ -320,8 +318,6 @@ export const useMsgInput = (messageInputDom: Ref) => {
       sendTime: new Date(currentTime).toISOString(),
       loading: false
     }
-    console.log('🚀 ~ send ~ tempMsg:', tempMsg)
-
     // 先添加到消息列表
     chatStore.pushMsg(tempMsg)
 
@@ -333,7 +329,7 @@ export const useMsgInput = (messageInputDom: Ref) => {
       })
     }, 800)
 
-    console.log('发送消息', messageBody, msg.type)
+    console.log('🚀 发送消息', messageBody, msg.type)
     try {
       clearTimeout(statusTimer)
       // 更新消息状态为成功，同时更新消息ID和回复内容
@@ -343,10 +339,9 @@ export const useMsgInput = (messageInputDom: Ref) => {
         newMsgId: message.id,
         body: message.body // 更新消息体，包含服务器返回的回复内容
       })
-      console.log('message', message)
       if (message.type === MsgEnum.TEXT) {
-        // Save message using the new saveMessage function
         await saveMessage({
+          clientId: generateSnowflakeId(),
           chatId: globalStore.currentSession.roomId,
           senderId: userUid.value,
           text: message.body.content,

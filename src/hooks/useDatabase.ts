@@ -17,15 +17,251 @@ interface ConversationTableExistsResult {
 
 let db: any = null
 
-export const getDatabaseInstance = async () => {
-  if (!db) {
-    const { getDatabase } = await useDatabase()
-    db = await getDatabase()
+const saveMessage = async (message: {
+  chatId: number
+  senderId: number
+  text: string
+  msgType: number
+  nickname?: string
+  icon?: string
+  chatType?: number
+  status?: number
+  replyId?: number
+}) => {
+  console.log(123)
+
+  if (db) {
+    try {
+      const currentTime = new Date().getTime()
+      console.log('🚀 ~ file: useDatabase.ts:403 ~ chatId:', message.chatId)
+
+      await db.execute(
+        `INSERT INTO message (
+          clientId,
+          chatId,
+          clientTime,
+          senderId,
+          nickname,
+          icon,
+          chatType,
+          msgType,
+          text,
+          status,
+          replyId
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+        [
+          currentTime, // Use timestamp as clientId
+          message.chatId,
+          currentTime,
+          message.senderId,
+          message.nickname || '',
+          message.icon || '',
+          message.chatType || 0,
+          message.msgType,
+          message.text,
+          message.status || 0,
+          message.replyId || 0
+        ]
+      )
+    } catch (error) {
+      console.error('Failed to save message:', error)
+      throw error
+    }
   }
-  return db
 }
 
-export const useDatabase = async (userUid?: number) => {
+const getMessages = async (roomId: number, limit = 50, offset = 0) => {
+  if (db) {
+    try {
+      interface MessageResult {
+        clientId: number
+        chatId: number
+        clientTime: number
+        serverTime: number
+        msgId: number
+        senderId: number
+        nickname: string
+        icon: string
+        chatType: number
+        msgType: number
+        text: string
+        status: number
+        mediaWidth: number
+        mediaHeight: number
+        mediaUrl: string
+        thumbnailUrl: string
+        mediaLocalPath: string
+        duration: number
+        contactUserId: number
+        contactNickName: string
+        contactIcon: string
+        fileName: string
+        mediaSize: number
+        md5: string
+        latitude: number
+        longitude: number
+        place: string
+        address: string
+        replyId: number
+      }
+      const result = await db.select<MessageResult[]>(
+        'SELECT * FROM message WHERE chatId = $1 ORDER BY clientTime DESC LIMIT $2 OFFSET $3',
+        [roomId, limit, offset]
+      )
+      return result
+    } catch (error) {
+      console.error('Failed to get messages:', error)
+      throw error
+    }
+  }
+  return []
+}
+
+const saveConversation = async (conversation: {
+  chatId: number
+  type: number
+  members: string
+  single: { uid: number }
+  unReadCount: number
+}) => {
+  if (conversation.type === RoomTypeEnum.SINGLE) {
+    if (db) {
+      try {
+        await db.execute(
+          `INSERT INTO conversation (chatId, type, members, userId, unReadCount) VALUES (?, ?, ?, ?, ?)
+       ON CONFLICT(chatId) DO UPDATE SET type=excluded.type, members=excluded.members, userId=excluded.userId, unReadCount=excluded.unReadCount`,
+          [
+            conversation.chatId,
+            conversation.type,
+            conversation.members,
+            conversation.single.uid,
+            conversation.unReadCount
+          ]
+        )
+      } catch (error) {
+        console.error('Failed to save conversation:', error)
+        throw error
+      }
+    }
+  }
+}
+
+const saveUser = async (user: {
+  uid: number
+  nickname: string
+  icon: string
+  isFriend: boolean
+  isBlack: boolean
+  isSilent: boolean
+}) => {
+  if (db) {
+    try {
+      await db.execute(
+        `INSERT INTO user (userId, nickname, icon, isFriend, isBlack, isSilent) VALUES (?, ?, ?, ?, ?, ?)
+     ON CONFLICT(userId) DO UPDATE SET nickname=excluded.nickname, icon=excluded.icon, isFriend=excluded.isFriend, isBlack=excluded.isBlack, isSilent=excluded.isSilent`,
+        [user.uid, user.nickname, user.icon, user.isFriend, user.isBlack, user.isSilent]
+      )
+    } catch (error) {
+      console.error('Failed to save user:', error)
+      throw error
+    }
+  }
+}
+
+const getConversationDB = async () => {
+  try {
+    const initConversationTable = async (db: Database) => {
+      await db.execute(`
+        CREATE TABLE IF NOT EXISTS conversation (
+          "chatId" INTEGER PRIMARY KEY,
+          "type" INTEGER,
+          "members" TEXT,
+          "userId" INTEGER,
+          "unReadCount" INTEGER
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_conversation_type ON conversation (type);
+      `)
+    }
+    await initConversationTable(db)
+  } catch (error) {
+    console.error('Failed to initialize conversation table:', error)
+    throw error
+  }
+}
+
+const getUserDB = async () => {
+  try {
+    const initUserTable = async (db: Database) => {
+      await db.execute(`
+        CREATE TABLE IF NOT EXISTS user (
+          "userId" INTEGER PRIMARY KEY,
+          "nickname" TEXT,
+          "icon" TEXT,
+          "isFriend" BOOLEAN,
+          "isBlack" BOOLEAN,
+          "isSilent" BOOLEAN
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_user_isFriend ON user (isFriend);
+      `)
+    }
+    await initUserTable(db)
+  } catch (error) {
+    console.error('Failed to initialize user table:', error)
+    throw error
+  }
+}
+
+const getGroupDB = async () => {
+  try {
+    const initGroupTable = async (db: Database) => {
+      await db.execute(`
+        CREATE TABLE IF NOT EXISTS "group" (
+          "chatId" INTEGER PRIMARY KEY,
+          "name" TEXT,
+          "icon" TEXT,
+          "mute" BOOLEAN,
+          "isSilent" BOOLEAN,
+          "ownerId" INTEGER,
+          "count" INTEGER,
+          "status" INTEGER
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_group_status ON "group" (status);
+      `)
+    }
+    await initGroupTable(db)
+  } catch (error) {
+    console.error('Failed to initialize group table:', error)
+    throw error
+  }
+}
+
+const getDeletedConversationDB = async () => {
+  try {
+    const initDeletedConversationTable = async (db: Database) => {
+      await db.execute(`
+        CREATE TABLE IF NOT EXISTS deletedConversation (
+          "id" INTEGER PRIMARY KEY,
+          "lastMsgId" INTEGER,
+          "type" INTEGER,
+          "delOther" BOOL
+        );
+      `)
+    }
+    await initDeletedConversationTable(db)
+  } catch (error) {
+    console.error('Failed to initialize deleted conversation table:', error)
+    throw error
+  }
+}
+
+const closeDatabase = async () => {
+  // No-op for now
+}
+
+const useDatabaseInternal = async (userUid?: number) => {
   if (userUid) {
     storedUserId.value = userUid
     localStorage.setItem(USER_ID_KEY, userUid.toString())
@@ -303,259 +539,35 @@ export const useDatabase = async (userUid?: number) => {
     db.value = initializedDb[currentUserId]
   }
 
-  const getConversationDB = async () => {
-    try {
-      const initConversationTable = async (db: Database) => {
-        await db.execute(`
-          CREATE TABLE IF NOT EXISTS conversation (
-            "chatId" INTEGER PRIMARY KEY,
-            "type" INTEGER,
-            "members" TEXT,
-            "userId" INTEGER,
-            "unReadCount" INTEGER
-          );
-
-          CREATE INDEX IF NOT EXISTS idx_conversation_type ON conversation (type);
-        `)
-      }
-      await initConversationTable(db.value!)
-    } catch (error) {
-      console.error('Failed to initialize conversation table:', error)
-      throw error
-    }
-  }
-
-  const getUserDB = async () => {
-    try {
-      const initUserTable = async (db: Database) => {
-        await db.execute(`
-          CREATE TABLE IF NOT EXISTS user (
-            "userId" INTEGER PRIMARY KEY,
-            "nickname" TEXT,
-            "icon" TEXT,
-            "isFriend" BOOLEAN,
-            "isBlack" BOOLEAN,
-            "isSilent" BOOLEAN
-          );
-
-          CREATE INDEX IF NOT EXISTS idx_user_isFriend ON user (isFriend);
-        `)
-      }
-      await initUserTable(db.value!)
-    } catch (error) {
-      console.error('Failed to initialize user table:', error)
-      throw error
-    }
-  }
-
-  const getGroupDB = async () => {
-    try {
-      const initGroupTable = async (db: Database) => {
-        await db.execute(`
-          CREATE TABLE IF NOT EXISTS "group" (
-            "chatId" INTEGER PRIMARY KEY,
-            "name" TEXT,
-            "icon" TEXT,
-            "mute" BOOLEAN,
-            "isSilent" BOOLEAN,
-            "ownerId" INTEGER,
-            "count" INTEGER,
-            "status" INTEGER
-          );
-
-          CREATE INDEX IF NOT EXISTS idx_group_status ON "group" (status);
-        `)
-      }
-      await initGroupTable(db.value!)
-    } catch (error) {
-      console.error('Failed to initialize group table:', error)
-      throw error
-    }
-  }
-
-  const getDeletedConversationDB = async () => {
-    try {
-      const initDeletedConversationTable = async (db: Database) => {
-        await db.execute(`
-          CREATE TABLE IF NOT EXISTS deletedConversation (
-            "id" INTEGER PRIMARY KEY,
-            "lastMsgId" INTEGER,
-            "type" INTEGER,
-            "delOther" BOOL
-          );
-        `)
-      }
-      await initDeletedConversationTable(db.value!)
-    } catch (error) {
-      console.error('Failed to initialize deleted conversation table:', error)
-      throw error
-    }
-  }
-
-  const closeDatabase = async () => {
-    if (currentUserId) {
-      delete initializedDb[currentUserId]
-    }
-  }
-
-  const saveMessage = async (message: {
-    chatId: number
-    senderId: number
-    text: string
-    msgType: number
-    nickname?: string
-    icon?: string
-    chatType?: number
-    status?: number
-    replyId?: number
-  }) => {
-    if (db.value) {
-      try {
-        const currentTime = new Date().getTime()
-        await db.value.execute(
-          `INSERT INTO message (
-            clientId,
-            chatId,
-            clientTime,
-            senderId,
-            nickname,
-            icon,
-            chatType,
-            msgType,
-            text,
-            status,
-            replyId
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-          [
-            currentTime, // Use timestamp as clientId
-            message.chatId,
-            currentTime,
-            message.senderId,
-            message.nickname || '',
-            message.icon || '',
-            message.chatType || 0,
-            message.msgType,
-            message.text,
-            message.status || 0,
-            message.replyId || 0
-          ]
-        )
-      } catch (error) {
-        console.error('Failed to save message:', error)
-        throw error
-      }
-    }
-  }
-
-  const getMessages = async (roomId: number, limit = 50, offset = 0) => {
-    if (db.value) {
-      try {
-        interface MessageResult {
-          clientId: number
-          chatId: number
-          clientTime: number
-          serverTime: number
-          msgId: number
-          senderId: number
-          nickname: string
-          icon: string
-          chatType: number
-          msgType: number
-          text: string
-          status: number
-          mediaWidth: number
-          mediaHeight: number
-          mediaUrl: string
-          thumbnailUrl: string
-          mediaLocalPath: string
-          duration: number
-          contactUserId: number
-          contactNickName: string
-          contactIcon: string
-          fileName: string
-          mediaSize: number
-          md5: string
-          latitude: number
-          longitude: number
-          place: string
-          address: string
-          replyId: number
-        }
-        const result = await db.value.select<MessageResult[]>(
-          'SELECT * FROM message WHERE chatId = $1 ORDER BY clientTime DESC LIMIT $2 OFFSET $3',
-          [roomId, limit, offset]
-        )
-        return result
-      } catch (error) {
-        console.error('Failed to get messages:', error)
-        throw error
-      }
-    }
-    return []
-  }
-
-  const saveConversation = async (conversation: {
-    chatId: number
-    type: number
-    members: string
-    single: { uid: number }
-    unReadCount: number
-  }) => {
-    if (conversation.type === RoomTypeEnum.SINGLE) {
-      if (db.value) {
-        try {
-          await db.value.execute(
-            `INSERT INTO conversation (chatId, type, members, userId, unReadCount) VALUES (?, ?, ?, ?, ?)
-         ON CONFLICT(chatId) DO UPDATE SET type=excluded.type, members=excluded.members, userId=excluded.userId, unReadCount=excluded.unReadCount`,
-            [
-              conversation.chatId,
-              conversation.type,
-              conversation.members,
-              conversation.single.uid,
-              conversation.unReadCount
-            ]
-          )
-        } catch (error) {
-          console.error('Failed to save conversation:', error)
-          throw error
-        }
-      }
-    }
-  }
-
-  const saveUser = async (user: {
-    uid: number
-    nickname: string
-    icon: string
-    isFriend: boolean
-    isBlack: boolean
-    isSilent: boolean
-  }) => {
-    if (db.value) {
-      try {
-        await db.value.execute(
-          `INSERT INTO user (userId, nickname, icon, isFriend, isBlack, isSilent) VALUES (?, ?, ?, ?, ?, ?)
-         ON CONFLICT(userId) DO UPDATE SET nickname=excluded.nickname, icon=excluded.icon, isFriend=excluded.isFriend, isBlack=excluded.isBlack, isSilent=excluded.isSilent`,
-          [user.uid, user.nickname, user.icon, user.isFriend, user.isBlack, user.isSilent]
-        )
-      } catch (error) {
-        console.error('Failed to save user:', error)
-        throw error
-      }
-    }
-  }
-
   return {
-    db,
     getDatabase: async () => db.value,
+    saveMessage,
+    getMessages,
+    saveConversation,
+    saveUser,
     getConversationDB,
     getUserDB,
     getGroupDB,
     getDeletedConversationDB,
-    closeDatabase,
+    closeDatabase
+  }
+}
+
+export const useDatabase = async (userUid?: number) => {
+  if (!db) {
+    const { getDatabase } = await useDatabaseInternal(userUid)
+    db = await getDatabase()
+  }
+  return {
+    database: db,
     saveMessage,
+    getMessages,
     saveConversation,
     saveUser,
-    getMessages
+    getConversationDB,
+    getUserDB,
+    getGroupDB,
+    getDeletedConversationDB,
+    closeDatabase
   }
 }

@@ -9,13 +9,13 @@ import { useGlobalStore } from '@/stores/global'
 import { useGroupStore } from '@/stores/group'
 import { useContactStore } from '@/stores/contacts'
 import { cloneDeep } from 'lodash-es'
-import { getDatabaseInstance } from '../hooks/useDatabase'
+import { useDatabase } from '../hooks/useDatabase'
 
 export const pageSize = 20
 // 标识是否第一次请求
 let isFirstInit = false
 
-const db = await getDatabaseInstance()
+const { database, saveMessage } = await useDatabase()
 
 export const useChatStore = defineStore(
   'chat',
@@ -147,7 +147,7 @@ export const useChatStore = defineStore(
 
     const getMsgList = async (size = pageSize) => {
       currentMessageOptions.value && (currentMessageOptions.value.isLoading = true)
-      const data = await db.select(
+      const data = await database.select(
         `SELECT * FROM message WHERE chatId = ${currentRoomId.value} ORDER BY msgId DESC LIMIT ${size}`
       )
       currentMessageOptions.value && (currentMessageOptions.value.isLoading = false)
@@ -191,15 +191,15 @@ export const useChatStore = defineStore(
       let data
 
       // Fetch all records from local database
-      if (db) {
+      if (database) {
         try {
-          const localData = await db.select('SELECT * FROM conversation ORDER BY unReadCount DESC')
+          const localData = await database.select('SELECT * FROM conversation ORDER BY unReadCount DESC')
 
           if (localData.length > 0) {
             data = await Promise.all(
               localData.map(async (item) => {
                 if (item.type === RoomTypeEnum.SINGLE) {
-                  const user = await db.select(`SELECT * FROM user WHERE userId = ${item.userId}`)
+                  const user = await database.select(`SELECT * FROM user WHERE userId = ${item.userId}`)
                   return {
                     roomId: item.chatId,
                     type: item.type,
