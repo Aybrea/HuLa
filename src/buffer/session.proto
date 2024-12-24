@@ -22,12 +22,12 @@ enum MessageType {
   Type_CSReadMsg = 5;  // 阅读他人消息
 
   Type_SCPushReadMsg = 7;   // 推送他人阅读自己的消息
-  Type_SCPushChatMsg = 8;   // 推送聊天消息  客户端收到返回  Type_CSAckPushMsg
+  Type_SCPushChatMsg = 8;   // 推送聊天消息(直推模式)  客户端收到返回  Type_CSAckPushMsg
   Type_CSAuthToken = 9;     // 登录认证
   Type_SCAuthToken = 10;    // 登录认证
 
   Type_CSAckPushMsg = 11;  // 客户端确认收到推送消息
-  Type_SCPushLastMsgId = 13;  // 推送最后一条消息id
+  Type_SCPushLastMsgId = 13;  // 推送最后一条消息id (拉取模式只推送消息ID)
   Type_CSPullMsgList = 14;  // 拉取消息
   Type_SCPullMsgList = 15;  // 返回拉取消息   客户端收到返回 Type_CSAckPushMsg
   Type_SCPushMessageInfo = 16;  // 推送消息信息 用户上线推送消息数据
@@ -63,23 +63,63 @@ enum MessageType {
   Type_CSChatMsgDel = 40; // 删除消息发送
   Type_SCChatMsgDel = 41; // 删除消息返回
   Type_SCMsgDelPush = 42;  // 删除消息推送 (不给发送端推送)
-  Type_CSMsgDelPushAck = 43;  // 删除消息推送确认
+  Type_CSMsgDelPushAck = 43;  // 删除消息推送确认   42 44 需要回复 43
   Type_SCInitPushDelMsg = 44;  // 初始化删除会话推送
 
+  Type_CSPullFriendInfo = 45;  // 拉取用户信息 (前端打开好友会话时定时拉取, 经测试微信就是这样)
+  Type_SCPullFriendInfo = 46;  // 拉取用户信息
+
+  Type_CSPUllChatNotDisturb = 47;  // 拉取会话消息免打扰状态
+  Type_SCPullChatNotDisturb = 48;  // 拉取会话消息免打扰状态返回
+
+  Type_CSPullReadStatus = 49;  // 拉取消息已读状态
+  Type_SCPullReadStatus = 50;  // 拉取消息已读状态返回
+}
+
+//Type_CSPullReadStatus
+message CSPullReadStatus{
+  ChatInfo chatInfo = 1;  // 会话信息
+}
+
+//Type_SCPullReadStatus
+message SCPullReadStatus{
+  ChatInfo chatInfo = 1;  // 会话信息
+  int64 readMaxMsgId = 2;  // 已读最大消息id
+}
+
+
+//Type_CSPUllChatNotDisturb
+message CSPUllChatNotDisturb{
+  ChatInfo chatInfo = 1;  // 会话信息
+}
+
+//Type_SCPullChatNotDisturb
+message SCPullChatNotDisturb{
+  ChatInfo chatInfo = 1;  // 会话信息
+  bool notDisturb = 2;  // 是否免打扰  true 免打扰中 false 不免打扰
+}
+
+//Type_CSPullFriendInfo
+message CSPullFriendInfo{
+  int64 userId = 1;  // 用户id
+}
+
+//Type_SCPullFriendInfo
+message SCPullFriendInfo{
+  int64 userId = 1;  // 用户id
+  string remark = 2;  // 备注
 }
 
 
 //Type_CSChatMsgDel
 message CSChatMsgDel{
-  ChatInfo chatInfo = 1;  // 会话信息
-  repeated int64 msgIds = 2;  // 消息id列表
+  ChatMsgDelInfo delInfo = 1;  // 删除信息
   optional bool delOther = 3;  // 是否删除对方
 }
 
 //Type_SCChatMsgDel
 message SCChatMsgDel{
-  ChatInfo chatInfo = 1;  // 会话信息
-  repeated int64 msgIds = 2;  // 消息id列表
+  ChatMsgDelInfo delInfo = 1;  // 删除信息
 }
 
 
@@ -90,12 +130,16 @@ message ChatMsgDelInfo{
 
 //Type_SCInitPushDelMsg
 message SCInitPushDelMsg {
-  repeated ChatMsgDelInfo delInfos = 1;  // 删除信息
+  message Info {
+    ChatInfo chatInfo = 1;  // 会话信息
+    int64 msgId = 2;  // 消息id
+  }
+  repeated Info infos = 1;  // 删除信息
 }
 
 //Type_SCMsgDelPush
-message CSMsgDel {
-    ChatMsgDelInfo delInfo = 1;  // 删除信息
+message SCMsgDelPush {
+  ChatMsgDelInfo delInfo = 1;  // 删除信息
 }
 
 // Type_CSMsgDelPushAck
@@ -357,6 +401,7 @@ message SCPushLastMsgId{
   ChatType chatType = 1;  // 聊天类型
   int64 chatId = 2;  // 聊天id
   int64 lastMsgId = 3;  // 最后一条消息id
+  bool isNotDisturb = 4;  // 是否免打扰
 }
 
 //Type_CSHeartbeat
@@ -388,8 +433,8 @@ message ChatMsg {
     Location = 5;  // 位置信息
     File = 6; // 文件信息
     CSRecord = 7; // 客户端发到服务器聊天记录
-    SCRecord = 8; // 服务器推送到客户端聊天记录
-    DeleteMsg = 9; // 删除消息
+    SCRecord = 8; // 服务器推送到客户端聊天记录（客户端忽略掉掉这个  只判断类型7 解析SCRecordInfo就可以了）
+    ExpireSet = 9; // 过期时间设置
   }
 
   MsgType msgType = 1;   // 信息类型
@@ -401,17 +446,16 @@ message ChatMsg {
   optional FileInfo file = 7;  // 文件信息
   optional CSRecordInfo csRecord = 8;  // 客户端发到服务器聊天记录
   optional SCRecordInfo scRecord = 9;  // 服务器到客户端聊天记录
-  optional DeleteMsg deleteMsg = 10;  // 删除消息
+  optional ExpireSet expireSet = 10;  // 聊天过期时间设置
   repeated int64 atUsers = 100;  // @用户id 客户端发送到服务器
   optional int64 replyId = 101;  // 回复消息id  回复(引用)类型消息需要添加该字段
   repeated NameInfo atNames = 102;  // @用户名  服务器返回到客户端 和100 对应
+  optional int64 expireTime = 150; // 消息过期时间
 }
 
 // 删除消息
-message DeleteMsg {
-  repeated int64 msgIds = 1;  // 消息id列表
-  int64 userId = 2;  // 操作者Id
-  optional bool isDelOther = 3; // 是否删除对方（只有单聊时候可用）  删除自己的消息只同步给自己端
+message ExpireSet {
+  int64 expireTime = 1;  // 过期时间 单位秒 0为取消过期时间
 }
 
 // 客户端到服务器聊天记录
@@ -503,6 +547,7 @@ message SCPushChatMsg {
   int64 senderId = 9; // 发送者Id
 
   optional GroupChatMsgAttr groupChatMsgAttr = 10; // 群聊消息属性
+  bool isNotDisturb = 11;  // 是否免打扰 true 免打扰 false 不免打扰  会话
 }
 
 //Type_CSAuthToken
