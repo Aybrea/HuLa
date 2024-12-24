@@ -1,8 +1,7 @@
-import { MessageStatusEnum, MsgEnum } from '../enums'
-import { MessageType } from '../services/types'
+import { MsgEnum, OnlineEnum } from '../enums'
+import { ContactItem, MessageType } from '../services/types'
 
 export const convertMessage = (msg: any): MessageType => {
-  console.log('🚀 ~ file: Convert.ts:5 ~ msg:', msg)
   return {
     sendTime: msg.servertTime,
     fromUser: {
@@ -27,5 +26,13 @@ export const convertMessage = (msg: any): MessageType => {
         userLike: 0
       }
     }
+  }
+}
+
+export const convertContact = (contact: any): ContactItem => {
+  return {
+    activeStatus: OnlineEnum.ONLINE,
+    lastOptTime: 0,
+    uid: contact.userId
   }
 }
